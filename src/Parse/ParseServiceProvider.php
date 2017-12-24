@@ -17,15 +17,15 @@ class ParseServiceProvider extends ServiceProvider
 	public function register()
 	{
 
-		$this->app->singleton('poppy.parse.yaml', function ($app) {
+		$this->app->singleton('poppy.yaml', function ($app) {
 			return new Yaml;
 		});
 
-		$this->app->singleton('poppy.parse.ini', function ($app) {
+		$this->app->singleton('poppy.ini', function ($app) {
 			return new Ini;
 		});
 
-		$this->app->singleton('poppy.parse.xml', function ($app) {
+		$this->app->singleton('poppy.xml', function ($app) {
 			return new Xml;
 		});
 	}
@@ -37,9 +37,9 @@ class ParseServiceProvider extends ServiceProvider
 	public function provides()
 	{
 		return [
-			'poppy.parse.yaml',
-			'poppy.parse.ini',
-			'poppy.parse.xml',
+			'poppy.yaml',
+			'poppy.ini',
+			'poppy.xml',
 		];
 	}
 }

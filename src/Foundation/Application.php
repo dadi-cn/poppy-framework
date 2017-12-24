@@ -2,15 +2,6 @@
 
 use Closure;
 use Illuminate\Foundation\Application as ApplicationBase;
-use Poppy\Framework\Console\ConsoleServiceProvider;
-use Poppy\Framework\Console\GeneratorServiceProvider;
-use Poppy\Framework\GraphQL\GraphQLServiceProvider;
-use Poppy\Framework\Module\ModuleServiceProvider;
-use Poppy\Framework\Parse\ParseServiceProvider;
-use Poppy\Framework\Poppy\PoppyServiceProvider;
-use Poppy\Framework\Providers\BladeServiceProvider;
-use Poppy\Framework\Support\HelperServiceProvider;
-use Poppy\Framework\Translation\TranslationServiceProvider;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Throwable;
 
@@ -27,19 +18,6 @@ class Application extends ApplicationBase
 
 	protected $modulesPath;
 
-	public function registerBaseServiceProviders()
-	{
-		parent::registerBaseServiceProviders();
-
-		$this->register(ConsoleServiceProvider::class);
-		$this->register(GeneratorServiceProvider::class);
-		$this->register(BladeServiceProvider::class);
-		$this->register(HelperServiceProvider::class);
-		$this->register(PoppyServiceProvider::class);
-		$this->register(ParseServiceProvider::class);
-		$this->register(TranslationServiceProvider::class);
-		$this->register(GraphQLServiceProvider::class);
-	}
 
 
 	/**

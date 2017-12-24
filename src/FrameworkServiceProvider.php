@@ -1,6 +1,14 @@
 <?php namespace Poppy\Framework;
 
 use Illuminate\Support\ServiceProvider;
+use Poppy\Framework\Console\ConsoleServiceProvider;
+use Poppy\Framework\Console\GeneratorServiceProvider;
+use Poppy\Framework\GraphQL\GraphQLServiceProvider;
+use Poppy\Framework\Parse\ParseServiceProvider;
+use Poppy\Framework\Poppy\PoppyServiceProvider;
+use Poppy\Framework\Providers\BladeServiceProvider;
+use Poppy\Framework\Support\HelperServiceProvider;
+use Poppy\Framework\Translation\TranslationServiceProvider;
 
 
 class FrameworkServiceProvider extends ServiceProvider
@@ -42,6 +50,14 @@ class FrameworkServiceProvider extends ServiceProvider
 			__DIR__ . '/../config/poppy.php', 'poppy'
 		);
 
+		$this->app->register(ConsoleServiceProvider::class);
+		$this->app->register(GeneratorServiceProvider::class);
+		$this->app->register(BladeServiceProvider::class);
+		$this->app->register(HelperServiceProvider::class);
+		$this->app->register(PoppyServiceProvider::class);
+		$this->app->register(ParseServiceProvider::class);
+		$this->app->register(TranslationServiceProvider::class);
+		$this->app->register(GraphQLServiceProvider::class);
 	}
 
 	/**

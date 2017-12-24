@@ -1,9 +1,9 @@
 <?php namespace Poppy\Framework\Application;
 
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Poppy\Framework\Agamotto\Agamotto;
 use Poppy\Framework\Helper\EnvHelper;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 abstract class Controller extends BaseController

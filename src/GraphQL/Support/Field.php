@@ -3,12 +3,10 @@
 namespace Poppy\Framework\GraphQL\Support;
 
 use Illuminate\Support\Fluent;
-use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\GraphQL\Error\AuthorizationError;
 
 class Field extends Fluent
 {
-	use PoppyTrait;
     /**
      * Override this in your queries or mutations
      * to provide custom authorization

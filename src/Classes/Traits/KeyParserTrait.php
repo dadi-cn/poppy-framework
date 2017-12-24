@@ -33,7 +33,7 @@ trait KeyParserTrait
 	 */
 	public function keyParserMatch($key)
 	{
-		if (preg_match('/[^0-9]?[a-z]{1,}::[^0-9]?[a-z]{1,}\.[^0-9]?[a-z]{1,}/', $key)) {
+		if (preg_match('/[^0-9]?[a-z_]{1,}::[^0-9]?[a-z_\/]{1,}\.[^0-9]?[a-z]{1,}/', $key)) {
 			return true;
 		}
 		else {

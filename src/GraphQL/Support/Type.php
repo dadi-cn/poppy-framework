@@ -1,16 +1,13 @@
-<?php
-
-namespace Poppy\Framework\GraphQL\Support;
+<?php namespace Poppy\Framework\GraphQL\Support;
 
 use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Support\Fluent;
-use Poppy\Framework\Classes\Traits\PoppyTrait;
 
 class Type extends Fluent
 {
-	use PoppyTrait;
+
 	protected static $instances = [];
 
 	protected $inputObject = false;

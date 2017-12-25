@@ -1,13 +1,14 @@
 <?php namespace Poppy\Framework\Foundation\Exception;
 
+use Closure;
+use Exception;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Log;
 use Poppy\Framework\Exceptions\AjaxException;
-use Response;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use ReflectionFunction;
-use Exception;
-use Closure;
+use Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class Handler extends ExceptionHandler
 {
@@ -26,22 +27,6 @@ class Handler extends ExceptionHandler
 	 */
 	protected $handlers = [];
 
-	/**
-	 * Report or log an exception.
-	 * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-	 * @param  \Exception $exception
-	 * @return void
-	 */
-	public function report(Exception $exception)
-	{
-		if ($this->shouldntReport($exception)) {
-			return;
-		}
-
-		if (class_exists('Log')) {
-			Log::error($exception);
-		}
-	}
 
 	/**
 	 * Render an exception into an HTTP response.
@@ -56,6 +41,7 @@ class Handler extends ExceptionHandler
 		}
 
 		$statusCode = $this->getStatusCode($exception);
+
 		$response   = $this->callCustomHandlers($exception);
 
 		if (!is_null($response)) {
@@ -82,6 +68,9 @@ class Handler extends ExceptionHandler
 		}
 		elseif ($exception instanceof AjaxException) {
 			$code = 406;
+		}
+		elseif ($exception instanceof ValidationException) {
+			$code = 403;
 		}
 		else {
 			$code = 500;

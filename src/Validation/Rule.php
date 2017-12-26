@@ -16,6 +16,24 @@ class Rule extends IlluminateRule
 	}
 
 	/**
+	 * alpha rule
+	 * @return string
+	 */
+	public static function alpha()
+	{
+		return 'alpha';
+	}
+
+	/**
+	 * string rule
+	 * @return string
+	 */
+	public static function string()
+	{
+		return 'string';
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function boolean()
@@ -25,7 +43,6 @@ class Rule extends IlluminateRule
 
 	/**
 	 * @param $format
-	 *
 	 * @return string
 	 */
 	public static function dateFormat($format)
@@ -59,7 +76,6 @@ class Rule extends IlluminateRule
 
 	/**
 	 * @param array $mimeTypes
-	 *
 	 * @return string
 	 */
 	public static function mimetypes(array $mimeTypes)
@@ -77,7 +93,6 @@ class Rule extends IlluminateRule
 
 	/**
 	 * @param $regex
-	 *
 	 * @return string
 	 */
 	public static function regex($regex)
@@ -99,5 +114,16 @@ class Rule extends IlluminateRule
 	public static function url()
 	{
 		return 'url';
+	}
+
+	/**
+	 * Between String
+	 * @param $start
+	 * @param $end
+	 * @return string
+	 */
+	public static function between($start, $end)
+	{
+		return 'between:' . $start . ',' . $end;
 	}
 }

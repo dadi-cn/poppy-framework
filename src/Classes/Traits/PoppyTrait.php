@@ -13,6 +13,7 @@ use Illuminate\Mail\Mailer;
 use Illuminate\Redis\RedisManager;
 use Illuminate\Routing\Redirector;
 use Illuminate\Session\SessionManager;
+use Illuminate\Validation\Validator;
 use Illuminate\View\Factory;
 use League\Flysystem\Adapter\Local as LocalAdapter;
 use League\Flysystem\Filesystem as Flysystem;
@@ -92,8 +93,6 @@ trait PoppyTrait
 	}
 
 
-
-
 	/**
 	 * Get session instance.
 	 * @return SessionManager
@@ -117,6 +116,14 @@ trait PoppyTrait
 	protected function getRedirector(): Redirector
 	{
 		return $this->getContainer()->make('redirect');
+	}
+
+	/**
+	 * @return \Illuminate\Validation\Factory
+	 */
+	protected function getValidation(): \Illuminate\Validation\Factory
+	{
+		return $this->getContainer()->make('validator');
 	}
 
 	/**

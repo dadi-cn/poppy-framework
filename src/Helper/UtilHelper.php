@@ -82,7 +82,7 @@ class UtilHelper
 	 */
 	public static function isMobile($mobile)
 	{
-		return preg_match("/^(\+86)?1(3|4|5|8|7)[0-9]\d{8}$/i", $mobile);
+		return preg_match("/^(\+86)?1(3|4|5|8|7|9)[0-9]\d{8}$/i", $mobile);
 	}
 
 	/**

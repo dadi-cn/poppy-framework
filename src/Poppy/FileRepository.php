@@ -1,12 +1,15 @@
 <?php namespace Poppy\Framework\Poppy;
 
-
 use Illuminate\Support\Collection;
+use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Poppy\Abstracts\Repository;
+use Poppy\Framework\Poppy\Events\PoppyOptimized;
 
 
 class FileRepository extends Repository
 {
+	use PoppyTrait;
+
 	/**
 	 * Get all modules.
 	 * @return Collection
@@ -26,7 +29,7 @@ class FileRepository extends Repository
 	{
 		$slugs = collect();
 
-		$this->all()->each(function ($item, $key) use ($slugs) {
+		$this->all()->each(function ($item) use ($slugs) {
 			$slugs->push(strtolower($item['slug']));
 		});
 
@@ -192,10 +195,11 @@ class FileRepository extends Repository
 	{
 		$module = $this->where('slug', $slug);
 
-		return isset($module['installed']) &&  $module['installed'] === false;
+		return isset($module['installed']) && $module['installed'] === false;
 	}
 
 	/**
+	 * @param $slug
 	 * @return bool
 	 * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
 	 */
@@ -205,6 +209,7 @@ class FileRepository extends Repository
 	}
 
 	/**
+	 * @param $slug
 	 * @return bool
 	 * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
 	 */
@@ -250,20 +255,18 @@ class FileRepository extends Repository
 	public function optimize()
 	{
 		$cachePath = $this->getCachePath();
-
 		$cache     = $this->getCache();
 		$baseNames = $this->getAllBasenames();
 		$modules   = collect();
 
-		$baseNames->each(function ($module, $key) use ($modules, $cache) {
+		$baseNames->each(function ($module) use ($modules, $cache) {
 			$basename = collect(['basename' => $module]);
 			$temp     = $basename->merge(collect($cache->get($module)));
 			$manifest = $temp->merge(collect($this->getManifest($module)));
-
 			$modules->put($module, $manifest);
 		});
 
-		$modules->each(function ($module) {
+		$modules->each(function (Collection $module) {
 			$module->put('id', crc32($module->get('slug')));
 
 			if (!$module->has('enabled')) {
@@ -276,10 +279,13 @@ class FileRepository extends Repository
 			return $module;
 		});
 
-
 		$content = json_encode($modules->all(), JSON_PRETTY_PRINT);
 
-		return $this->files->put($cachePath, $content);
+		$result = $this->files->put($cachePath, $content);
+
+		$this->getEvent()->dispatch(new PoppyOptimized($modules->all()));
+
+		return $result;
 	}
 
 	/**

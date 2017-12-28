@@ -6,7 +6,7 @@
 
 use DummyNamespace\Request\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
-use Poppy\Framework\Support\ModuleServiceProvider as ModuleServiceProviderBase;
+use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
 
 class ServiceProvider extends ModuleServiceProviderBase
 {

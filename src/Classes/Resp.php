@@ -97,7 +97,7 @@ class Resp
 	 */
 	public function getMessage()
 	{
-		return $this->message;
+		return is_string($this->message) ? $this->message : implode(',', $this->message);
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Resp
 	 */
 	public static function web($type, $msg, $append = null, $input = null)
 	{
-		$resp     = self::create($type, $msg);
+		$resp     = new Resp($type, $msg);
 		$isJson   = false;
 		$isForget = false;
 
@@ -234,36 +234,6 @@ class Resp
 
 		$json = json_encode($return, JSON_UNESCAPED_UNICODE);
 		return \Response::make($json);
-	}
-
-
-	/**
-	 * @param int                    $code
-	 * @param Resp|string|MessageBag $msg
-	 * @return Resp
-	 */
-	public static function create($code, $msg)
-	{
-		$create = function ($code, $msg, $err_msg = null) {
-			return new Resp([
-				'code' => $code,
-				'msg'  => $msg,
-			], $err_msg);
-		};
-		if ($msg instanceof MessageBag) {
-			$msg = $create(self::PARAM_ERROR, trans('poppy::resp.param_error'), $msg);
-		}
-
-		// parse string
-		if (is_string($msg)) {
-			$msg = $create($code, $msg);
-		}
-
-		// 默认提示, 内部错误
-		if (!($msg instanceof Resp)) {
-			$msg = $create(self::INNER_ERROR, trans('poppy::resp.inner_error'), $msg);
-		}
-		return $msg;
 	}
 
 }

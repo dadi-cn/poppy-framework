@@ -1,9 +1,11 @@
 <?php namespace Poppy\Framework;
 
 use Illuminate\Support\ServiceProvider;
+use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Console\ConsoleServiceProvider;
 use Poppy\Framework\Console\GeneratorServiceProvider;
 use Poppy\Framework\GraphQL\GraphQLServiceProvider;
+use Poppy\Framework\Helper\UtilHelper;
 use Poppy\Framework\Parse\ParseServiceProvider;
 use Poppy\Framework\Poppy\PoppyServiceProvider;
 use Poppy\Framework\Providers\BladeServiceProvider;
@@ -13,6 +15,7 @@ use Poppy\Framework\Translation\TranslationServiceProvider;
 
 class FrameworkServiceProvider extends ServiceProvider
 {
+	use PoppyTrait;
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -38,6 +41,8 @@ class FrameworkServiceProvider extends ServiceProvider
 		// 定义视图
 		$this->loadViewsFrom(__DIR__ . '/../resources/views', 'poppy');
 		$this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'poppy');
+
+		$this->bootValidation();
 	}
 
 	/**
@@ -87,6 +92,25 @@ class FrameworkServiceProvider extends ServiceProvider
 		}
 
 		return $files;
+	}
+
+	private function bootValidation()
+	{
+		$this->getValidation()->extend('mobile', function ($attribute, $value, $parameters) {
+			return UtilHelper::isMobile($value);
+		});
+		$this->getValidation()->extend('json', function ($attribute, $value, $parameters) {
+			return UtilHelper::isJson($value);
+		});
+		$this->getValidation()->extend('date', function ($attribute, $value, $parameters) {
+			return UtilHelper::isDate($value);
+		});
+		$this->getValidation()->extend('chid', function ($attribute, $value, $parameters) {
+			return UtilHelper::isChId($value);
+		});
+		$this->getValidation()->extend('password', function ($attribute, $value, $parameters) {
+			return UtilHelper::isPwd($value);
+		});
 	}
 
 	/*

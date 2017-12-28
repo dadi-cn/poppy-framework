@@ -111,6 +111,22 @@ class Rule extends IlluminateRule
 	/**
 	 * @return string
 	 */
+	public static function mobile()
+	{
+		return 'mobile';
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function password()
+	{
+		return 'password';
+	}
+
+	/**
+	 * @return string
+	 */
 	public static function url()
 	{
 		return 'url';
@@ -125,5 +141,13 @@ class Rule extends IlluminateRule
 	public static function between($start, $end)
 	{
 		return 'between:' . $start . ',' . $end;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function integer()
+	{
+		return 'integer';
 	}
 }

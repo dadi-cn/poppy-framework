@@ -5,6 +5,7 @@ use Illuminate\Routing\Controller;
 
 class GraphQLController extends Controller
 {
+
 	public function __construct(Request $request)
 	{
 		$route = $request->route();
@@ -33,6 +34,7 @@ class GraphQLController extends Controller
 		}
 	}
 
+
 	public function query(Request $request, $schema = null)
 	{
 		$isBatch = !$request->has('query');
@@ -55,7 +57,8 @@ class GraphQLController extends Controller
 		$headers = config('graphql.headers', []);
 		$options = config('graphql.json_encoding_options', 0);
 
-		$errors     = !$isBatch ? array_get($data, 'errors', []) : [];
+		$errors = !$isBatch ? array_get($data, 'errors', []) : [];
+
 		$authorized = array_reduce($errors, function ($authorized, $error) {
 			return !$authorized || array_get($error, 'message') === 'Unauthorized' ? false : true;
 		}, true);
@@ -87,7 +90,7 @@ class GraphQLController extends Controller
 	protected function queryContext($query, $variables, $schema)
 	{
 		try {
-			return app('auth')->user();
+			return app('auth')->guard('jwt_backend')->user();
 		} catch (\Exception $e) {
 			return null;
 		}

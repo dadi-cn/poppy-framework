@@ -4,7 +4,6 @@ use Closure;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use Log;
 use Poppy\Framework\Exceptions\AjaxException;
 use ReflectionFunction;
 use Response;

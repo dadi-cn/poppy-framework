@@ -27,7 +27,12 @@ if (!function_exists('route_url')) {
 				$route_url = route($route, $route_params);
 			}
 		}
-		return $route_url . (!empty($params) ? '?' . (is_array($params) ? http_build_query($params) : $params) : '');
+
+		$route_url = trim($route_url, '?');
+		if ($params) {
+			return $route_url . '?' . (is_array($params) ? http_build_query($params) : $params);
+		}
+		return $route_url;
 	}
 }
 

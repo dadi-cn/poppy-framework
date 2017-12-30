@@ -146,6 +146,13 @@ class GraphQL
 		}
 	}
 
+	/**
+	 * @param       $query
+	 * @param array $variables
+	 * @param array $opts
+	 * @return \GraphQL\Executor\ExecutionResult
+	 * @throws SchemaNotFound
+	 */
 	public function queryAndReturnResult($query, $variables = [], $opts = [])
 	{
 		$root          = array_get($opts, 'root', null);

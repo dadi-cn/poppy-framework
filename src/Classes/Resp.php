@@ -116,7 +116,13 @@ class Resp
 	 */
 	public static function web($type, $msg, $append = null, $input = null)
 	{
-		$resp     = new Resp($type, $msg);
+		if (!($msg instanceof Resp)) {
+			$resp = new Resp($type, $msg);
+		}
+		else {
+			$resp = $msg;
+		}
+
 		$isJson   = false;
 		$isForget = false;
 

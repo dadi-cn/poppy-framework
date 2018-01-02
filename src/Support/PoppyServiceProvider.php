@@ -31,7 +31,7 @@ abstract class PoppyServiceProvider extends ServiceProviderBase
 			$modulePath = poppy_path($module);
 			$this->loadViewsFrom($modulePath . '/resources/views', $module);
 			$this->loadTranslationsFrom($modulePath . '/resources/lang', $module);
-			$this->loadMigrationsFrom($modulePath . '/resources/database/migrations');
+			$this->loadMigrationsFrom($modulePath . '/src/database/migrations');
 
 			if ($this->listens) {
 				$this->bootListener();

@@ -1,8 +1,9 @@
 <?php namespace Poppy\Framework\Poppy\Events;
 
 use Illuminate\Support\Collection;
+use Poppy\Framework\Application\Event;
 
-class PoppyOptimized
+class PoppyOptimized extends Event
 {
 
 	/**

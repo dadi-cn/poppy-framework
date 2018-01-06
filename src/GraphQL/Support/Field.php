@@ -1,6 +1,4 @@
-<?php
-
-namespace Poppy\Framework\GraphQL\Support;
+<?php namespace Poppy\Framework\GraphQL\Support;
 
 use Illuminate\Support\Fluent;
 use Poppy\Framework\GraphQL\Error\AuthorizationError;

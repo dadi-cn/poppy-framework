@@ -1,6 +1,7 @@
 <?php namespace Poppy\Framework\Classes\Traits;
 
 
+use Illuminate\Support\MessageBag;
 use Poppy\Framework\Classes\Resp;
 
 
@@ -15,7 +16,7 @@ trait AppTrait
 
 	/**
 	 * 设置错误
-	 * @param $error
+	 * @param string|MessageBag $error
 	 * @return bool
 	 */
 	public function setError($error)

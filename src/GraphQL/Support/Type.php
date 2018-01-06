@@ -50,6 +50,7 @@ class Type extends Fluent
 		$fields    = $this->fields();
 		$allFields = [];
 		foreach ($fields as $name => $field) {
+
 			if (is_string($field)) {
 				$field            = app($field);
 				$field->name      = $name;
@@ -74,7 +75,6 @@ class Type extends Fluent
 				if ($resolver) {
 					$field['resolve'] = $resolver;
 				}
-
 				$allFields[$name] = $field;
 			}
 		}

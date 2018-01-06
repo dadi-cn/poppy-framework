@@ -1,13 +1,17 @@
 <?php namespace Poppy\Framework\Classes;
 
 
+use Illuminate\Container\Container;
 use Poppy\Framework\Helper\ArrHelper;
 use Poppy\Framework\Helper\StrHelper;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\MessageBag;
+use System\Classes\Traits\SystemTrait;
 
 class Resp
 {
+	use SystemTrait;
+
 	const SUCCESS       = 0;
 	const ERROR         = 1;
 	const TOKEN_MISS    = 2;
@@ -188,9 +192,14 @@ class Resp
 	private static function webView($time, $location, $input)
 	{
 		if ($time || $location == 'back' || $location == 'message' || !$location) {
-			$re   = $location ?: 'back';
-			$view = 'template.message';
-			return response()->view('poppy::' . $view, [
+			$re = $location ?: 'back';
+			if (Container::getInstance()->runningInBackend()) {
+				$view = 'system::backend.tpl.inc_message';
+			}
+			else {
+				$view = 'poppy::template.message';
+			}
+			return response()->view($view, [
 				'location' => $re,
 				'input'    => $input,
 				'time'     => isset($time) ? $time : 0,

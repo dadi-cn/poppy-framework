@@ -4,6 +4,6 @@
 	"version": "DummyVersion",
 	"description": "DummyDescription",
 	"autoload": [
-		"classes/functions.php"
+		"src/classes/functions.php"
 	]
 }

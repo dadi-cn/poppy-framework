@@ -1,7 +1,7 @@
 <?php namespace Poppy\Tests\Poppy;
 
 use Poppy\Framework\Application\TestCase;
-use Poppy\Framework\Helper\ArrHelper;
+use Poppy\Framework\Helper\ArrayHelper;
 
 class PoppyTest extends TestCase
 {
@@ -16,13 +16,13 @@ class PoppyTest extends TestCase
 			'location' => 'http://www.baidu.com',
 			'status'   => 'error',
 		];
-		$genKey = ArrHelper::genKey($arr);
+		$genKey = ArrayHelper::genKey($arr);
 
 		// 组合数组
 		$this->assertEquals('location|http://www.baidu.com;status|error', $genKey);
 
 		// 组合空
-		$this->assertEquals('', ArrHelper::genKey([]));
+		$this->assertEquals('', ArrayHelper::genKey([]));
 	}
 
 

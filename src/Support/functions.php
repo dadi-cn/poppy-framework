@@ -144,7 +144,7 @@ if (!function_exists('input')) {
 		/*
 		 * Array field name, eg: field[key][key2][key3]
 		 */
-		$name = implode('.', \Sour\Lemon\Html\RequestHelper::nameToArray($name));
+		$name = implode('.', \Poppy\Framework\Helper\HtmlHelper::nameToArray($name));
 
 		return Input::get($name, $default);
 	}
@@ -177,7 +177,7 @@ if (!function_exists('post')) {
 		/*
 		 * Array field name, eg: field[key][key2][key3]
 		 */
-		$name = implode('.', \Sour\Lemon\Html\RequestHelper::nameToArray($name));
+		$name = implode('.', \Poppy\Framework\Helper\HtmlHelper::nameToArray($name));
 
 
 		return array_get($_POST, $name, $default);
@@ -200,7 +200,7 @@ if (!function_exists('get')) {
 		/*
 		 * Array field name, eg: field[key][key2][key3]
 		 */
-		$name = implode('.', \Sour\Lemon\Html\RequestHelper::nameToArray($name));
+		$name = implode('.', \Poppy\Framework\Helper\HtmlHelper::nameToArray($name));
 
 		return array_get($_GET, $name, $default);
 	}

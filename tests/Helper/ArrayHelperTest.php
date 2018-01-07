@@ -1,6 +1,6 @@
 <?php namespace Poppy\Tests\Helper;
 
-use Poppy\Framework\Helper\ArrHelper;
+use Poppy\Framework\Helper\ArrayHelper;
 use PHPUnit\Framework\TestCase;
 
 class ArrHelperTest extends TestCase
@@ -10,7 +10,7 @@ class ArrHelperTest extends TestCase
 		$arr     = [
 			1, 2, 3, [4, 5], 6, 7,
 		];
-		$combine = ArrHelper::combine($arr);
+		$combine = ArrayHelper::combine($arr);
 		$this->assertEquals('1,2,3,4,5,6,7', $combine);
 	}
 
@@ -20,12 +20,12 @@ class ArrHelperTest extends TestCase
 			'location' => 'http://www.baidu.com',
 			'status'   => 'error',
 		];
-		$genKey = ArrHelper::genKey($arr);
+		$genKey = ArrayHelper::genKey($arr);
 
 		// 组合数组
 		$this->assertEquals('location|http://www.baidu.com;status|error', $genKey);
 
 		// 组合空
-		$this->assertEquals('', ArrHelper::genKey([]));
+		$this->assertEquals('', ArrayHelper::genKey([]));
 	}
 }

@@ -1,12 +1,11 @@
-<?php namespace Sour\Lemon\Html;
+<?php namespace Poppy\Framework\Helper;
 
 /**
  * Methods that may be useful for processing HTML tasks
- *
  * @package october\html
  * @author  Alexey Bobkov, Samuel Georges
  */
-class RequestHelper
+class HtmlHelper
 {
 
 	/**

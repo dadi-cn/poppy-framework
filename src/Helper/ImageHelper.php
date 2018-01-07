@@ -1,15 +1,7 @@
 <?php namespace Poppy\Framework\Helper;
 
-/*
- *
- * @author     Mark (zhaody901@126.com)
- * @copyright  Copyright (c) 2013-2017 Sour Lemon Team
- */
 
-/**
- * 图像处理函数
- */
-class ImgHelper
+class ImageHelper
 {
 
 	/**
@@ -52,7 +44,7 @@ class ImgHelper
 		}
 	}
 
-	public static function imagecreatefrombmp($filename)
+	public static function imageCreateFromBmp($filename)
 	{
 		$tmp_name = tempnam("tmp", "BMP");
 		if (self::_bmp2gd($filename, $tmp_name)) {

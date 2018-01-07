@@ -19,7 +19,6 @@ class Application extends ApplicationBase
 	protected $modulesPath;
 
 
-
 	/**
 	 * 绑定路径到 container
 	 * @return void

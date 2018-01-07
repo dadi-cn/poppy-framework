@@ -1,6 +1,4 @@
-<?php
-
-namespace Poppy\Framework\GraphQL\Support;
+<?php namespace Poppy\Framework\GraphQL\Support;
 
 use GraphQL\Type\Definition\EnumType as EnumObjectType;
 

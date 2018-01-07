@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 /**
  * 数组相关操作
  */
-class ArrHelper extends Arr
+class ArrayHelper extends Arr
 {
 
 

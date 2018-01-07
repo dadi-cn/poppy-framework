@@ -40,7 +40,6 @@ abstract class PoppyServiceProvider extends ServiceProviderBase
 			if ($this->policies) {
 				$this->bootPolicies();
 			}
-
 		}
 	}
 

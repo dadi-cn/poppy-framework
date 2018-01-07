@@ -2,7 +2,7 @@
 
 
 use Illuminate\Container\Container;
-use Poppy\Framework\Helper\ArrHelper;
+use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\Framework\Helper\StrHelper;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\MessageBag;
@@ -144,7 +144,7 @@ class Resp
 			unset($arrAppend['forget']);
 		}
 
-		$append   = ArrHelper::genKey($arrAppend);
+		$append   = ArrayHelper::genKey($arrAppend);
 		$location = isset($arrAppend['location']) ? $arrAppend['location'] : '';
 		$time     = isset($arrAppend['time']) ? $arrAppend['time'] : 0;
 

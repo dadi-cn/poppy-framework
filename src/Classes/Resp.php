@@ -122,8 +122,7 @@ class Resp
 	{
 		if (!($msg instanceof Resp)) {
 			$resp = new Resp($type, $msg);
-		}
-		else {
+		} else {
 			$resp = $msg;
 		}
 
@@ -150,8 +149,7 @@ class Resp
 
 		if ($isJson) {
 			return self::webSplash($resp, $append, $input);
-		}
-		else {
+		} else {
 			if (!$isForget) {
 				\Session::flash('end.message', $resp->getMessage());
 				\Session::flash('end.level', $resp->getCode());
@@ -168,8 +166,7 @@ class Resp
 	{
 		if (is_array($this->message)) {
 			return implode("\n", $this->message);
-		}
-		else {
+		} else {
 			return $this->message;
 		}
 	}
@@ -192,20 +189,30 @@ class Resp
 	private static function webView($time, $location, $input)
 	{
 		if ($time || $location == 'back' || $location == 'message' || !$location) {
-			$re = $location ?: 'back';
-			if (Container::getInstance()->runningInBackend()) {
-				$view = 'system::backend.tpl.inc_message';
+			$re         = $location ?: 'back';
+			$messageTpl = config('poppy.message_template');
+			$view       = '';
+			if ($messageTpl) {
+				foreach ($messageTpl as $context => $tplView) {
+					if (Container::getInstance()->isRunningIn($context)) {
+						$view = $tplView;
+					}
+				}
 			}
-			else {
-				$view = 'poppy::template.message';
+			if (!$view) {
+				if (Container::getInstance()->runningInBackend()) {
+					$view = 'system::backend.tpl.inc_message';
+				} else {
+					$view = 'poppy::template.message';
+				}
 			}
+
 			return response()->view($view, [
 				'location' => $re,
 				'input'    => $input,
 				'time'     => isset($time) ? $time : 0,
 			]);
-		}
-		else {
+		} else {
 			$re = ($location && $location != 'back') ? \Redirect::to($location) : \Redirect::back();
 			return $input ? $re->withInput($input) : $re;
 		}

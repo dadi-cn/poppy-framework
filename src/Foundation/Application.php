@@ -59,7 +59,7 @@ class Application extends ApplicationBase
 	 */
 	public function fatal(Closure $callback)
 	{
-		$this->error(function (FatalErrorException $e) use ($callback) {
+		$this->error(function(FatalErrorException $e) use ($callback) {
 			return call_user_func($callback, $e);
 		});
 	}
@@ -71,6 +71,17 @@ class Application extends ApplicationBase
 	public function runningInBackend()
 	{
 		return $this->executionContext == 'backend';
+	}
+
+
+	/**
+	 * 检测运行环境
+	 * @param $context
+	 * @return mixed
+	 */
+	public function isRunningIn($context)
+	{
+		return $this->executionContext = $context;
 	}
 
 	/**
@@ -106,8 +117,7 @@ class Application extends ApplicationBase
 	{
 		if ($this->bound('installed')) {
 			return true;
-		}
-		else {
+		} else {
 			if (!file_exists($this->storagePath() . DIRECTORY_SEPARATOR . 'installed')) {
 				return false;
 			}

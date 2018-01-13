@@ -103,8 +103,7 @@ class TimeHelper
 	{
 		if (function_exists('date_default_timezone_get')) {
 			return date_default_timezone_get();
-		}
-		else {
+		} else {
 			return date('Z') / 3600;
 		}
 	}
@@ -157,8 +156,7 @@ class TimeHelper
 	{
 		if (empty($date) or $date === '0000-00-00' or $date === '0000-00-00 00:00:00') {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -192,8 +190,7 @@ class TimeHelper
 		$Carbon = Carbon::now()->hour(0)->minute(0)->second(0);
 		if ($unix) {
 			return $Carbon->timestamp;
-		}
-		else {
+		} else {
 			return $Carbon->toDateTimeString();
 		}
 	}
@@ -208,8 +205,7 @@ class TimeHelper
 		$Carbon = Carbon::now()->hour(23)->minute(59)->second(59);
 		if ($unix) {
 			return $Carbon->timestamp;
-		}
-		else {
+		} else {
 			return $Carbon->toDateTimeString();
 		}
 	}
@@ -229,23 +225,19 @@ class TimeHelper
 
 		if ($time < 60) {
 			$str = '刚刚';
-		}
-		elseif ($time < 60 * 60) {
+		} elseif ($time < 60 * 60) {
 			$min = floor($time / 60);
 			$str = $min . '分钟前';
-		}
-		elseif ($time < 60 * 60 * 24) {
+		} elseif ($time < 60 * 60 * 24) {
 			$h   = floor($time / (60 * 60));
 			$str = $h . '小时前 ' . $htime;
-		}
-		elseif ($time < 60 * 60 * 24 * 3) {
+		} elseif ($time < 60 * 60 * 24 * 3) {
 			$d = floor($time / (60 * 60 * 24));
 			if ($d == 1)
 				$str = '昨天 ' . $rtime;
 			else
 				$str = '前天 ' . $rtime;
-		}
-		else {
+		} else {
 			$str = $rtime;
 		}
 		return $str;
@@ -279,11 +271,9 @@ class TimeHelper
 
 		if ($datetime->isToday()) {
 			$date = 'Today';
-		}
-		elseif ($datetime->isYesterday()) {
+		} elseif ($datetime->isYesterday()) {
 			$date = 'Yesterday';
-		}
-		elseif ($datetime->isTomorrow()) {
+		} elseif ($datetime->isTomorrow()) {
 			$date = 'Tomorrow';
 		}
 
@@ -302,17 +292,13 @@ class TimeHelper
 	{
 		if ($value instanceof Carbon) {
 			// Do nothing
-		}
-		elseif ($value instanceof PhpDateTime) {
+		} elseif ($value instanceof PhpDateTime) {
 			$value = Carbon::instance($value);
-		}
-		elseif (is_numeric($value)) {
+		} elseif (is_numeric($value)) {
 			$value = Carbon::createFromTimestamp($value);
-		}
-		elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value)) {
+		} elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value)) {
 			$value = Carbon::createFromFormat('Y-m-d', $value)->startOfDay();
-		}
-		else {
+		} else {
 			try {
 				$value = Carbon::parse($value);
 			} catch (\Exception $ex) {
@@ -379,5 +365,15 @@ class TimeHelper
 
 		$momentFormat = strtr($format, $replacements);
 		return $momentFormat;
+	}
+
+	/**
+	 * 返回微秒数值
+	 * @return string
+	 */
+	public static function micro()
+	{
+		list($micro, $second) = explode(' ', microtime());
+		return sprintf("%'.03d", $micro * 1000);
 	}
 }

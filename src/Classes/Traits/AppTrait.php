@@ -21,7 +21,11 @@ trait AppTrait
 	 */
 	public function setError($error)
 	{
-		$this->error = new Resp(Resp::ERROR, $error);
+		if ($error instanceof Resp) {
+			$this->error = $error;
+		} else {
+			$this->error = new Resp(Resp::ERROR, $error);
+		}
 		return false;
 	}
 

@@ -16,12 +16,21 @@ class Rule extends IlluminateRule
 	}
 
 	/**
-	 * alpha rule
+	 * 验证的字段必须完全是字母的字符
 	 * @return string
 	 */
 	public static function alpha()
 	{
 		return 'alpha';
+	}
+
+	/**
+	 * 验证的字段可能具有字母、数字、破折号（ - ）以及下划线（ _ ）
+	 * @return string
+	 */
+	public static function alphaDash()
+	{
+		return 'alpha_dash';
 	}
 
 	/**
@@ -31,6 +40,16 @@ class Rule extends IlluminateRule
 	public static function string()
 	{
 		return 'string';
+	}
+
+	/**
+	 * size
+	 * @param $length
+	 * @return string
+	 */
+	public static function size($length)
+	{
+		return 'size:'.$length;
 	}
 
 	/**
@@ -106,6 +125,12 @@ class Rule extends IlluminateRule
 	public static function required()
 	{
 		return 'required';
+	}
+
+
+	public static function confirmed()
+	{
+		return 'confirmed';
 	}
 
 	/**

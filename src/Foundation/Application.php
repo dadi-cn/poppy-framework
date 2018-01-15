@@ -81,7 +81,7 @@ class Application extends ApplicationBase
 	 */
 	public function isRunningIn($context)
 	{
-		return $this->executionContext = $context;
+		return $this->executionContext == $context;
 	}
 
 	/**

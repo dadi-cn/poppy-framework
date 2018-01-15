@@ -199,6 +199,7 @@ class Resp
 					}
 				}
 			}
+
 			if (!$view) {
 				if (Container::getInstance()->runningInBackend()) {
 					$view = 'system::backend.tpl.inc_message';

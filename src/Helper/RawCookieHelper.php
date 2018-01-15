@@ -1,9 +1,5 @@
 <?php namespace Poppy\Framework\Helper;
 
-/**
- * // todo
- * 这个原来 是 SysCookie 现在还不知道如何去重构
- */
 class RawCookieHelper
 {
 
@@ -26,9 +22,6 @@ class RawCookieHelper
 	public static function get($name)
 	{
 		$value = isset($_COOKIE[$name]) ? $_COOKIE[$name] : '';
-		if (config('app.cookie_base64')) {
-			$value = base64_decode(unserialize($value));
-		}
 		return $value;
 	}
 
@@ -43,9 +36,6 @@ class RawCookieHelper
 		}
 
 		$expire = !empty($expire) ? time() + $expire : 0;
-		if (config('app.cookie_base64')) {
-			$value = base64_encode(serialize($value));
-		}
 		return setcookie($name, $value, $expire, $path, $domain);
 	}
 

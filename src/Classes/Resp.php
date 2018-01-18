@@ -122,7 +122,8 @@ class Resp
 	{
 		if (!($msg instanceof Resp)) {
 			$resp = new Resp($type, $msg);
-		} else {
+		}
+		else {
 			$resp = $msg;
 		}
 
@@ -132,7 +133,7 @@ class Resp
 		$arrAppend = StrHelper::parseKey($append);
 
 		// is json
-		if (isset($arrAppend['json']) || \Request::ajax()) {
+		if (isset($arrAppend['json']) || \Request::ajax() || (substr(\Input::header('Authorization'), 0, 6) === 'Bearer')) {
 			$isJson = true;
 			unset($arrAppend['json']);
 		}
@@ -149,7 +150,8 @@ class Resp
 
 		if ($isJson) {
 			return self::webSplash($resp, $append, $input);
-		} else {
+		}
+		else {
 			if (!$isForget) {
 				\Session::flash('end.message', $resp->getMessage());
 				\Session::flash('end.level', $resp->getCode());
@@ -166,7 +168,8 @@ class Resp
 	{
 		if (is_array($this->message)) {
 			return implode("\n", $this->message);
-		} else {
+		}
+		else {
 			return $this->message;
 		}
 	}
@@ -177,6 +180,37 @@ class Resp
 			'status'  => $this->getCode(),
 			'message' => $this->getMessage(),
 		];
+	}
+
+	/**
+	 * 返回成功输入
+	 * @param $message
+	 * @return array
+	 */
+	public static function success($message)
+	{
+		return (new Resp(self::SUCCESS, $message))->toArray();
+	}
+
+	/**
+	 * 返回错误数组
+	 * @param $message
+	 * @return array
+	 */
+	public static function error($message)
+	{
+		return (new Resp(self::ERROR, $message))->toArray();
+	}
+
+	/**
+	 * 返回自定义信息
+	 * @param        $code
+	 * @param string $message
+	 * @return array
+	 */
+	public static function custom($code, $message = '')
+	{
+		return (new Resp($code, $message))->toArray();
 	}
 
 	/**
@@ -203,7 +237,8 @@ class Resp
 			if (!$view) {
 				if (Container::getInstance()->runningInBackend()) {
 					$view = 'system::backend.tpl.inc_message';
-				} else {
+				}
+				else {
 					$view = 'poppy::template.message';
 				}
 			}
@@ -213,7 +248,8 @@ class Resp
 				'input'    => $input,
 				'time'     => isset($time) ? $time : 0,
 			]);
-		} else {
+		}
+		else {
 			$re = ($location && $location != 'back') ? \Redirect::to($location) : \Redirect::back();
 			return $input ? $re->withInput($input) : $re;
 		}
@@ -225,7 +261,7 @@ class Resp
 	 * @param Resp   $resp
 	 * @param string $append
 	 * @param array  $input
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	private static function webSplash($resp, $append = '', $input = [])
 	{
@@ -255,8 +291,7 @@ class Resp
 			\Session::flashInput($input);
 		}
 
-		$json = json_encode($return, JSON_UNESCAPED_UNICODE);
-		return \Response::make($json);
+		return \Response::json($return, 200, [], JSON_UNESCAPED_UNICODE);
 	}
 
 }

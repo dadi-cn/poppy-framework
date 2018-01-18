@@ -33,17 +33,9 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
 	{
 		$name = studly_case(ltrim($name, '\\/'));
 
-		$rootNamespace = $this->rootNamespace();
-
-		if (Str::startsWith($name, $rootNamespace)) {
-			return $name;
-		}
-
 		$name = str_replace('/', '\\', $name);
 
-		return $this->getDefaultNamespace(trim($rootNamespace, '\\')) ?
-			$this->getDefaultNamespace(trim($rootNamespace, '\\')) . '\\' . $name
-			: $name;
+		return $this->getDefaultNamespace('') . '\\' . $name;
 	}
 
 	/**
@@ -60,7 +52,7 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
 		// take everything after the module name in the given path (ignoring case)
 		$key = array_search(strtolower($slug), explode('\\', strtolower($name)));
 		if ($key === false) {
-			$newPath = str_replace('\\', '/', $name);
+			$newPath = str_replace('\\', ' / ', $name);
 		}
 		else {
 			$newPath = implode('/', array_slice(explode('\\', $name), $key + 1));
@@ -85,5 +77,24 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
 		);
 
 		return $path;
+	}
+
+
+	/**
+	 * Replace the namespace for the given stub.
+	 *
+	 * @param  string $stub
+	 * @param  string $name
+	 * @return $this
+	 */
+	protected function replaceNamespace(&$stub, $name)
+	{
+		$stub = str_replace(
+			['DummyNamespace'],
+			[$this->getNamespace($name)],
+			$stub
+		);
+
+		return $this;
 	}
 }

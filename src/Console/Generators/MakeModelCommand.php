@@ -64,4 +64,5 @@ class MakeModelCommand extends GeneratorCommand
 	{
 		return poppy_class($this->argument('slug'), 'Models');
 	}
+
 }

@@ -2,7 +2,7 @@
 
 use Closure;
 use ArrayAccess;
-use Poppy\Framework\Support\Traits\KeyParser;
+use Poppy\Framework\Classes\Traits\KeyParserTrait;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 
 /**
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Config\Repository as RepositoryContract;
  */
 class Repository implements ArrayAccess, RepositoryContract
 {
-	use KeyParser;
+	use KeyParserTrait;
 
 	/**
 	 * 加载器

@@ -133,7 +133,7 @@ class Resp
 		$arrAppend = StrHelper::parseKey($append);
 
 		// is json
-		if (isset($arrAppend['json']) || \Request::ajax() || (substr(\Input::header('Authorization'), 0, 6) === 'Bearer')) {
+		if (isset($arrAppend['json']) || \Request::ajax() || (strtolower(substr(\Input::header('Authorization'), 0, 6)) === 'bearer')) {
 			$isJson = true;
 			unset($arrAppend['json']);
 		}

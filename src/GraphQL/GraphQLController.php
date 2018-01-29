@@ -59,10 +59,34 @@ class GraphQLController extends Controller
 
 		$errors = !$isBatch ? array_get($data, 'errors', []) : [];
 
-		$authorized = array_reduce($errors, function ($authorized, $error) {
+		$authorized = array_reduce($errors, function($authorized, $error) {
 			return !$authorized || array_get($error, 'message') === 'Unauthorized' ? false : true;
 		}, true);
 		if (!$authorized) {
+			return response()->json($data, 403, $headers, $options);
+		}
+
+		// do exception
+		$doErrorMessage = '';
+		$doError        = array_reduce($errors, function($authorized, $error) use (&$doErrorMessage) {
+			if ($authorized) {
+				$message = array_get($error, 'message');
+				if (substr($message, 0, 13) === 'Do Exception:') {
+					$doErrorMessage = substr($message, 13);
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+			else {
+				return false;
+			}
+		}, true);
+		if (!$doError) {
+			$data['errors'] = [
+				['message' => $doErrorMessage,],
+			];
 			return response()->json($data, 403, $headers, $options);
 		}
 

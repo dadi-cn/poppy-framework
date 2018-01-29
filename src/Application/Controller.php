@@ -65,5 +65,13 @@ abstract class Controller extends BaseController
 		]);
 	}
 
+	protected function seo($title = '', $description = '')
+	{
+		\View::share([
+			'_title'       => $title,
+			'_description' => $description,
+		]);
+	}
+
 }
 

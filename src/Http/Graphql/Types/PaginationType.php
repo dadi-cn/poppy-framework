@@ -10,7 +10,7 @@ class PaginationType extends AbstractType
 	{
 		parent::__construct($attributes);
 		$this->attributes['name']        = 'Pagination';
-		$this->attributes['description'] = trans('poppy::http.types.desc');
+		$this->attributes['description'] = trans('poppy::http.types.pagination.desc');
 	}
 
 	/**
@@ -21,19 +21,19 @@ class PaginationType extends AbstractType
 		return [
 			'page'  => [
 				'type'        => Type::int(),
-				'description' => trans('poppy::http.types.page'),
+				'description' => trans('poppy::http.types.pagination.arg_page'),
 			],
 			'size'  => [
 				'type'        => Type::int(),
-				'description' => trans('poppy::http.types.size'),
+				'description' => trans('poppy::http.types.pagination.arg_size'),
 			],
 			'total' => [
 				'type'        => Type::int(),
-				'description' => trans('poppy::http.types.total'),
+				'description' => trans('poppy::http.types.pagination.arg_total'),
 			],
 			'pages' => [
 				'type'        => Type::int(),
-				'description' => trans('poppy::http.types.pages'),
+				'description' => trans('poppy::http.types.pagination.arg_pages'),
 			],
 		];
 	}

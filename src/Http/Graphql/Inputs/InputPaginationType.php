@@ -11,7 +11,7 @@ class InputPaginationType extends InputType
 	{
 		parent::__construct($attributes);
 		$this->attributes['name']        = 'InputPagination';
-		$this->attributes['description'] = trans('poppy::http.input.desc');
+		$this->attributes['description'] = trans('poppy::http.input.pagination.desc');
 	}
 
 	/**
@@ -22,11 +22,11 @@ class InputPaginationType extends InputType
 		return [
 			'page' => [
 				'type'        => Type::int(),
-				'description' => trans('poppy::http.input.page'),
+				'description' => trans('poppy::http.input.pagination.arg_page'),
 			],
 			'size' => [
 				'type'        => Type::int(),
-				'description' => trans('poppy::http.input.size'),
+				'description' => trans('poppy::http.input.pagination.arg_size'),
 			],
 		];
 	}

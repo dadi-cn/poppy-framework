@@ -18,6 +18,8 @@ class Application extends ApplicationBase
 
 	protected $modulesPath;
 
+	protected $namespace = 'app';
+
 
 	/**
 	 * 绑定路径到 container

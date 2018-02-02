@@ -177,7 +177,7 @@ class ClassLoader
 		else {
 			$directories = (array) $directories;
 
-			$this->directories = array_filter($this->directories, function ($directory) use ($directories) {
+			$this->directories = array_filter($this->directories, function($directory) use ($directories) {
 				return !in_array($directory, $directories);
 			});
 		}
@@ -215,11 +215,22 @@ class ClassLoader
 		$namespace = implode('\\', $parts);
 		$directory = str_replace(['\\', '_'], DIRECTORY_SEPARATOR, $namespace);
 
+		// Socialite/QqMobile
+		$directories = explode(DIRECTORY_SEPARATOR, $directory);
+
+		// socialite/qq_web
+		$directory = array_reduce($directories, function($carry, $directory) {
+			if ($carry) {
+				$carry .= DIRECTORY_SEPARATOR;
+			}
+			return $carry . snake_case($directory);
+		});
+
 		/*
 		 * Provide both alternatives
 		 */
 		$lowerPath  = strtolower($poppyName) . DIRECTORY_SEPARATOR .
-			'src' . DIRECTORY_SEPARATOR . strtolower($directory) . DIRECTORY_SEPARATOR . $file . '.php';
+			'src' . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR . $file . '.php';
 		$upperClass = $directory . DIRECTORY_SEPARATOR . $file . '.php';
 
 		return [$lowerPath, $upperClass];

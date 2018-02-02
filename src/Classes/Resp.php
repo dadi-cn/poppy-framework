@@ -144,12 +144,11 @@ class Resp
 			unset($arrAppend['forget']);
 		}
 
-		$append   = ArrayHelper::genKey($arrAppend);
 		$location = isset($arrAppend['location']) ? $arrAppend['location'] : '';
 		$time     = isset($arrAppend['time']) ? $arrAppend['time'] : 0;
 
 		if ($isJson) {
-			return self::webSplash($resp, $append, $input);
+			return self::webSplash($resp, $arrAppend, $input);
 		}
 		else {
 			if (!$isForget) {
@@ -163,6 +162,17 @@ class Resp
 		}
 	}
 
+
+	public static function data($type, $msg)
+	{
+		if (!($msg instanceof Resp)) {
+			$resp = new Resp($type, $msg);
+		}
+		else {
+			$resp = $msg;
+		}
+		return $resp->toArray();
+	}
 
 	public function __toString()
 	{
@@ -275,10 +285,12 @@ class Resp
 			if ($append instanceof Arrayable) {
 				$data = $append->toArray();
 			}
-			if (is_string($append)) {
+			else if (is_string($append)) {
 				$data = StrHelper::parseKey($append);
 			}
-
+			else if (is_array($append)) {
+				$data = $append;
+			}
 			if (isset($data['location']) && $data['location'] == 'back') {
 				unset($data['location']);
 			}

@@ -72,6 +72,22 @@ class Rule extends IlluminateRule
 	/**
 	 * @return string
 	 */
+	public static function date()
+	{
+		return 'date';
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function nullable()
+	{
+		return 'nullable';
+	}
+
+	/**
+	 * @return string
+	 */
 	public static function email()
 	{
 		return 'email';

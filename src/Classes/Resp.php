@@ -2,10 +2,9 @@
 
 
 use Illuminate\Container\Container;
-use Poppy\Framework\Helper\ArrayHelper;
-use Poppy\Framework\Helper\StrHelper;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\MessageBag;
+use Poppy\Framework\Helper\StrHelper;
 use System\Classes\Traits\SystemTrait;
 
 class Resp
@@ -101,21 +100,22 @@ class Resp
 	 */
 	public function getMessage()
 	{
-		return is_string($this->message) ? $this->message : implode(',', $this->message);
+		$env = !is_production() ? '[开发]' : '';
+		return $env . (is_string($this->message) ? $this->message : implode(',', $this->message));
 	}
 
 	/**
 	 * 错误输出
-	 * @param int                     $type  错误码
-	 * @param string|array|MessageBag $msg   类型
-	 * @param string                  $append
-	 *                                       json: 强制以 json 数据返回
-	 *                                       forget : 不将错误信息返回到session 中
-	 *                                       location : 重定向
-	 *                                       reload : 刷新页面
-	 *                                       time   : 刷新或者重定向的时间(毫秒), 如果不填写, 默认为立即刷新或者重定向
-	 *                                       reload_opener : 刷新母窗口
-	 * @param array                   $input 表单提交的数据, 是否连带返回
+	 * @param $type     int  错误码
+	 * @param $msg      string|array|MessageBag  类型
+	 * @param $append   string
+	 *                  json: 强制以 json 数据返回
+	 *                  forget : 不将错误信息返回到session 中
+	 *                  location : 重定向
+	 *                  reload : 刷新页面
+	 *                  time   : 刷新或者重定向的时间(毫秒), 如果不填写, 默认为立即刷新或者重定向
+	 *                  reload_opener : 刷新母窗口
+	 * @param $input    array 表单提交的数据, 是否连带返回
 	 * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
 	 */
 	public static function web($type, $msg, $append = null, $input = null)
@@ -130,10 +130,15 @@ class Resp
 		$isJson   = false;
 		$isForget = false;
 
+
 		$arrAppend = StrHelper::parseKey($append);
 
 		// is json
-		if (isset($arrAppend['json']) || \Request::ajax() || (strtolower(substr(\Input::header('Authorization'), 0, 6)) === 'bearer')) {
+		if (isset($arrAppend['json']) ||
+			\Request::ajax() ||
+			(strtolower(substr(\Input::header('Authorization'), 0, 6)) === 'bearer') ||
+			Container::getInstance()->isRunningIn('api')
+		) {
 			$isJson = true;
 			unset($arrAppend['json']);
 		}

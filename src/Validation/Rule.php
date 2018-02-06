@@ -43,13 +43,23 @@ class Rule extends IlluminateRule
 	}
 
 	/**
+	 * 身份证号
+	 * string rule
+	 * @return string
+	 */
+	public static function chid()
+	{
+		return 'chid';
+	}
+
+	/**
 	 * size
 	 * @param $length
 	 * @return string
 	 */
 	public static function size($length)
 	{
-		return 'size:'.$length;
+		return 'size:' . $length;
 	}
 
 	/**

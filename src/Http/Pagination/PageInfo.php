@@ -9,10 +9,7 @@ class PageInfo
 
 	public function __construct($page_info)
 	{
-		$sizeConfig = abs(config('poppy.pagesize'));
-		if (!$sizeConfig) {
-			$sizeConfig = 15;
-		}
+		$sizeConfig = abs(config('poppy.pagesize')) ?: 20;
 		$page       = abs($page_info['page'] ?? 1);
 		$size       = abs($page_info['size'] ?? $sizeConfig);
 		$this->page = $page ?: 1;

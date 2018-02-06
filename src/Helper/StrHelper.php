@@ -1,6 +1,7 @@
 <?php namespace Poppy\Framework\Helper;
 
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 
 /**
@@ -532,13 +533,16 @@ class StrHelper extends Str
 	 */
 	public static function separate($separator, $str)
 	{
-		// $separator = trim($separator);
-		if (strpos($str, $separator) !== false) {
-			$arrStr = explode($separator, $str);
-			$return = array_map('trim', $arrStr);
-		}
-		else {
-			$return = [$str];
+		$str = trim($str);
+		$return = [];
+		if ($str) {
+			if (strpos($str, $separator) !== false) {
+				$arrStr = explode($separator, $str);
+				$return = array_map('trim', $arrStr);
+			}
+			else {
+				$return = [$str];
+			}
 		}
 		return $return;
 	}
@@ -718,6 +722,9 @@ class StrHelper extends Str
 		}
 		if (is_array($str)) {
 			return $str;
+		}
+		if ($str instanceof Arrayable) {
+			return $str->toArray();
 		}
 		$arr = explode(';', $str);
 		if ($arr) {

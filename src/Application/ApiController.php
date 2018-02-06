@@ -1,10 +1,13 @@
 <?php namespace Poppy\Framework\Application;
 
-use Dingo\Api\Routing\Helpers as DingoHelpers;
-use Poppy\Framework\Application\Traits\PoppyTrait;
+
+use Illuminate\Container\Container;
 
 class ApiController extends Controller
 {
-	use DingoHelpers;
-	use PoppyTrait;
+	public function __construct()
+	{
+		parent::__construct();
+		Container::getInstance()->setExecutionContext('api');
+	}
 }

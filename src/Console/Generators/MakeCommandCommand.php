@@ -41,6 +41,6 @@ class MakeCommandCommand extends GeneratorCommand
 	 */
 	protected function getDefaultNamespace($rootNamespace)
 	{
-		return poppy_class($this->argument('slug'), 'Console');
+		return poppy_class($this->argument('slug'), 'Commands');
 	}
 }

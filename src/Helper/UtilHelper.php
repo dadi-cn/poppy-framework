@@ -663,4 +663,17 @@ class UtilHelper
 		}
 		return false;
 	}
+
+	/**
+	 * 是否是逗号隔开的数字字符串
+	 * @param string $str
+	 * @return bool
+	 */
+	public static function isComma($str)
+	{
+		if (preg_match('/^(\d+\,)+\d+$/i', $str)) {
+			return true;
+		}
+		return false;
+	}
 }

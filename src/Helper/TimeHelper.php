@@ -376,4 +376,23 @@ class TimeHelper
 		list($micro, $second) = explode(' ', microtime());
 		return sprintf("%'.03d", $micro * 1000);
 	}
+
+	/**
+	 * 通过 Carbon 对象来获取格式化的时间
+	 * @param Carbon|null $carbon
+	 * @param string      $format
+	 * @return string
+	 */
+	public static function fetchFormat($carbon, $format = 'Y-m-d H:i:s')
+	{
+		if ($carbon instanceof Carbon) {
+			return $carbon->format($format);
+		}
+		elseif (is_string($carbon)) {
+			return $carbon;
+		}
+		else {
+			return '';
+		}
+	}
 }

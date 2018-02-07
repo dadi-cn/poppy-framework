@@ -2,6 +2,7 @@
 
 use Poppy\Framework\Helper\ArrayHelper;
 use PHPUnit\Framework\TestCase;
+use Poppy\Framework\Helper\UtilHelper;
 
 class ArrHelperTest extends TestCase
 {
@@ -27,5 +28,12 @@ class ArrHelperTest extends TestCase
 
 		// 组合空
 		$this->assertEquals('', ArrayHelper::genKey([]));
+	}
+
+	public function testIsComma()
+	{
+		$str = '221,22,12';
+		$res = UtilHelper::isComma($str);
+		dd($res);
 	}
 }

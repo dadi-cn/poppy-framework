@@ -671,7 +671,7 @@ class UtilHelper
 	 */
 	public static function isComma($str)
 	{
-		if (preg_match('/^(\d+\,)+\d+$/i', $str)) {
+		if (preg_match('/^(\d+\,)+\d+$|^\d+$/i', $str)) {
 			return true;
 		}
 		return false;

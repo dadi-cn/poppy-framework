@@ -195,6 +195,16 @@ class Rule extends IlluminateRule
 	}
 
 	/**
+	 * 最小数
+	 * @param $value
+	 * @return string
+	 */
+	public static function min($value)
+	{
+		return 'min:' . $value;
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function integer()

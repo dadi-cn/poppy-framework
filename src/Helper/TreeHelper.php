@@ -44,7 +44,8 @@ class TreeHelper
 	 * @param string $k_title
 	 * @return bool
 	 */
-	public function init($arr = [], $k_id = 'id', $k_pid = 'pid', $k_title = 'name') {
+	public function init($arr = [], $k_id = 'id', $k_pid = 'pid', $k_title = 'name')
+	{
 		$this->arr       = $arr;
 		$this->ret       = '';
 		$this->key_id    = $k_id;
@@ -53,12 +54,19 @@ class TreeHelper
 		return is_array($arr);
 	}
 
+	public function replaceSpace()
+	{
+		$this->icon  = [' │', ' ├', ' └'];
+		$this->space = " ";
+	}
+
 	/**
 	 * 得到父级数组
 	 * @param int
 	 * @return array|bool
 	 */
-	public function getParent($id) {
+	public function getParent($id)
+	{
 		$newArray = [];
 		if (!isset($this->arr[$id])) {
 			return false;
@@ -78,7 +86,8 @@ class TreeHelper
 	 * @param int
 	 * @return array
 	 */
-	public function getChild($id) {
+	public function getChild($id)
+	{
 		$newArray = [];
 		if (is_array($this->arr)) {
 			foreach ($this->arr as $kid => $a) {
@@ -94,7 +103,8 @@ class TreeHelper
 	 * @param $newArray
 	 * @return array|bool
 	 */
-	public function getPos($id, &$newArray) {
+	public function getPos($id, &$newArray)
+	{
 		$a = [];
 		if (!isset($this->arr[$id])) return false;
 		$newArray[] = $this->arr[$id];
@@ -121,7 +131,8 @@ class TreeHelper
 	 * @param string $str_group
 	 * @return string
 	 */
-	public function getTree($myid, $str, $selected_id = 0, $adds = '', $str_group = '') {
+	public function getTree($myid, $str, $selected_id = 0, $adds = '', $str_group = '')
+	{
 		$number   = 1;
 		$children = $this->getChild($myid);
 		if (is_array($children)) {
@@ -130,7 +141,8 @@ class TreeHelper
 				$j = $k = '';
 				if ($number == $total) {
 					$j .= $this->icon[2];
-				} else {
+				}
+				else {
 					$j .= $this->icon[1];
 					$k = $adds ? $this->icon[0] : '';
 				}
@@ -141,11 +153,12 @@ class TreeHelper
 				$nstr = '';
 				if ($node[$this->key_pid] == 0 && isset($node['str_group'])) {
 					eval("\$nstr = \"$str_group\";");
-				} else {
+				}
+				else {
 					eval("\$nstr = \"$str\";");
 				}
 				$this->ret .= $nstr;
-				$nbsp = $this->space;
+				$nbsp      = $this->space;
 				$this->getTree($node_id, $str, $selected_id, $adds . $k . $nbsp, $str_group);
 				$number++;
 			}
@@ -153,7 +166,8 @@ class TreeHelper
 		return $this->ret;
 	}
 
-	public function getTreeArray($id, $adds = '') {
+	public function getTreeArray($id, $adds = '', $type = 'default')
+	{
 		$number   = 1;
 		$children = $this->getChild($id);
 		if (is_array($children)) {
@@ -162,7 +176,8 @@ class TreeHelper
 				$j = $k = '';
 				if ($number == $total) {
 					$j .= $this->icon[2];
-				} else {
+				}
+				else {
 					$j .= $this->icon[1];
 					$k = $adds ? $this->icon[0] : '';
 				}
@@ -173,7 +188,20 @@ class TreeHelper
 				$number++;
 			}
 		}
-		return $this->tree;
+		if ($type == 'default') {
+			return $this->tree;
+		}
+		else {
+			$tree = [];
+			foreach ($this->tree as $key => $value) {
+				$tree[] = [
+					'key'   => $key,
+					'value' => $value,
+				];
+			}
+			return $tree;
+		}
+
 	}
 
 
@@ -185,7 +213,8 @@ class TreeHelper
 	 * @param string $adds
 	 * @return string
 	 */
-	public function getTreeMulti($myid, $str, $sid = 0, $adds = '') {
+	public function getTreeMulti($myid, $str, $sid = 0, $adds = '')
+	{
 		$number = 1;
 		$child  = $this->getChild($myid);
 		if (is_array($child)) {
@@ -194,7 +223,8 @@ class TreeHelper
 				$j = $k = '';
 				if ($number == $total) {
 					$j .= $this->icon[2];
-				} else {
+				}
+				else {
 					$j .= $this->icon[1];
 					$k = $adds ? $this->icon[0] : '';
 				}
@@ -220,7 +250,8 @@ class TreeHelper
 	 * @param string   $adds 前缀
 	 * @return string
 	 */
-	public function getTreeCategory($myid, $str, $str2, $sid = 0, $adds = '') {
+	public function getTreeCategory($myid, $str, $str2, $sid = 0, $adds = '')
+	{
 		$number = 1;
 		$child  = $this->getChild($myid);
 		if (is_array($child)) {
@@ -229,7 +260,8 @@ class TreeHelper
 				$j = $k = '';
 				if ($number == $total) {
 					$j .= $this->icon[2];
-				} else {
+				}
+				else {
 					$j .= $this->icon[1];
 					$k = $adds ? $this->icon[0] : '';
 				}
@@ -239,7 +271,8 @@ class TreeHelper
 				$nstr = '';
 				if (empty($html_disabled)) {
 					eval("\$nstr = \"$str\";");
-				} else {
+				}
+				else {
 					eval("\$nstr = \"$str2\";");
 				}
 				$this->ret .= $nstr;
@@ -263,13 +296,18 @@ class TreeHelper
 	 * @param bool   $recursion    递归使用 外部调用时为FALSE
 	 * @return string
 	 */
-	function getTreeView($myid, $effected_id = 'example',$str = "<span class='file'>\$name</span>",
-	                     $str2 = "<span class='folder'>\$name</span>", $showlevel = 0, $style = 'filetree ', $currentlevel = 1, $recursion = false) {
+	function getTreeView(
+		$myid, $effected_id = 'example',
+		$str = "<span class=\"file\">\$name</span>",
+		$str2 = "<span class=\"folder\">\$name</span>",
+		$showlevel = 0, $style = 'filetree ', $currentlevel = 1, $recursion = false)
+	{
 		$child = $this->getChild($myid);
 		if (!defined('EFFECTED_INIT')) {
 			$effected = ' id="' . $effected_id . '"';
 			define('EFFECTED_INIT', 1);
-		} else {
+		}
+		else {
 			$effected = '';
 		}
 		$placeholder = '<ul><li><span class="placeholder"></span></li></ul>';
@@ -279,18 +317,20 @@ class TreeHelper
 			@extract($a);
 			if ($showlevel > 0 && $showlevel == $currentlevel && $this->getChild($id)) $folder = 'hasChildren'; //如设置显示层级模式@2011.07.01
 			$floder_status = isset($folder) ? ' class="' . $folder . '"' : '';
-			$this->ret .= $recursion ? '<ul><li' . $floder_status . ' id=\'' . $id . '\'>' : '<li' . $floder_status . ' id=\'' . $id . '\'>';
-			$recursion = FALSE;
-			$nstr      = '';
+			$this->ret     .= $recursion ? '<ul><li' . $floder_status . ' id=\'' . $id . '\'>' : '<li' . $floder_status . ' id=\'' . $id . '\'>';
+			$recursion     = false;
+			$nstr          = '';
 			if ($this->getChild($id)) {
 				eval("\$nstr = \"$str2\";");
 				$this->ret .= $nstr;
 				if ($showlevel == 0 || ($showlevel > 0 && $showlevel > $currentlevel)) {
-					$this->getTreeView($id, $effected_id, $str, $str2, $showlevel, $style, $currentlevel + 1, TRUE);
-				} elseif ($showlevel > 0 && $showlevel == $currentlevel) {
+					$this->getTreeView($id, $effected_id, $str, $str2, $showlevel, $style, $currentlevel + 1, true);
+				}
+				elseif ($showlevel > 0 && $showlevel == $currentlevel) {
 					$this->ret .= $placeholder;
 				}
-			} else {
+			}
+			else {
 				eval("\$nstr = \"$str\";");
 				$this->ret .= $nstr;
 			}
@@ -301,7 +341,8 @@ class TreeHelper
 	}
 
 
-	private function _has($list, $item) {
+	private function _has($list, $item)
+	{
 		return (strpos(',,' . $list . ',', ',' . $item . ','));
 	}
 }

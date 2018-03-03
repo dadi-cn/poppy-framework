@@ -56,6 +56,15 @@ abstract class Controller extends BaseController
 			'_now'      => $this->now,
 			'_pagesize' => $this->pagesize,
 		]);
+
+		// 自动计算seo
+		// 根据路由名称来转换 seo key
+		// slt:nav.index  => slt::seo.nav_index
+		$seoKey = str_replace([':', '.'], ['::', '_'], $this->route);
+		if ($seoKey) {
+			$seoKey = str_replace('::', '::seo.', $seoKey);
+			$this->seo(trans($seoKey));
+		}
 	}
 
 	protected function seo(...$args)

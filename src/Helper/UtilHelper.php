@@ -82,7 +82,7 @@ class UtilHelper
 	 */
 	public static function isMobile($mobile)
 	{
-		return preg_match("/^(\+86)?1(3|4|5|8|7|9)[0-9]\d{8}$/i", $mobile);
+		return preg_match("/^(\+86)?1(3|4|5|6|8|7|9)[0-9]\d{8}$/i", $mobile);
 	}
 
 	/**
@@ -97,19 +97,6 @@ class UtilHelper
 		return preg_match("/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/", $telephone);
 	}
 
-
-	/**
-	 * 获取不带有国别的电话号码
-	 * @param $mobile
-	 * @return string
-	 */
-	public static function getMobile($mobile)
-	{
-		if (preg_match("/^(\+86)?(1(3|4|5|8|7)[0-9]\d{8})$/", $mobile, $match)) {
-			return $match[2];
-		}
-		return '';
-	}
 
 	/**
 	 * 是否全部为中文, 并且验证长度

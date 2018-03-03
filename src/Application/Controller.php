@@ -58,15 +58,25 @@ abstract class Controller extends BaseController
 		]);
 	}
 
-	protected function title($title = '')
+	protected function seo(...$args)
 	{
-		\View::share([
-			'_title' => $title,
-		]);
-	}
-
-	protected function seo($title = '', $description = '')
-	{
+		$title       = '';
+		$description = '';
+		if (func_num_args() == 1) {
+			$arg = func_get_arg(0);
+			if (is_array($arg)) {
+				$title       = $arg['title'] ?? '';
+				$description = $arg['description'] ?? '';
+			}
+			if (is_string(func_get_arg(0))) {
+				$title       = $arg;
+				$description = '';
+			}
+		}
+		elseif (func_num_args() == 2) {
+			$title       = func_get_arg(0);
+			$description = func_get_arg(1);
+		}
 		\View::share([
 			'_title'       => $title,
 			'_description' => $description,

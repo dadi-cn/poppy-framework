@@ -83,8 +83,12 @@ if (!function_exists('command_exist')) {
 	 */
 	function command_exist($cmd)
 	{
-		$returnVal = shell_exec("which $cmd");
-		return (empty($returnVal) ? false : true);
+		try {
+			$returnVal = shell_exec("which $cmd");
+			return (empty($returnVal) ? false : true);
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 }
 

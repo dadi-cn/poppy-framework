@@ -23,7 +23,8 @@ trait AppTrait
 	{
 		if ($error instanceof Resp) {
 			$this->error = $error;
-		} else {
+		}
+		else {
 			$this->error = new Resp(Resp::ERROR, $error);
 		}
 		return false;
@@ -47,6 +48,4 @@ trait AppTrait
 	{
 		return (new Resp(Resp::SUCCESS, $message));
 	}
-
-
 }

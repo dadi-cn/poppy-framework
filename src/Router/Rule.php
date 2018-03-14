@@ -10,24 +10,23 @@ use InvalidArgumentException;
  */
 class Rule
 {
-
 	/**
-	 * @var string A named reference for this rule.
+	 * @var string a named reference for this rule
 	 */
 	protected $ruleName;
 
 	/**
-	 * @var string The pattern used to match this rule.
+	 * @var string the pattern used to match this rule
 	 */
 	protected $rulePattern;
 
 	/**
-	 * @var callable Custom condition used when matching this rule.
+	 * @var callable custom condition used when matching this rule
 	 */
 	protected $conditionCallback;
 
 	/**
-	 * @var callable Called when this rule is matched.
+	 * @var callable called when this rule is matched
 	 */
 	protected $afterMatchCallback;
 
@@ -91,9 +90,9 @@ class Rule
 
 	/**
 	 * Checks whether a given URL matches a given pattern.
-	 * @param string $url        The URL to check.
-	 * @param array  $parameters A reference to a PHP array variable to return the parameter list fetched from URL.
-	 * @return boolean Returns true if the URL matches the pattern. Otherwise returns false.
+	 * @param string $url        the URL to check
+	 * @param array  $parameters a reference to a PHP array variable to return the parameter list fetched from URL
+	 * @return bool Returns true if the URL matches the pattern. Otherwise returns false.
 	 */
 	public function resolveUrl($url, &$parameters)
 	{
@@ -124,7 +123,6 @@ class Rule
 			$patternSegmentLower = mb_strtolower($patternSegment);
 
 			if (strpos($patternSegment, ':') !== 0) {
-
 				/*
 				 * Static segment
 				 */
@@ -136,7 +134,6 @@ class Rule
 				}
 			}
 			else {
-
 				/*
 				 * Dynamic segment. Initialize the parameter
 				 */
@@ -203,13 +200,11 @@ class Rule
 				if (Helper::segmentIsWildcard($patternSegment) && count($wildSegments)) {
 					$parameters[$paramName] .= Helper::rebuildUrl($wildSegments);
 				}
-
 			}
 		}
 
 		return true;
 	}
-
 
 	/**
 	 * Captures and removes every segment of a URL after a wildcard
@@ -234,9 +229,8 @@ class Rule
 					unset($urlSegments[$index]);
 					continue;
 				}
-				else {
+				 
 					break;
-				}
 			}
 
 			$patternSegment = $patternSegments[$index];
@@ -263,6 +257,7 @@ class Rule
 			return $this->ruleName;
 
 		$this->ruleName = $name;
+
 		return $this;
 	}
 
@@ -278,6 +273,7 @@ class Rule
 			return $this->rulePattern;
 
 		$this->rulePattern = $pattern;
+
 		return $this;
 	}
 
@@ -291,20 +287,20 @@ class Rule
 	public function condition($callback = null)
 	{
 		if ($callback !== null) {
-
 			if (!is_callable($callback)) {
 				throw new InvalidArgumentException(sprintf(
-					"Condition provided is not a valid callback. Given (%s)", gettype($callback)
+					'Condition provided is not a valid callback. Given (%s)',
+					gettype($callback)
 				));
 			}
 
 			$this->conditionCallback = $callback;
+
 			return $this;
 		}
 
 		return $this->conditionCallback;
 	}
-
 
 	/**
 	 * After match callback
@@ -316,14 +312,15 @@ class Rule
 	public function afterMatch($callback = null)
 	{
 		if ($callback !== null) {
-
 			if (!is_callable($callback)) {
 				throw new InvalidArgumentException(sprintf(
-					"The after match callback provided is not valid. Given (%s)", gettype($callback)
+					'The after match callback provided is not valid. Given (%s)',
+					gettype($callback)
 				));
 			}
 
 			$this->afterMatchCallback = $callback;
+
 			return $this;
 		}
 

@@ -55,7 +55,6 @@ class MakeSeederCommand extends GeneratorCommand
 		return poppy_class($this->argument('slug'), 'Database\Seeds');
 	}
 
-
 	protected function rootNamespace()
 	{
 		return '';

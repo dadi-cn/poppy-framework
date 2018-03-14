@@ -5,7 +5,6 @@ use Poppy\Framework\Application\Event;
 
 class PoppyOptimized extends Event
 {
-
 	/**
 	 * Optimized module collection
 	 * @var Collection
@@ -16,7 +15,6 @@ class PoppyOptimized extends Event
 	{
 		$this->modules = $modules;
 	}
-
 
 	public function modules()
 	{

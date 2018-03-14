@@ -1,6 +1,5 @@
 <?php namespace Poppy\Framework\Classes\Traits;
 
-
 use Illuminate\Support\Str;
 
 /**
@@ -33,8 +32,7 @@ trait ViewTrait
 		if (Str::contains($template, '::')) {
 			return $this->getView()->make($template, $data, $mergeData);
 		}
-		else {
+		 
 			return $this->getView()->make('theme::' . $template, $data, $mergeData);
-		}
 	}
 }

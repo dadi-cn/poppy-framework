@@ -4,7 +4,6 @@ use Illuminate\Filesystem\Filesystem;
 
 class FileLoader implements LoaderInterface
 {
-
 	/**
 	 * The filesystem instance.
 	 *
@@ -204,6 +203,7 @@ class FileLoader implements LoaderInterface
 		elseif (isset($this->hints[$namespace])) {
 			return $this->hints[$namespace];
 		}
+
 		return '';
 	}
 
@@ -250,5 +250,4 @@ class FileLoader implements LoaderInterface
 	{
 		return $this->files;
 	}
-
 }

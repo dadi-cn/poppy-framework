@@ -46,7 +46,7 @@ class GraphQL
 
 		//Get the types either from the schema, or the global types.
 		$types = [];
-		if (sizeof($schemaTypes)) {
+		if (count($schemaTypes)) {
 			foreach ($schemaTypes as $name => $type) {
 				$objectType                  = $this->objectType($type, is_numeric($name) ? [] : [
 					'name' => $name,
@@ -139,11 +139,10 @@ class GraphQL
 				'errors' => array_map($errorFormatter, $result->errors),
 			];
 		}
-		else {
+		 
 			return [
 				'data' => $result->data,
 			];
-		}
 	}
 
 	/**
@@ -270,6 +269,7 @@ class GraphQL
 		}
 
 		$type = is_object($class) ? $class : $this->app->make($class);
+
 		return $type->name;
 	}
 

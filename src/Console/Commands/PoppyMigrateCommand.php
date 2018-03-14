@@ -1,10 +1,10 @@
 <?php namespace Poppy\Framework\Console\Commands;
 
-use Poppy\Framework\Poppy\Poppy;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Arr;
+use Poppy\Framework\Poppy\Poppy;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -64,11 +64,10 @@ class PoppyMigrateCommand extends Command
 			elseif ($this->option('force')) {
 				return $this->migrate($module['slug']);
 			}
-			else {
+			 
 				return $this->error('Nothing to migrate.');
-			}
 		}
-		else {
+		 
 			if ($this->option('force')) {
 				$modules = $this->poppy->all();
 			}
@@ -79,7 +78,6 @@ class PoppyMigrateCommand extends Command
 			foreach ($modules as $module) {
 				$this->migrate($module['slug']);
 			}
-		}
 	}
 
 	/**

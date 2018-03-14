@@ -6,7 +6,6 @@ use Poppy\Framework\Classes\Resp;
 
 abstract class Request extends FormRequest
 {
-
 	protected function formatErrors(Validator $validator)
 	{
 		$error    = [];
@@ -14,13 +13,14 @@ abstract class Request extends FormRequest
 		foreach ($messages->all('<li>:message</li>') as $message) {
 			$error[] = $message;
 		}
+
 		return $error;
 	}
 
 	public function response(array $errors)
 	{
 		$error = implode(',', $errors);
+
 		return Resp::web(Resp::ERROR, $error, null, $this->request->all());
 	}
-
 }

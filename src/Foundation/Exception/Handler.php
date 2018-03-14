@@ -26,7 +26,6 @@ class Handler extends ExceptionHandler
 	 */
 	protected $handlers = [];
 
-
 	/**
 	 * Render an exception into an HTTP response.
 	 * @param  \Illuminate\Http\Request $request
@@ -145,6 +144,7 @@ class Handler extends ExceptionHandler
 	protected function handlesException(Closure $handler, $exception)
 	{
 		$reflection = new ReflectionFunction($handler);
+
 		return $reflection->getNumberOfParameters() == 0 || $this->hints($reflection, $exception);
 	}
 
@@ -158,6 +158,7 @@ class Handler extends ExceptionHandler
 	{
 		$parameters = $reflection->getParameters();
 		$expected   = $parameters[0];
+
 		return !$expected->getClass() || $expected->getClass()->isInstance($exception);
 	}
 }

@@ -41,7 +41,6 @@ abstract class Handler
 	 */
 	protected $extra;
 
-
 	/**
 	 * @var \Illuminate\Contracts\Logging\Log
 	 */
@@ -122,7 +121,6 @@ abstract class Handler
 			'trace'   => $exception->getTrace(),
 		]);
 	}
-
 
 	/**
 	 * Rollback transaction for database.

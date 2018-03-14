@@ -1,10 +1,10 @@
 <?php namespace Poppy\Framework\Console\Commands;
 
-use Poppy\Framework\Poppy\Poppy;
-use Poppy\Framework\Classes\Traits\MigrationTrait;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
+use Poppy\Framework\Classes\Traits\MigrationTrait;
+use Poppy\Framework\Poppy\Poppy;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -62,7 +62,8 @@ class PoppyMigrateRollbackCommand extends Command
 
 		$paths = $this->getMigrationPaths();
 		$this->migrator->rollback(
-			$paths, ['pretend' => $this->option('pretend'), 'step' => (int) $this->option('step')]
+			$paths,
+			['pretend' => $this->option('pretend'), 'step' => (int) $this->option('step')]
 		);
 
 		foreach ($this->migrator->getNotes() as $note) {

@@ -12,7 +12,6 @@
  */
 class FileHelper
 {
-
 	/**
 	 * @param $filename
 	 * @return string   获取文件名扩展
@@ -89,6 +88,7 @@ class FileHelper
 				$fs[] = $file;
 			}
 		}
+
 		return $fs;
 	}
 
@@ -114,6 +114,7 @@ class FileHelper
 		if (EnvHelper::isWindows()) {
 			$return = StrHelper::batchConvert($return, 'gbk', 'utf-8');
 		}
+
 		return $return;
 	}
 
@@ -138,6 +139,7 @@ class FileHelper
 		if (EnvHelper::isWindows()) {
 			$dirs = StrHelper::batchConvert($dirs, 'gbk', 'utf-8');
 		}
+
 		return $dirs;
 	}
 
@@ -176,9 +178,9 @@ class FileHelper
 		if (EnvHelper::isWindows()) {
 			$folders = StrHelper::batchConvert($folders, 'gbk', 'utf-8');
 		}
+
 		return $folders;
 	}
-
 
 	/**
 	 * 创建文件成功返回实际写入的数据块数目 失败返回false
@@ -194,13 +196,12 @@ class FileHelper
 			$len = fwrite($fp, $data);
 			flock($fp, LOCK_UN);
 			fclose($fp);
+
 			return $len;
 		}
-		else {
+		 
 			return false;
-		}
 	}
-
 
 	public static function curlGet($url, $local, $refer = '')
 	{
@@ -226,12 +227,13 @@ class FileHelper
 			mkdir($path, 0777, true);
 		}
 		touch($local);
+
 		return file_put_contents($local, $content);
 	}
 
 	/**
 	 * 获取缓存文件内容
-	 * @param String $filename
+	 * @param string $filename
 	 * @return string
 	 */
 	public static function get($filename)
@@ -239,6 +241,7 @@ class FileHelper
 		if (EnvHelper::isWindows() && StrHelper::isUtf8($filename)) {
 			$filename = StrHelper::convert($filename, 'utf-8', 'gbk');
 		}
+
 		return @file_get_contents($filename);
 	}
 
@@ -254,6 +257,7 @@ class FileHelper
 		if (UtilHelper::isJson($content)) {
 			return json_decode($content, $is_array);
 		}
+
 		return $is_array ? [] : json_decode(json_encode([]));
 	}
 
@@ -267,11 +271,9 @@ class FileHelper
 		if (file_exists($filename)) {
 			return include $filename;
 		}
-		else {
+		 
 			return '';
-		}
 	}
-
 
 	/**
 	 * @param $filename
@@ -289,8 +291,9 @@ class FileHelper
 	 */
 	public static function dirPath($dirpath)
 	{
-		$dirpath = str_replace('\\', '/', $dirpath);
+		$dirpath                                  = str_replace('\\', '/', $dirpath);
 		if (substr($dirpath, -1) != '/') $dirpath = $dirpath . '/';
+
 		return $dirpath;
 	}
 
@@ -308,7 +311,7 @@ class FileHelper
 		foreach ($files as $file) {
 			if (is_dir($file)) {
 				if (is_file($file . '/index.php') && is_file($file . '/config.inc.php')) continue;
-				$fs = FileHelper::lists($file, $ext, $fs);
+				$fs = self::lists($file, $ext, $fs);
 			}
 			else {
 				if ($ext) {
@@ -319,6 +322,7 @@ class FileHelper
 				}
 			}
 		}
+
 		return $fs;
 	}
 
@@ -331,9 +335,9 @@ class FileHelper
 	{
 		if (is_dir($path)) return true;
 		@mkdir($path, 0777, true);
+
 		return is_dir($path);
 	}
-
 
 	/**
 	 * 转换路径模式
@@ -346,8 +350,8 @@ class FileHelper
 		if (!$require) $require = substr($dir, -1) == '*' ? 2 : 0;
 		if ($require) {
 			if ($require == 2) $dir = substr($dir, 0, -1);
-			$dir  = self::dirPath($dir);
-			$list = glob($dir . '*');
+			$dir                    = self::dirPath($dir);
+			$list                   = glob($dir . '*');
 			foreach ($list as $v) {
 				if (is_dir($v)) {
 					self::dirChmod($v, $mode, 1);
@@ -396,6 +400,7 @@ class FileHelper
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -408,9 +413,9 @@ class FileHelper
 	{
 		$dir = self::dirPath($dir);
 		if (!is_dir($dir)) return false;
+
 		return @rmdir($dir);
 	}
-
 
 	/**
 	 * 获取目录大小
@@ -421,7 +426,6 @@ class FileHelper
 	 */
 	public static function size($directory, $format = true, $precision = 2)
 	{
-
 		if (file_exists($directory) && is_dir($directory)) {
 			$fileSize = 0;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)) as $file) {
@@ -434,11 +438,9 @@ class FileHelper
 		if ($format) {
 			return UtilHelper::formatBytes($fileSize, $precision);
 		}
-		else {
+		 
 			return $fileSize;
-		}
 	}
-
 
 	/**
 	 * 创建文件夹
@@ -448,6 +450,7 @@ class FileHelper
 	public static function create($path)
 	{
 		if (is_dir($path)) return true;
+
 		return mkdir($path, 0777, true);
 	}
 
@@ -462,8 +465,8 @@ class FileHelper
 		if (!$require) $require = substr($dir, -1) == '*' ? 2 : 0;
 		if ($require) {
 			if ($require == 2) $dir = substr($dir, 0, -1);
-			$dir  = self::path($dir);
-			$list = glob($dir . '*');
+			$dir                    = self::path($dir);
+			$list                   = glob($dir . '*');
 			foreach ($list as $v) {
 				if (is_dir($v)) {
 					self::chmod($v, $mode, 1);
@@ -497,9 +500,9 @@ class FileHelper
 				is_dir($v) ? self::create($v) : @unlink($v);
 			}
 		}
+
 		return @rmdir($dir);
 	}
-
 
 	/**
 	 * 文件路径, 补齐路径, unix 风格
@@ -510,14 +513,14 @@ class FileHelper
 	 */
 	public static function path($dir_path, $suffix = true)
 	{
-		$dir_path = str_replace(['\\', '//'], '/', $dir_path);
+		$dir_path                                   = str_replace(['\\', '//'], '/', $dir_path);
 		if (substr($dir_path, -1) != '/') $dir_path = $dir_path . '/';
 		if (!$suffix) {
 			$dir_path = rtrim($dir_path, '/');
 		}
+
 		return $dir_path;
 	}
-
 
 	/**
 	 * 转换目录下面的所有文件编码格式
@@ -536,6 +539,7 @@ class FileHelper
 				file_put_contents($v, iconv($in_charset, $out_charset, file_get_contents($v)));
 			}
 		}
+
 		return true;
 	}
 
@@ -560,6 +564,7 @@ class FileHelper
 				$list = self::listFile($v, $extension, $list);
 			}
 		}
+
 		return $list;
 	}
 
@@ -581,9 +586,9 @@ class FileHelper
 		foreach ($files as $v) {
 			is_dir($v) ? self::touch($v, $mtime, $atime) : touch($v, $mtime, $atime);
 		}
+
 		return true;
 	}
-
 
 	/**
 	 * 目录列表
@@ -596,7 +601,7 @@ class FileHelper
 	{
 		global $id;
 		if ($parent_id == 0) $id = 0;
-		$list = glob($dir . '*');
+		$list                    = glob($dir . '*');
 		foreach ($list as $v) {
 			if (is_dir($v)) {
 				$id++;
@@ -604,6 +609,7 @@ class FileHelper
 				$dirs      = self::tree($v . '/', $id, $dirs);
 			}
 		}
+
 		return $dirs;
 	}
 
@@ -626,6 +632,7 @@ class FileHelper
 				}
 			}
 		}
+
 		return $return;
 	}
 
@@ -639,9 +646,8 @@ class FileHelper
 		if (file_exists($directory) && is_dir($directory)) {
 			return true;
 		}
-		else {
+		 
 			return false;
-		}
 	}
 
 	/**
@@ -652,7 +658,7 @@ class FileHelper
 	public static function removeExtension($file)
 	{
 		$ext = self::ext($file);
+
 		return substr($file, 0, (strlen($file) - (strlen($ext) + 1)));
 	}
-
 }

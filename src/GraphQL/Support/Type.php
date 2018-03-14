@@ -7,7 +7,6 @@ use Illuminate\Support\Fluent;
 
 class Type extends Fluent
 {
-
 	protected static $instances = [];
 
 	protected $inputObject = false;
@@ -35,9 +34,11 @@ class Type extends Fluent
 			return $field['resolve'];
 		}
 		elseif (method_exists($this, $resolveMethod)) {
-			$resolver = array($this, $resolveMethod);
+			$resolver = [$this, $resolveMethod];
+
 			return function () use ($resolver) {
 				$args = func_get_args();
+
 				return call_user_func_array($resolver, $args);
 			};
 		}
@@ -50,18 +51,15 @@ class Type extends Fluent
 		$fields    = $this->fields();
 		$allFields = [];
 		foreach ($fields as $name => $field) {
-
 			if (is_string($field)) {
 				$field            = app($field);
 				$field->name      = $name;
 				$allFields[$name] = $field->toArray();
 			}
 			else {
-
 				$resolver = $this->getFieldResolver($name, $field);
 
 				if (isset($field['class'])) {
-
 					$field = $field['class'];
 
 					if (is_string($field)) {
@@ -97,7 +95,7 @@ class Type extends Fluent
 			},
 		], $attributes);
 
-		if (sizeof($interfaces)) {
+		if (count($interfaces)) {
 			$attributes['interfaces'] = $interfaces;
 		}
 
@@ -121,6 +119,7 @@ class Type extends Fluent
 		if ($this->enumObject) {
 			return new EnumType($this->toArray());
 		}
+
 		return new ObjectType($this->toArray());
 	}
 
@@ -132,6 +131,7 @@ class Type extends Fluent
 	public function __get($key)
 	{
 		$attributes = $this->getAttributes();
+
 		return isset($attributes[$key]) ? $attributes[$key] : null;
 	}
 
@@ -143,6 +143,7 @@ class Type extends Fluent
 	public function __isset($key)
 	{
 		$attributes = $this->getAttributes();
+
 		return isset($attributes[$key]);
 	}
 }

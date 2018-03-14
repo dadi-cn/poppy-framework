@@ -1,11 +1,9 @@
 <?php namespace Poppy\Framework\Classes\FormElement;
 
-
 use Poppy\Framework\Contracts\FormElement as FormElementContract;
 
 class Map extends FormTypeBase implements FormElementContract
 {
-
 	protected $formRelation;
 	protected $posName;
 	protected $zoom;
@@ -18,7 +16,6 @@ class Map extends FormTypeBase implements FormElementContract
 		$this->posName      = 'pos_name';
 		$this->zoom         = 'zoom';
 		$this->value        = $value;
-
 	}
 
 	/**
@@ -33,6 +30,7 @@ class Map extends FormTypeBase implements FormElementContract
 		$zoom_name = $this->zoom;
 		$lng       = isset($this->value[$lng_name]) ? $this->value[$lng_name] : '';
 		$lat       = isset($this->value[$lat_name]) ? $this->value[$lat_name] : '';
+
 		return \Form::mapMarker($pos_name, $lng_name, $lat_name, $zoom_name, $lng, $lat, '');
 	}
 }

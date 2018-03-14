@@ -12,7 +12,6 @@ use Poppy\Framework\Providers\BladeServiceProvider;
 use Poppy\Framework\Support\HelperServiceProvider;
 use Poppy\Framework\Translation\TranslationServiceProvider;
 
-
 class FrameworkServiceProvider extends ServiceProvider
 {
 	use PoppyTrait;
@@ -34,9 +33,7 @@ class FrameworkServiceProvider extends ServiceProvider
 			__DIR__ . '/../config/poppy.php' => config_path('poppy.php'),
 		], 'config');
 
-
 		$this->app['poppy']->register();
-
 
 		// 定义视图
 		$this->loadViewsFrom(__DIR__ . '/../resources/views', 'poppy');
@@ -52,7 +49,8 @@ class FrameworkServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->mergeConfigFrom(
-			__DIR__ . '/../config/poppy.php', 'poppy'
+			__DIR__ . '/../config/poppy.php',
+			'poppy'
 		);
 
 		$this->app->register(ConsoleServiceProvider::class);
@@ -130,5 +128,4 @@ class FrameworkServiceProvider extends ServiceProvider
 		return array_map('realpath', $files);
 	}
 	*/
-
 }

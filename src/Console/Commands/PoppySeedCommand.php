@@ -1,7 +1,7 @@
 <?php namespace Poppy\Framework\Console\Commands;
 
-use Poppy\Framework\Poppy\Poppy;
 use Illuminate\Console\Command;
+use Poppy\Framework\Poppy\Poppy;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -57,7 +57,7 @@ class PoppySeedCommand extends Command
 
 			return;
 		}
-		else {
+		 
 			if ($this->option('force')) {
 				$modules = $this->poppy->all();
 			}
@@ -68,7 +68,6 @@ class PoppySeedCommand extends Command
 			foreach ($modules as $module) {
 				$this->seed($module['slug']);
 			}
-		}
 	}
 
 	/**

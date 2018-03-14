@@ -5,7 +5,6 @@ use Poppy\Framework\GraphQL\Support\Type as AbstractType;
 
 class PaginationType extends AbstractType
 {
-
 	public function __construct($attributes = [])
 	{
 		parent::__construct($attributes);

@@ -3,7 +3,6 @@
 /**
  * Copyright (C) Update For IDE
  */
-
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 
@@ -22,8 +21,6 @@ class RouteServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		//
-
 		parent::boot();
 	}
 
@@ -36,8 +33,6 @@ class RouteServiceProvider extends ServiceProvider
 		$this->mapWebRoutes();
 
 		$this->mapApiRoutes();
-
-		//
 	}
 
 	/**
@@ -51,7 +46,6 @@ class RouteServiceProvider extends ServiceProvider
 			'middleware' => 'system',
 			'prefix'     => 'system',
 		], function (Router $router) {
-
 		});
 	}
 
@@ -67,7 +61,6 @@ class RouteServiceProvider extends ServiceProvider
 			// 'middleware' => 'system',
 			'prefix' => 'api/DummyName',
 		], function (Router $route) {
-			
 		});
 	}
 }

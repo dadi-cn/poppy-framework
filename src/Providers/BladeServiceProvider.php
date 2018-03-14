@@ -11,7 +11,6 @@ class BladeServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		//
 	}
 
 	/**
@@ -21,7 +20,6 @@ class BladeServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-
 			// @poppy($slug)
 			$bladeCompiler->directive('poppy', function ($slug) {
 				return "<?php if(app('poppy')->exists({$slug}) && app('poppy')->isEnabled({$slug})): ?>";
@@ -30,10 +28,7 @@ class BladeServiceProvider extends ServiceProvider
 			$bladeCompiler->directive('endpoppy', function () {
 				return '<?php endif; ?>';
 			});
-
 		});
 	}
 }
-
-
 

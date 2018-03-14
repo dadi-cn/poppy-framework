@@ -1,9 +1,8 @@
 <?php namespace Poppy\Framework\Classes;
 
-
+use Exception;
 use Poppy\Framework\Filesystem\Filesystem;
 use Throwable;
-use Exception;
 
 /**
  * Class loader
@@ -78,6 +77,7 @@ class ClassLoader
 			$this->isRealFilePath($path = $this->manifest[$class])
 		) {
 			require_once $this->basePath . DIRECTORY_SEPARATOR . $path;
+
 			return true;
 		}
 
@@ -86,14 +86,17 @@ class ClassLoader
 		foreach ($this->directories as $directory) {
 			if ($this->isRealFilePath($path = $directory . DIRECTORY_SEPARATOR . $lowerPath)) {
 				$this->includeClass($class, $path);
+
 				return true;
 			}
 
 			if ($this->isRealFilePath($path = $directory . DIRECTORY_SEPARATOR . $upperClass)) {
 				$this->includeClass($class, $path);
+
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -163,7 +166,6 @@ class ClassLoader
 		$this->directories = array_unique($this->directories);
 	}
 
-
 	/**
 	 * 移除目录
 	 * @param  string|array $directories
@@ -177,7 +179,7 @@ class ClassLoader
 		else {
 			$directories = (array) $directories;
 
-			$this->directories = array_filter($this->directories, function($directory) use ($directories) {
+			$this->directories = array_filter($this->directories, function ($directory) use ($directories) {
 				return !in_array($directory, $directories);
 			});
 		}
@@ -219,10 +221,11 @@ class ClassLoader
 		$directories = explode(DIRECTORY_SEPARATOR, $directory);
 
 		// socialite/qq_web
-		$directory = array_reduce($directories, function($carry, $directory) {
+		$directory = array_reduce($directories, function ($carry, $directory) {
 			if ($carry) {
 				$carry .= DIRECTORY_SEPARATOR;
 			}
+
 			return $carry . snake_case($directory);
 		});
 
@@ -275,7 +278,8 @@ class ClassLoader
 		}
 
 		$this->files->put(
-			$this->manifestPath, '<?php return ' . var_export($manifest, true) . ';'
+			$this->manifestPath,
+			'<?php return ' . var_export($manifest, true) . ';'
 		);
 	}
 }

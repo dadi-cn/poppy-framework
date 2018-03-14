@@ -1,6 +1,5 @@
 <?php namespace Poppy\Framework\Helper;
 
-
 /**
  * Methods that may be useful for processing routing activity
  *
@@ -12,8 +11,8 @@ class RouterHelper
 	/**
 	 * Adds leading slash and removes trailing slash from the URL.
 	 *
-	 * @param string $url URL to normalize.
-	 * @return string Returns normalized URL.
+	 * @param string $url URL to normalize
+	 * @return string returns normalized URL
 	 */
 	public static function normalizeUrl($url)
 	{
@@ -32,8 +31,8 @@ class RouterHelper
 	/**
 	 * Splits an URL by segments separated by the slash symbol.
 	 *
-	 * @param string $url URL to segmentize.
-	 * @return array Returns the URL segments.
+	 * @param string $url URL to segmentize
+	 * @return array returns the URL segments
 	 */
 	public static function segmentizeUrl($url)
 	{
@@ -53,8 +52,8 @@ class RouterHelper
 	/**
 	 * Rebuilds a URL from an array of segments.
 	 *
-	 * @param array $urlArray Array the URL segments.
-	 * @return string Returns rebuilt URL.
+	 * @param array $urlArray array the URL segments
+	 * @return string returns rebuilt URL
 	 */
 	public static function rebuildUrl(array $urlArray)
 	{
@@ -100,8 +99,8 @@ class RouterHelper
 
 	/**
 	 * Checks whether an URL pattern segment is a wildcard.
-	 * @param string $segment The segment definition.
-	 * @return boolean Returns boolean true if the segment is a wildcard. Returns false otherwise.
+	 * @param string $segment the segment definition
+	 * @return bool Returns boolean true if the segment is a wildcard. Returns false otherwise.
 	 */
 	public static function segmentIsWildcard($segment)
 	{
@@ -110,8 +109,8 @@ class RouterHelper
 
 	/**
 	 * Checks whether an URL pattern segment is optional.
-	 * @param string $segment The segment definition.
-	 * @return boolean Returns boolean true if the segment is optional. Returns false otherwise.
+	 * @param string $segment the segment definition
+	 * @return bool Returns boolean true if the segment is optional. Returns false otherwise.
 	 */
 	public static function segmentIsOptional($segment)
 	{
@@ -136,8 +135,8 @@ class RouterHelper
 
 	/**
 	 * Extracts the parameter name from a URL pattern segment definition.
-	 * @param string $segment The segment definition.
-	 * @return string Returns the segment name.
+	 * @param string $segment the segment definition
+	 * @return string returns the segment name
 	 */
 	public static function getParameterName($segment)
 	{
@@ -155,9 +154,8 @@ class RouterHelper
 			if ($optMarkerPos < $regexMarkerPos) {
 				return mb_substr($name, 0, $optMarkerPos);
 			}
-			else {
+			 
 				return mb_substr($name, 0, $regexMarkerPos);
-			}
 		}
 
 		if ($optMarkerPos !== false) {
@@ -173,8 +171,8 @@ class RouterHelper
 
 	/**
 	 * Extracts the regular expression from a URL pattern segment definition.
-	 * @param string $segment The segment definition.
-	 * @return string Returns the regular expression string or false if the expression is not defined.
+	 * @param string $segment the segment definition
+	 * @return string returns the regular expression string or false if the expression is not defined
 	 */
 	public static function getSegmentRegExp($segment)
 	{
@@ -192,7 +190,7 @@ class RouterHelper
 
 	/**
 	 * Extracts the default parameter value from a URL pattern segment definition.
-	 * @param string $segment The segment definition.
+	 * @param string $segment the segment definition
 	 * @return string Returns the default value if it is provided. Returns false otherwise.
 	 */
 	public static function getSegmentDefaultValue($segment)
@@ -214,5 +212,4 @@ class RouterHelper
 
 		return strlen($value) ? $value : false;
 	}
-
 }

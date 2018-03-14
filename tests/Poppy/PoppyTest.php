@@ -25,7 +25,6 @@ class PoppyTest extends TestCase
 		$this->assertEquals('', ArrayHelper::genKey([]));
 	}
 
-
 	public function testModule()
 	{
 		$module = app('module')->repository()->get('system');

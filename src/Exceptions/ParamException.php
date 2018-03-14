@@ -2,5 +2,4 @@
 
 class ParamException extends \Exception
 {
-
 }

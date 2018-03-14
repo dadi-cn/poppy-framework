@@ -5,7 +5,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-
 	protected $bootstrappers = [
 		'Poppy\Framework\Foundation\Bootstrap\RegisterClassLoader',   // poppy module loader
 		'Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables',
@@ -25,5 +24,4 @@ class Kernel extends ConsoleKernel
 	{
 		$this->app['events']->fire('console.schedule', [$schedule]);
 	}
-
 }

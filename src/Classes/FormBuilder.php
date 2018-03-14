@@ -7,12 +7,9 @@
  */
 use Collective\Html\FormBuilder as CollectiveFormBuilder;
 use Poppy\Framework\Helper\StrHelper;
-use Sour\Lemon\Logic\FileLogic;
 
 class FormBuilder extends CollectiveFormBuilder
 {
-
-
 	/**
 	 * 显示上传的单图
 	 * @param       $url
@@ -24,9 +21,9 @@ class FormBuilder extends CollectiveFormBuilder
 		$url       = $url ?: config('app.url') . 'assets/images/sour/nopic.gif';
 		$options   = $this->html->attributes($options);
 		$parse_str = '<img class="J_image_preview" src="' . $url . '" ' . $options . ' title="单击可打开图片, 按住 `ctrl` + `鼠标` 点击可以查看原图" >';
+
 		return $parse_str;
 	}
-
 
 	/**
 	 * 提示组件
@@ -43,6 +40,7 @@ class FormBuilder extends CollectiveFormBuilder
 			$icon = '<i class="fa ' . $name . '">&nbsp;</i>';
 		}
 		$trim_description = strip_tags($description);
+
 		return <<<TIP
 <a data-tip="{$description}" class="J_dialog" data-title="信息提示" title="{$trim_description}"
 data-toggle="tooltip" data-placement="top">{$icon}</a>
@@ -69,7 +67,6 @@ TIP;
 		return $this->select($name, $treeArray, $selected, $options);
 	}
 
-
 	/**
 	 * 生成排序链接
 	 * @param        $name
@@ -82,7 +79,7 @@ TIP;
 		$input = \Input::all();
 		$value = $value ?: (isset($input['_order']) ? $input['_order'] : '');
 		switch ($value) {
-			case $name . '_desc';
+			case $name . '_desc':
 				$con  = $name . '_asc';
 				$icon = '<i class="fa fa-sort-desc"></i>';
 				break;
@@ -101,11 +98,11 @@ TIP;
 		else {
 			$link = '?' . http_build_query($input);
 		}
+
 		return '
 			<a href="' . $link . '">' . $icon . '</a>
 		';
 	}
-
 
 	/**
 	 * 编辑器
@@ -151,6 +148,7 @@ TIP;
 		});
 		</script>
 KindEditor;
+
 		return $data;
 	}
 
@@ -184,9 +182,9 @@ requirejs(['jquery', 'jquery.spectrum'], function($){
 })
 </script>
 HTML;
+
 		return $html;
 	}
-
 
 	/**
 	 * 生成日期选择器
@@ -197,7 +195,6 @@ HTML;
 	 */
 	public function datepicker($name, $value = '', $options = [])
 	{
-
 		$options['id'] = $this->getIdAttribute($name, $options);
 		$value         = (string) $this->getValueAttribute($name, $value);
 		$class         = isset($options['class']) ? $options['class'] : '';
@@ -251,9 +248,9 @@ HTML;
 		    });
 		</script>
 HTML;
+
 		return $html;
 	}
-
 
 	/**
 	 * 生成日期时间选择器
@@ -291,9 +288,9 @@ requirejs(['jquery', 'jquery.datetimepicker'], function($){
 });
 </script>
 HTML;
+
 		return $html;
 	}
-
 
 	/**
 	 * radio 选择器(支持后台)
@@ -337,19 +334,19 @@ HTML;
 					break;
 				case 'bt3':
 					$activeStr = $value == $key ? 'active' : '';
-					$str       .= '<label class="btn btn-primary ' . $activeStr . '">';
-					$str       .= self::radio($name, $key, $value == $key, $options);
-					$str       .= $val;
-					$str       .= '</label>';
+					$str .= '<label class="btn btn-primary ' . $activeStr . '">';
+					$str .= self::radio($name, $key, $value == $key, $options);
+					$str .= $val;
+					$str .= '</label>';
 					break;
 			}
 		}
 		if ($display_type == 'bt3') {
 			$str .= '</div>';
 		}
+
 		return $str;
 	}
-
 
 	/**
 	 * 选择器
@@ -391,9 +388,9 @@ HTML;
 				$str .= '</label></div>';
 			}
 		}
+
 		return $str;
 	}
-
 
 	/**
 	 * 标签输入
@@ -435,9 +432,9 @@ requirejs(['jquery', 'jquery.bt3.tagsinput'], function($){
 })
 </script>
 HTML;
+
 		return $html;
 	}
-
 
 	/**
 	 * 多图上传
@@ -513,9 +510,9 @@ requirejs(['jquery', 'xundu/multi_image'], function ($, multi_image) {
 })
 </script>
 HTML;
+
 		return $html;
 	}
-
 
 	/**
 	 * markdown 编辑框
@@ -575,6 +572,7 @@ HTML;
 	})
 </script>
 MARKDOWN;
+
 		return $append;
 	}
 

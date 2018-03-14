@@ -150,4 +150,3 @@ interface Repository
 	public function disable($slug);
 }
 
-

@@ -3,7 +3,6 @@
 use Illuminate\Http\Response;
 use Psr\Http\Message\ResponseInterface;
 
-
 /**
  * Class ApiResponse.
  */
@@ -23,8 +22,8 @@ class ApiResponse
 	public function generateHttpResponse(ResponseInterface $response = null, $params = [])
 	{
 		is_null($response) && $response = new Response();
-		$params && $this->params = array_merge($this->params, $params);
-		$status = collect($this->params)->get('code', 200);
+		$params && $this->params        = array_merge($this->params, $params);
+		$status                         = collect($this->params)->get('code', 200);
 		if (!is_int($status)) {
 			$status = 500;
 		}

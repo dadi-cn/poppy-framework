@@ -1,8 +1,7 @@
 <?php namespace Poppy\Framework\Foundation\Providers;
 
-
-use Poppy\Framework\Foundation\Maker;
 use Illuminate\Support\ServiceProvider;
+use Poppy\Framework\Foundation\Maker;
 
 class MakerServiceProvider extends ServiceProvider
 {

@@ -13,7 +13,6 @@ class PoppyServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		//
 	}
 
 	/**
@@ -21,11 +20,11 @@ class PoppyServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-
 		$this->app->bind('Poppy\Framework\Poppy\Contracts\Repository', FileRepository::class);
 
 		$this->app->singleton('poppy', function ($app) {
 			$repository = $app->make(Repository::class);
+
 			return new Poppy($app, $repository);
 		});
 	}

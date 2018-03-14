@@ -15,7 +15,6 @@
  */
 class Xml
 {
-
 	private $_parser;
 	private $_document;
 	private $_stack;
@@ -43,6 +42,7 @@ class Xml
 	{
 		$this->_document = [];
 		$this->_stack    = [];
+
 		return xml_parse($this->_parser, $data, true) && !$this->_failed ? $this->_document : '';
 	}
 
@@ -90,6 +90,7 @@ class Xml
 	public function setNormal($is_normal)
 	{
 		$this->isNormal = $is_normal;
+
 		return $this;
 	}
 
@@ -105,7 +106,7 @@ class Xml
 			}
 		}
 		$s = preg_replace("/([\x01-\x08\x0b-\x0c\x0e-\x1f])+/", ' ', $s);
+
 		return $level == 1 ? $s . "</{$root}>" : $s;
 	}
-
 }

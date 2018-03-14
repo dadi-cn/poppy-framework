@@ -5,7 +5,6 @@
  */
 class SearchHelper
 {
-
 	/**
 	 * 获取排序的key
 	 * @param string $default_order 默认的排序
@@ -19,7 +18,7 @@ class SearchHelper
 		if (!$order) {
 			return $default_order;
 		}
-		else {
+		 
 			$orderKey = $default_order;
 			if (strpos($order, '_desc') !== false) {
 				$orderKey = str_replace('_desc', '', $order);
@@ -30,10 +29,8 @@ class SearchHelper
 			if (in_array($orderKey, $allowed)) {
 				return $orderKey;
 			}
-			else {
+			 
 				return $default_order;
-			}
-		}
 	}
 
 	/**
@@ -50,6 +47,7 @@ class SearchHelper
 		if (strpos($order, '_asc') !== false) {
 			return 'asc';
 		}
+
 		return 'desc';
 	}
 }

@@ -1,41 +1,41 @@
 <?php
-
 namespace Poppy\Framework\GraphQL\Support;
 
 use GraphQL\Type\Definition\UnionType as UnionObjectType;
 
 class UnionType extends InterfaceType
 {
-    public function types()
-    {
-        return [];
-    }
+	public function types()
+	{
+		return [];
+	}
 
-    public function getTypes()
-    {
-        $attributesTypes = array_get($this->attributes, 'types', []);
-        return sizeof($attributesTypes) ? $attributesTypes : $this->types();
-    }
+	public function getTypes()
+	{
+		$attributesTypes = array_get($this->attributes, 'types', []);
 
-    /**
-     * Get the attributes from the container.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        $attributes = parent::getAttributes();
+		return count($attributesTypes) ? $attributesTypes : $this->types();
+	}
 
-        $types = $this->getTypes();
-        if (isset($types)) {
-            $attributes['types'] = $types;
-        }
+	/**
+	 * Get the attributes from the container.
+	 *
+	 * @return array
+	 */
+	public function getAttributes()
+	{
+		$attributes = parent::getAttributes();
 
-        return $attributes;
-    }
+		$types = $this->getTypes();
+		if (isset($types)) {
+			$attributes['types'] = $types;
+		}
 
-    public function toType()
-    {
-        return new UnionObjectType($this->toArray());
-    }
+		return $attributes;
+	}
+
+	public function toType()
+	{
+		return new UnionObjectType($this->toArray());
+	}
 }

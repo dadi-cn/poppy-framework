@@ -5,13 +5,12 @@
  */
 class TreeHelper
 {
-
 	/**
 	 * 生成树型结构所需要的2维数组
 	 * @var array
 	 */
-	public  $arr  = [];
-	public  $tree = [];
+	public $arr  = [];
+	public $tree = [];
 	private $key_id;
 	private $key_pid;
 	private $key_title;
@@ -20,7 +19,7 @@ class TreeHelper
 	 * @var array
 	 */
 	public $icon  = ['&nbsp;│', '&nbsp;├', '&nbsp;└'];
-	public $space = "&nbsp;";
+	public $space = '&nbsp;';
 
 	/**
 	 * @access private
@@ -51,13 +50,14 @@ class TreeHelper
 		$this->key_id    = $k_id;
 		$this->key_pid   = $k_pid;
 		$this->key_title = $k_title;
+
 		return is_array($arr);
 	}
 
 	public function replaceSpace()
 	{
 		$this->icon  = [' │', ' ├', ' └'];
-		$this->space = " ";
+		$this->space = ' ';
 	}
 
 	/**
@@ -78,6 +78,7 @@ class TreeHelper
 				if ($a[$this->key_pid] == $pid) $newArray[$kid] = $a;
 			}
 		}
+
 		return $newArray;
 	}
 
@@ -94,6 +95,7 @@ class TreeHelper
 				if ($a[$this->key_pid] == $id) $newArray[$kid] = $a;
 			}
 		}
+
 		return $newArray ? $newArray : false;
 	}
 
@@ -118,9 +120,9 @@ class TreeHelper
 				$a[$v[$this->key_id]] = $v;
 			}
 		}
+
 		return $a;
 	}
-
 
 	/**
 	 * 得到树型结构
@@ -163,6 +165,7 @@ class TreeHelper
 				$number++;
 			}
 		}
+
 		return $this->ret;
 	}
 
@@ -191,7 +194,7 @@ class TreeHelper
 		if ($type == 'default') {
 			return $this->tree;
 		}
-		else {
+		 
 			$tree = [];
 			foreach ($this->tree as $key => $value) {
 				$tree[] = [
@@ -199,11 +202,9 @@ class TreeHelper
 					'value' => $value,
 				];
 			}
+
 			return $tree;
-		}
-
 	}
-
 
 	/**
 	 * 同上一方法类似,但允许多选
@@ -239,6 +240,7 @@ class TreeHelper
 				$number++;
 			}
 		}
+
 		return $this->ret;
 	}
 
@@ -280,9 +282,9 @@ class TreeHelper
 				$number++;
 			}
 		}
+
 		return $this->ret;
 	}
-
 
 	/**
 	 * 同上一类方法，jquery treeview 风格，可伸缩样式（需要treeview插件支持）
@@ -296,11 +298,16 @@ class TreeHelper
 	 * @param bool   $recursion    递归使用 外部调用时为FALSE
 	 * @return string
 	 */
-	function getTreeView(
-		$myid, $effected_id = 'example',
-		$str = "<span class=\"file\">\$name</span>",
-		$str2 = "<span class=\"folder\">\$name</span>",
-		$showlevel = 0, $style = 'filetree ', $currentlevel = 1, $recursion = false)
+	public function getTreeView(
+		$myid,
+		$effected_id = 'example',
+		$str = '<span class="file">$name</span>',
+		$str2 = '<span class="folder">$name</span>',
+		$showlevel = 0,
+		$style = 'filetree ',
+		$currentlevel = 1,
+		$recursion = false
+	)
 	{
 		$child = $this->getChild($myid);
 		if (!defined('EFFECTED_INIT')) {
@@ -313,11 +320,10 @@ class TreeHelper
 		$placeholder = '<ul><li><span class="placeholder"></span></li></ul>';
 		if (!$recursion) $this->str .= '<ul' . $effected . '  class="' . $style . '">';
 		foreach ($child as $id => $a) {
-
 			@extract($a);
 			if ($showlevel > 0 && $showlevel == $currentlevel && $this->getChild($id)) $folder = 'hasChildren'; //如设置显示层级模式@2011.07.01
-			$floder_status = isset($folder) ? ' class="' . $folder . '"' : '';
-			$this->ret     .= $recursion ? '<ul><li' . $floder_status . ' id=\'' . $id . '\'>' : '<li' . $floder_status . ' id=\'' . $id . '\'>';
+			$floder_status                                                                     = isset($folder) ? ' class="' . $folder . '"' : '';
+			$this->ret .= $recursion ? '<ul><li' . $floder_status . ' id=\'' . $id . '\'>' : '<li' . $floder_status . ' id=\'' . $id . '\'>';
 			$recursion     = false;
 			$nstr          = '';
 			if ($this->getChild($id)) {
@@ -337,12 +343,12 @@ class TreeHelper
 			$this->ret .= $recursion ? '</li></ul>' : '</li>';
 		}
 		if (!$recursion) $this->ret .= '</ul>';
+
 		return $this->ret;
 	}
 
-
 	private function _has($list, $item)
 	{
-		return (strpos(',,' . $list . ',', ',' . $item . ','));
+		return strpos(',,' . $list . ',', ',' . $item . ',');
 	}
 }

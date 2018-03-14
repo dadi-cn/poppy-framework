@@ -2,8 +2,6 @@
 
 class RawCookieHelper
 {
-
-
 	/**
 	 * 判断Cookie是否存在
 	 * @param $name
@@ -22,6 +20,7 @@ class RawCookieHelper
 	public static function get($name)
 	{
 		$value = isset($_COOKIE[$name]) ? $_COOKIE[$name] : '';
+
 		return $value;
 	}
 
@@ -36,6 +35,7 @@ class RawCookieHelper
 		}
 
 		$expire = !empty($expire) ? time() + $expire : 0;
+
 		return setcookie($name, $value, $expire, $path, $domain);
 	}
 
@@ -48,7 +48,6 @@ class RawCookieHelper
 		self::set($name, '', time() - 3600);
 		unset($_COOKIE[$name]);
 	}
-
 
 	/**
 	 * 清空所有Cookie值

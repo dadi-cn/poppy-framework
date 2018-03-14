@@ -3,10 +3,8 @@
 use GraphQL\Type\Definition\Type;
 use Poppy\Framework\GraphQL\Support\InputType;
 
-
 class InputPaginationType extends InputType
 {
-
 	public function __construct($attributes = [])
 	{
 		parent::__construct($attributes);

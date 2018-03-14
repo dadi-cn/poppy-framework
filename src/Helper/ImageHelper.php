@@ -1,9 +1,7 @@
 <?php namespace Poppy\Framework\Helper;
 
-
 class ImageHelper
 {
-
 	/**
 	 * 获取图像类型
 	 * x-ms-bmp, gif, png, jpeg, tiff
@@ -16,6 +14,7 @@ class ImageHelper
 		if (isset($imageData['mime']) && substr($imageData['mime'], 0, 5) == 'image') {
 			return substr($imageData['mime'], 6);
 		}
+
 		return '';
 	}
 
@@ -31,27 +30,29 @@ class ImageHelper
 			$imageType = strtolower(substr(image_type_to_extension($imageInfo[2]), 1));
 			$imageSize = filesize($img);
 			$info      = [
-				"width"  => $imageInfo[0],
-				"height" => $imageInfo[1],
-				"type"   => $imageType,
-				"size"   => $imageSize,
-				"mime"   => $imageInfo['mime'],
+				'width'  => $imageInfo[0],
+				'height' => $imageInfo[1],
+				'type'   => $imageType,
+				'size'   => $imageSize,
+				'mime'   => $imageInfo['mime'],
 			];
+
 			return $info;
 		}
-		else {
+		 
 			return false;
-		}
 	}
 
 	public static function imageCreateFromBmp($filename)
 	{
-		$tmp_name = tempnam("tmp", "BMP");
+		$tmp_name = tempnam('tmp', 'BMP');
 		if (self::_bmp2gd($filename, $tmp_name)) {
 			$img = imagecreatefromgd($tmp_name);
 			unlink($tmp_name);
+
 			return $img;
 		}
+
 		return false;
 	}
 
@@ -64,31 +65,31 @@ class ImageHelper
 	 */
 	private static function _bmp2gd($src, $dest = false)
 	{
-		if (!($src_f = fopen($src, "rb"))) return false;
-		if (!($dest_f = fopen($dest, "wb"))) return false;
-		$header = unpack("vtype/Vsize/v2reserved/Voffset", fread($src_f, 14));
-		$info   = unpack("Vsize/Vwidth/Vheight/vplanes/vbits/Vcompression/Vimagesize/Vxres/Vyres/Vncolor/Vimportant", fread($src_f, 40));
+		if (!($src_f = fopen($src, 'rb'))) return false;
+		if (!($dest_f = fopen($dest, 'wb'))) return false;
+		$header = unpack('vtype/Vsize/v2reserved/Voffset', fread($src_f, 14));
+		$info   = unpack('Vsize/Vwidth/Vheight/vplanes/vbits/Vcompression/Vimagesize/Vxres/Vyres/Vncolor/Vimportant', fread($src_f, 40));
 		extract($info);
 		extract($header);
 		if ($type != 0x4D42) return false;
 		$palette_size = $offset - 54;
 		$ncolor       = $palette_size / 4;
-		$gd_header    = "";
-		$gd_header    .= ($palette_size == 0) ? "\xFF\xFE" : "\xFF\xFF";
-		$gd_header    .= pack("n2", $width, $height);
-		$gd_header    .= ($palette_size == 0) ? "\x01" : "\x00";
-		if ($palette_size) $gd_header .= pack("n", $ncolor);
+		$gd_header    = '';
+		$gd_header .= ($palette_size == 0) ? "\xFF\xFE" : "\xFF\xFF";
+		$gd_header .= pack('n2', $width, $height);
+		$gd_header .= ($palette_size == 0) ? "\x01" : "\x00";
+		if ($palette_size) $gd_header .= pack('n', $ncolor);
 		$gd_header .= "\xFF\xFF\xFF\xFF";
 		fwrite($dest_f, $gd_header);
 		if ($palette_size) {
 			$palette    = fread($src_f, $palette_size);
-			$gd_palette = "";
+			$gd_palette = '';
 			$j          = 0;
 			while ($j < $palette_size) {
-				$b          = $palette{$j++};
-				$g          = $palette{$j++};
-				$r          = $palette{$j++};
-				$a          = $palette{$j++};
+				$b          = $palette[$j++];
+				$g          = $palette[$j++];
+				$r          = $palette[$j++];
+				$a          = $palette[$j++];
 				$gd_palette .= "$r$g$b$a";
 			}
 			$gd_palette .= str_repeat("\x00\x00\x00\x00", 256 - $ncolor);
@@ -100,12 +101,12 @@ class ImageHelper
 			fseek($src_f, $offset + (($scan_line_size + $scan_line_align) * $l));
 			$scan_line = fread($src_f, $scan_line_size);
 			if ($bits == 24) {
-				$gd_scan_line = "";
+				$gd_scan_line = '';
 				$j            = 0;
 				while ($j < $scan_line_size) {
-					$b            = $scan_line{$j++};
-					$g            = $scan_line{$j++};
-					$r            = $scan_line{$j++};
+					$b            = $scan_line[$j++];
+					$g            = $scan_line[$j++];
+					$r            = $scan_line[$j++];
 					$gd_scan_line .= "\x00$r$g$b";
 				}
 			}
@@ -113,10 +114,10 @@ class ImageHelper
 				$gd_scan_line = $scan_line;
 			}
 			elseif ($bits == 4) {
-				$gd_scan_line = "";
+				$gd_scan_line = '';
 				$j            = 0;
 				while ($j < $scan_line_size) {
-					$byte         = ord($scan_line{$j++});
+					$byte         = ord($scan_line[$j++]);
 					$p1           = chr($byte >> 4);
 					$p2           = chr($byte & 0x0F);
 					$gd_scan_line .= "$p1$p2";
@@ -124,10 +125,10 @@ class ImageHelper
 				$gd_scan_line = substr($gd_scan_line, 0, $width);
 			}
 			elseif ($bits == 1) {
-				$gd_scan_line = "";
+				$gd_scan_line = '';
 				$j            = 0;
 				while ($j < $scan_line_size) {
-					$byte         = ord($scan_line{$j++});
+					$byte         = ord($scan_line[$j++]);
 					$p1           = chr((int) (($byte & 0x80) != 0));
 					$p2           = chr((int) (($byte & 0x40) != 0));
 					$p3           = chr((int) (($byte & 0x20) != 0));
@@ -144,6 +145,7 @@ class ImageHelper
 		}
 		fclose($src_f);
 		fclose($dest_f);
+
 		return true;
 	}
 
@@ -160,7 +162,7 @@ class ImageHelper
 		header("Content-type:image/{$type}");
 		$imageX = strlen($string) * $singleWidth;
 		$imageY = $height;
-		$im = @imagecreate($imageX, $imageY) or exit();
+		$im     = @imagecreate($imageX, $imageY) or exit();
 		imagecolorallocate($im, 255, 255, 255);
 		$color = imagecolorallocate($im, 0, 0, 0);
 

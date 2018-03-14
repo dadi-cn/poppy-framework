@@ -2,7 +2,6 @@
 
 return [
 
-
 	/*
 	|--------------------------------------------------------------------------
 	| Custom Module Driver
@@ -31,7 +30,6 @@ return [
 		// location as the key and the new location as the value:
 		// 'Database/Migrations' => 'src/Database/Migrations',
 	],
-
 
 	/*
 	|--------------------------------------------------------------------------

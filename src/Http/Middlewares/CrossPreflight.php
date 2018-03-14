@@ -40,8 +40,7 @@ class CrossPreflight
 		if ($request->getMethod() == 'OPTIONS') {
 			return $this->response->make('OK', 200, $headers);
 		}
-		else {
+		 
 			return $next($request);
-		}
 	}
 }

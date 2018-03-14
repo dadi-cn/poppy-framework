@@ -1,7 +1,7 @@
 <?php namespace Poppy\Framework\Console\Generators;
 
-use Poppy\Framework\Console\GeneratorCommand;
 use Illuminate\Support\Str;
+use Poppy\Framework\Console\GeneratorCommand;
 
 class MakeModelCommand extends GeneratorCommand
 {
@@ -64,5 +64,4 @@ class MakeModelCommand extends GeneratorCommand
 	{
 		return poppy_class($this->argument('slug'), 'Models');
 	}
-
 }

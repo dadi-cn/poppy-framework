@@ -4,37 +4,38 @@ use GraphQL\Type\Definition\EnumType as EnumObjectType;
 
 class EnumType extends Type
 {
-    public function values()
-    {
-        return [];
-    }
+	public function values()
+	{
+		return [];
+	}
 
-    public function getValues()
-    {
-        $values = $this->values();
-        $attributesValues = array_get($this->attributes, 'values', []);
-        return sizeof($attributesValues) ? $attributesValues : $values;
-    }
+	public function getValues()
+	{
+		$values           = $this->values();
+		$attributesValues = array_get($this->attributes, 'values', []);
 
-    /**
-     * Get the attributes from the container.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        $attributes = parent::getAttributes();
+		return count($attributesValues) ? $attributesValues : $values;
+	}
 
-        $values = $this->getValues();
-        if (isset($values)) {
-            $attributes['values'] = $values;
-        }
+	/**
+	 * Get the attributes from the container.
+	 *
+	 * @return array
+	 */
+	public function getAttributes()
+	{
+		$attributes = parent::getAttributes();
 
-        return $attributes;
-    }
+		$values = $this->getValues();
+		if (isset($values)) {
+			$attributes['values'] = $values;
+		}
 
-    public function toType()
-    {
-        return new EnumObjectType($this->toArray());
-    }
+		return $attributes;
+	}
+
+	public function toType()
+	{
+		return new EnumObjectType($this->toArray());
+	}
 }

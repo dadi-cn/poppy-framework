@@ -12,7 +12,6 @@ use Exception;
  */
 class Definitions
 {
-
 	/**
 	 * Entry point to request a definition set.
 	 * @param $type string
@@ -20,7 +19,7 @@ class Definitions
 	 */
 	public static function get($type)
 	{
-		return (new self)->getDefinitions($type);
+		return (new self())->getDefinitions($type);
 	}
 
 	/**
@@ -41,8 +40,8 @@ class Definitions
 	 * Determines if a path should be ignored, sourced from the ignoreFiles
 	 * and ignorePatterns definitions.
 	 * @todo Efficiency of this method can be improved.
-	 * @param string $path Specifies a path to check.
-	 * @return boolean Returns TRUE if the path is visible.
+	 * @param string $path specifies a path to check
+	 * @return bool returns TRUE if the path is visible
 	 */
 	public static function isPathIgnored($path)
 	{

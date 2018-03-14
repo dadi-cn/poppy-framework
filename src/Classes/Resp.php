@@ -1,6 +1,5 @@
 <?php namespace Poppy\Framework\Classes;
 
-
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\MessageBag;
@@ -23,7 +22,6 @@ class Resp
 
 	const WEB_SUCCESS = 'success';
 	const WEB_ERROR   = 'error';
-
 
 	private $code    = 1;
 	private $message = '操作出错了';
@@ -84,7 +82,6 @@ class Resp
 		}
 	}
 
-
 	/**
 	 * 返回错误代码
 	 * @return int
@@ -101,6 +98,7 @@ class Resp
 	public function getMessage()
 	{
 		$env = !is_production() ? '[开发]' : '';
+
 		return $env . (is_string($this->message) ? $this->message : implode(',', $this->message));
 	}
 
@@ -120,8 +118,8 @@ class Resp
 	 */
 	public static function web($type, $msg, $append = null, $input = null)
 	{
-		if (!($msg instanceof Resp)) {
-			$resp = new Resp($type, $msg);
+		if (!($msg instanceof self)) {
+			$resp = new self($type, $msg);
 		}
 		else {
 			$resp = $msg;
@@ -129,7 +127,6 @@ class Resp
 
 		$isJson   = false;
 		$isForget = false;
-
 
 		$arrAppend = StrHelper::parseKey($append);
 
@@ -155,7 +152,7 @@ class Resp
 		if ($isJson) {
 			return self::webSplash($resp, $arrAppend, $input);
 		}
-		else {
+		 
 			if (!$isForget) {
 				\Session::flash('end.message', $resp->getMessage());
 				\Session::flash('end.level', $resp->getCode());
@@ -163,19 +160,19 @@ class Resp
 			if (isset($arrAppend['reload'])) {
 				$location = \Session::previousUrl();
 			}
-			return self::webView($time, $location, $input);
-		}
-	}
 
+			return self::webView($time, $location, $input);
+	}
 
 	public static function data($type, $msg)
 	{
-		if (!($msg instanceof Resp)) {
-			$resp = new Resp($type, $msg);
+		if (!($msg instanceof self)) {
+			$resp = new self($type, $msg);
 		}
 		else {
 			$resp = $msg;
 		}
+
 		return $resp->toArray();
 	}
 
@@ -184,9 +181,8 @@ class Resp
 		if (is_array($this->message)) {
 			return implode("\n", $this->message);
 		}
-		else {
+		 
 			return $this->message;
-		}
 	}
 
 	public function toArray()
@@ -204,7 +200,7 @@ class Resp
 	 */
 	public static function success($message)
 	{
-		return (new Resp(self::SUCCESS, $message))->toArray();
+		return (new self(self::SUCCESS, $message))->toArray();
 	}
 
 	/**
@@ -214,7 +210,7 @@ class Resp
 	 */
 	public static function error($message)
 	{
-		return (new Resp(self::ERROR, $message))->toArray();
+		return (new self(self::ERROR, $message))->toArray();
 	}
 
 	/**
@@ -225,7 +221,7 @@ class Resp
 	 */
 	public static function custom($code, $message = '')
 	{
-		return (new Resp($code, $message))->toArray();
+		return (new self($code, $message))->toArray();
 	}
 
 	/**
@@ -264,10 +260,10 @@ class Resp
 				'time'     => isset($time) ? $time : 0,
 			]);
 		}
-		else {
+		 
 			$re = ($location && $location != 'back') ? \Redirect::to($location) : \Redirect::back();
+
 			return $input ? $re->withInput($input) : $re;
-		}
 	}
 
 	/**
@@ -290,10 +286,10 @@ class Resp
 			if ($append instanceof Arrayable) {
 				$data = $append->toArray();
 			}
-			else if (is_string($append)) {
+			elseif (is_string($append)) {
 				$data = StrHelper::parseKey($append);
 			}
-			else if (is_array($append)) {
+			elseif (is_array($append)) {
 				$data = $append;
 			}
 			if (isset($data['location']) && $data['location'] == 'back') {
@@ -310,6 +306,5 @@ class Resp
 
 		return \Response::json($return, 200, [], JSON_UNESCAPED_UNICODE);
 	}
-
 }
 

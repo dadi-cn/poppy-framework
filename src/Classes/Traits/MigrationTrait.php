@@ -31,4 +31,3 @@ trait MigrationTrait
 	}
 }
 
-

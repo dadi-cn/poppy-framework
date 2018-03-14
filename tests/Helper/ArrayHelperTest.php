@@ -1,7 +1,7 @@
 <?php namespace Poppy\Tests\Helper;
 
-use Poppy\Framework\Helper\ArrayHelper;
 use PHPUnit\Framework\TestCase;
+use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\Framework\Helper\UtilHelper;
 
 class ArrHelperTest extends TestCase

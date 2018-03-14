@@ -5,7 +5,6 @@ use Poppy\Framework\Http\Middlewares\EnableCrossRequest;
 
 class Kernel extends HttpKernel
 {
-
 	/**
 	 * The bootstrap classes for the application.
 	 * @var array
@@ -45,7 +44,6 @@ class Kernel extends HttpKernel
 		'cross'    => EnableCrossRequest::class,
 	];
 
-
 	/**
 	 * The application's route middleware groups.
 	 * @var array
@@ -64,6 +62,4 @@ class Kernel extends HttpKernel
 			'bindings',
 		],
 	];
-
-
 }

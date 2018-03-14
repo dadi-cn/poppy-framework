@@ -1,9 +1,9 @@
 <?php namespace Poppy\Framework\Poppy;
 
-use Poppy\Framework\Poppy\Contracts\Repository;
+use Illuminate\Foundation\Application;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
-use Illuminate\Foundation\Application;
+use Poppy\Framework\Poppy\Contracts\Repository;
 
 /**
  * @method optimize()
@@ -62,11 +62,9 @@ class Poppy
 
 				$this->autoloadFiles($module);
 			} catch (ModuleNotFoundException $e) {
-				//
 			}
 		});
 	}
-
 
 	/**
 	 * @return Repository

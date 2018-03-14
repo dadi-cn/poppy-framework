@@ -2,24 +2,21 @@
 
 interface FormElement
 {
-
 	/**
 	 * 渲染HTML
 	 * @return mixed
 	 */
-	function render();
+	public function render();
 
 	/**
 	 * 获取默认值
 	 * @return mixed
 	 */
-	function defaultValue();
+	public function defaultValue();
 
+	public function value();
 
-	function value();
+	public function label();
 
-	function label();
-
-	function tip();
-
+	public function tip();
 }

@@ -1,7 +1,7 @@
 <?php namespace Poppy\Framework\Foundation\Providers;
 
-use Illuminate\Log\Writer;
 use Illuminate\Log\LogServiceProvider as LogServiceProviderBase;
+use Illuminate\Log\Writer;
 
 class LogServiceProvider extends LogServiceProviderBase
 {

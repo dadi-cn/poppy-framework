@@ -1,7 +1,7 @@
 <?php namespace Poppy\Framework\Events;
 
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Queue\Job;
 
 class CallQueuedHandler
 {
@@ -32,11 +32,13 @@ class CallQueuedHandler
 	public function call(Job $job, array $data)
 	{
 		$handler = $this->setJobInstanceIfNecessary(
-			$job, $this->container->make($data['class'])
+			$job,
+			$this->container->make($data['class'])
 		);
 
 		call_user_func_array(
-			[$handler, $data['method']], unserialize($data['data'])
+			[$handler, $data['method']],
+			unserialize($data['data'])
 		);
 
 		if (!$job->isDeletedOrReleased()) {

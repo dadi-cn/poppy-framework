@@ -1,11 +1,10 @@
 <?php namespace Poppy\Framework\Helper;
 
-use DateTime as PhpDateTime;
 use Carbon\Carbon;
+use DateTime as PhpDateTime;
 
 class TimeHelper
 {
-
 	/**
 	 * 标准的UNIX时间戳
 	 * 获得当前格林威治时间的时间戳
@@ -19,7 +18,7 @@ class TimeHelper
 	/**
 	 * @param        $date
 	 * @param string $sep
-	 * @return bool 检测是否是标准时间.
+	 * @return bool 检测是否是标准时间
 	 */
 	public static function isDate($date, $sep = '-')
 	{
@@ -28,6 +27,7 @@ class TimeHelper
 		// 长度大于 10
 		if (strlen($date) > 10) return false;
 		list($year, $month, $day) = explode($sep, $date);
+
 		return checkdate($month, $day, $year);
 	}
 
@@ -58,6 +58,7 @@ class TimeHelper
 				$df = 'Y-m-d H:i:s';
 				break;
 		}
+
 		return date($df, $time);
 	}
 
@@ -103,9 +104,9 @@ class TimeHelper
 	{
 		if (function_exists('date_default_timezone_get')) {
 			return date_default_timezone_get();
-		} else {
-			return date('Z') / 3600;
 		}
+
+			return date('Z') / 3600;
 	}
 
 	/**
@@ -118,6 +119,7 @@ class TimeHelper
 		if (preg_match('/\d{4}-\d{2}-\d{2}/', $date)) {
 			$date = Carbon::createFromFormat('Y-m-d', $date)->timestamp;
 		}
+
 		return date('Y-m-d', $date) . ' 00:00:00';
 	}
 
@@ -131,6 +133,7 @@ class TimeHelper
 		if (preg_match('/\d{4}-\d{2}-\d{2}/', $date)) {
 			$date = Carbon::createFromFormat('Y-m-d', $date)->timestamp;
 		}
+
 		return date('Y-m-d', $date) . ' 23:59:59';
 	}
 
@@ -140,10 +143,11 @@ class TimeHelper
 	 * @param string $format
 	 * @return bool|string
 	 */
-	public static function format($time = 0, $format = "Y-m-d H:i")
+	public static function format($time = 0, $format = 'Y-m-d H:i')
 	{
 		//strtotime 强制将代入进来的时间格式都转成Unix时间戳
 		$timestamp = !empty($time) ? (is_numeric($time) ? $time : strtotime($time)) : EnvHelper::time();
+
 		return date($format, $timestamp);
 	}
 
@@ -156,9 +160,9 @@ class TimeHelper
 	{
 		if (empty($date) or $date === '0000-00-00' or $date === '0000-00-00 00:00:00') {
 			return true;
-		} else {
-			return false;
 		}
+
+			return false;
 	}
 
 	/**
@@ -190,9 +194,9 @@ class TimeHelper
 		$Carbon = Carbon::now()->hour(0)->minute(0)->second(0);
 		if ($unix) {
 			return $Carbon->timestamp;
-		} else {
-			return $Carbon->toDateTimeString();
 		}
+
+			return $Carbon->toDateTimeString();
 	}
 
 	/**
@@ -205,9 +209,9 @@ class TimeHelper
 		$Carbon = Carbon::now()->hour(23)->minute(59)->second(59);
 		if ($unix) {
 			return $Carbon->timestamp;
-		} else {
-			return $Carbon->toDateTimeString();
 		}
+
+			return $Carbon->toDateTimeString();
 	}
 
 	/*
@@ -218,8 +222,8 @@ class TimeHelper
 	 */
 	public static function tranTime($time)
 	{
-		$rtime = date("m-d H:i", $time);
-		$htime = date("H:i", $time);
+		$rtime = date('m-d H:i', $time);
+		$htime = date('H:i', $time);
 
 		$time = time() - $time;
 
@@ -240,6 +244,7 @@ class TimeHelper
 		} else {
 			$str = $rtime;
 		}
+
 		return $str;
 	}
 
@@ -364,6 +369,7 @@ class TimeHelper
 		}
 
 		$momentFormat = strtr($format, $replacements);
+
 		return $momentFormat;
 	}
 
@@ -374,6 +380,7 @@ class TimeHelper
 	public static function micro()
 	{
 		list($micro, $second) = explode(' ', microtime());
+
 		return sprintf("%'.03d", $micro * 1000);
 	}
 
@@ -391,8 +398,7 @@ class TimeHelper
 		elseif (is_string($carbon)) {
 			return $carbon;
 		}
-		else {
+		 
 			return '';
-		}
 	}
 }

@@ -13,23 +13,25 @@ class Yaml
 {
 	/**
 	 * Parses supplied YAML contents in to a PHP array.
-	 * @param string $contents YAML contents to parse.
-	 * @return array The YAML contents as an array.
+	 * @param string $contents YAML contents to parse
+	 * @return array the YAML contents as an array
 	 */
 	public function parse($contents)
 	{
-		$yaml = new Parser;
+		$yaml = new Parser();
+
 		return $yaml->parse($contents);
 	}
 
 	/**
 	 * Parses YAML file contents in to a PHP array.
-	 * @param string $fileName File to read contents and parse.
-	 * @return array The YAML contents as an array.
+	 * @param string $fileName file to read contents and parse
+	 * @return array the YAML contents as an array
 	 */
 	public function parseFile($fileName)
 	{
 		$contents = file_get_contents($fileName);
+
 		return $this->parse($contents);
 	}
 
@@ -52,7 +54,8 @@ class Yaml
 			'objectSupport'          => true,
 		], $options));
 
-		$yaml = new Dumper;
+		$yaml = new Dumper();
+
 		return $yaml->dump($vars, $inline, 0, $exceptionOnInvalidType, $objectSupport);
 	}
 }

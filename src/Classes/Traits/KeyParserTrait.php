@@ -7,7 +7,6 @@
  */
 trait KeyParserTrait
 {
-
 	/**
 	 * 解析的缓存存储
 	 * 这里的命名方式, 因为是在 trait 中使用
@@ -36,9 +35,8 @@ trait KeyParserTrait
 		if (preg_match('/[^0-9]?[a-z_]{1,}::[^0-9]?[a-z_\/]{1,}\.[^0-9]?[a-z]{1,}/', $key)) {
 			return true;
 		}
-		else {
+		 
 			return false;
-		}
 	}
 
 	/**
@@ -86,11 +84,10 @@ trait KeyParserTrait
 		}
 		// 如果这个组中有不止一个段，这意味着我们将从组中提取一个特定的项
 		// 并且需要返回这个项目名称和组，这样我们就知道要从数组中提取哪些项了。
-		else {
+		 
 			$item = implode('.', array_slice($segments, 1));
 
 			return [null, $group, $item];
-		}
 	}
 
 	/**
@@ -110,5 +107,4 @@ trait KeyParserTrait
 
 		return array_merge([$namespace], $groupAndItem);
 	}
-
 }

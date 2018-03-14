@@ -5,5 +5,4 @@
  */
 class RuntimeException extends \Exception
 {
-
 }

@@ -1,8 +1,8 @@
 <?php namespace Poppy\Framework\Filesystem;
 
+use FilesystemIterator;
 use Illuminate\Filesystem\Filesystem as FilesystemBase;
 use ReflectionClass;
-use FilesystemIterator;
 
 /**
  * File helper
@@ -11,19 +11,18 @@ use FilesystemIterator;
  */
 class Filesystem extends FilesystemBase
 {
-
 	/**
-	 * @var string Default file permission mask as a string ("777").
+	 * @var string default file permission mask as a string ("777")
 	 */
 	public $filePermissions = null;
 
 	/**
-	 * @var string Default folder permission mask as a string ("777").
+	 * @var string default folder permission mask as a string ("777")
 	 */
 	public $folderPermissions = null;
 
 	/**
-	 * @var array Known path symbols and their prefixes.
+	 * @var array known path symbols and their prefixes
 	 */
 	public $pathSymbols = [];
 
@@ -41,11 +40,13 @@ class Filesystem extends FilesystemBase
 		while (false !== ($entry = readdir($handle))) {
 			if ($entry != '.' && $entry != '..') {
 				closedir($handle);
+
 				return false;
 			}
 		}
 
 		closedir($handle);
+
 		return true;
 	}
 
@@ -91,7 +92,7 @@ class Filesystem extends FilesystemBase
 		$publicPath = public_path();
 
 		if (strpos($path, $publicPath) === 0) {
-			$result = str_replace("\\", "/", substr($path, strlen($publicPath)));
+			$result = str_replace('\\', '/', substr($path, strlen($publicPath)));
 		}
 
 		return $result;
@@ -101,7 +102,7 @@ class Filesystem extends FilesystemBase
 	 * Returns true if the specified path is an absolute/local path
 	 * to the application.
 	 * @param  string $path
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isLocalPath($path)
 	{
@@ -116,6 +117,7 @@ class Filesystem extends FilesystemBase
 	public function fromClass($className)
 	{
 		$reflector = new ReflectionClass($className);
+
 		return $reflector->getFileName();
 	}
 
@@ -171,13 +173,14 @@ class Filesystem extends FilesystemBase
 		}
 
 		$_path = substr($path, 1);
+
 		return $this->pathSymbols[$firstChar] . $_path;
 	}
 
 	/**
 	 * Returns true if the path uses a symbol.
 	 * @param  string $path
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isPathSymbol($path)
 	{
@@ -200,6 +203,7 @@ class Filesystem extends FilesystemBase
 	{
 		$result = parent::put($path, $contents, $lock);
 		$this->chmod($path);
+
 		return $result;
 	}
 
@@ -213,6 +217,7 @@ class Filesystem extends FilesystemBase
 	{
 		$result = parent::copy($path, $target);
 		$this->chmod($target);
+
 		return $result;
 	}
 
@@ -361,5 +366,4 @@ class Filesystem extends FilesystemBase
 
 		return (bool) preg_match('#^' . $regex . '$#i', $fileName);
 	}
-
 }

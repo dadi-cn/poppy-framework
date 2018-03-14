@@ -35,10 +35,10 @@ if (!function_exists('route_url')) {
 		if ($params) {
 			return $route_url . '?' . (is_array($params) ? http_build_query($params) : $params);
 		}
+
 		return $route_url;
 	}
 }
-
 
 if (!function_exists('route_current')) {
 	/**
@@ -53,9 +53,8 @@ if (!function_exists('route_current')) {
 		if (in_array(\Route::currentRouteName(), (array) $route)) {
 			return $class;
 		}
-		else {
+		 
 			return $else_class;
-		}
 	}
 }
 
@@ -69,9 +68,8 @@ if (!function_exists('route_prefix')) {
 		if (!$route) {
 			return '';
 		}
-		else {
+		 
 			return substr($route, 0, strpos($route, ':'));
-		}
 	}
 }
 
@@ -85,13 +83,13 @@ if (!function_exists('command_exist')) {
 	{
 		try {
 			$returnVal = shell_exec("which $cmd");
-			return (empty($returnVal) ? false : true);
+
+			return empty($returnVal) ? false : true;
 		} catch (\Exception $e) {
 			return false;
 		}
 	}
 }
-
 
 if (!function_exists('cache_name')) {
 	/**
@@ -120,14 +118,12 @@ if (!function_exists('kv')) {
 		if ($check_key) {
 			return isset($desc[$key]) ? true : false;
 		}
-		else {
+		 
 			return !is_null($key)
 				? isset($desc[$key]) ? $desc[$key] : ''
 				: $desc;
-		}
 	}
 }
-
 
 if (!function_exists('input')) {
 	/**
@@ -157,7 +153,6 @@ if (!function_exists('input')) {
 	}
 }
 
-
 if (!function_exists('is_post')) {
 	/**
 	 * 当前访问方法是否是post请求
@@ -186,11 +181,9 @@ if (!function_exists('post')) {
 		 */
 		$name = implode('.', \Poppy\Framework\Helper\HtmlHelper::nameToArray($name));
 
-
 		return array_get($_POST, $name, $default);
 	}
 }
-
 
 if (!function_exists('get')) {
 	/**
@@ -225,9 +218,7 @@ if (!function_exists('plugins_path')) {
 	}
 }
 
-
 if (!function_exists('poppy_path')) {
-
 	/**
 	 * Return the path to the given module file.
 	 * @param string $slug
@@ -260,7 +251,6 @@ if (!function_exists('poppy_path')) {
 }
 
 if (!function_exists('poppy_class')) {
-
 	/**
 	 * Return the full path to the given module class or namespace.
 	 * @param string $slug
@@ -280,16 +270,12 @@ if (!function_exists('poppy_class')) {
 		if ($class) {
 			return "{$namespace}\\{$class}";
 		}
-		else {
+		 
 			return "{$namespace}";
-		}
-
 	}
 }
 
-
 if (!function_exists('is_production')) {
-
 	/**
 	 * Check Env If Production
 	 * @return string
@@ -299,5 +285,4 @@ if (!function_exists('is_production')) {
 		return env('APP_ENV', 'production') === 'production';
 	}
 }
-
 

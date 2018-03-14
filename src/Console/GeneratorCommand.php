@@ -46,7 +46,6 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
 	 */
 	protected function getPath($name)
 	{
-
 		$slug = $this->argument('slug');
 
 		// take everything after the module name in the given path (ignoring case)
@@ -78,7 +77,6 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
 
 		return $path;
 	}
-
 
 	/**
 	 * Replace the namespace for the given stub.

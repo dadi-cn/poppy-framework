@@ -7,7 +7,6 @@ use Illuminate\Bus\Queueable;
  */
 abstract class Job
 {
-
 	/*
 	|--------------------------------------------------------------------------
 	| Queueable Jobs

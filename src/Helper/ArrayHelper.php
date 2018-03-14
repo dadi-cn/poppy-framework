@@ -2,14 +2,11 @@
 
 use Illuminate\Support\Arr;
 
-
 /**
  * 数组相关操作
  */
 class ArrayHelper extends Arr
 {
-
-
 	/**
 	 * 拼合数组, 支持多维拼合
 	 * @param array  $array 输入的数组
@@ -19,9 +16,9 @@ class ArrayHelper extends Arr
 	public static function combine(array $array, $join = ',')
 	{
 		$arr = self::flatten($array);
+
 		return implode($join, $arr);
 	}
-
 
 	/**
 	 * 根据数组生成自定义key序列, | 作为 kv 分隔, ; 作为 kv 之间的分隔
@@ -38,11 +35,11 @@ class ArrayHelper extends Arr
 				if (!$value) $value = 0;
 				$str .= $key . '|' . $value . ';';
 			}
+
 			return rtrim($str, ';');
 		}
-		else {
+		 
 			return '';
-		}
 	}
 
 	/**
@@ -78,9 +75,9 @@ class ArrayHelper extends Arr
 				$tmp_arr[$single[$field_key]] = $value;
 			}
 		}
+
 		return $tmp_arr;
 	}
-
 
 	/**
 	 * 返回kv结构字串
@@ -104,6 +101,7 @@ class ArrayHelper extends Arr
 		else {
 			$return .= $array . ',';
 		}
+
 		return rtrim($return, ',');
 	}
 
@@ -138,10 +136,9 @@ class ArrayHelper extends Arr
 				unset($temp[$i]);
 			}
 		}
+
 		return $temp;
-
 	}
-
 
 	/**
 	 * 键转换
@@ -161,8 +158,10 @@ class ArrayHelper extends Arr
 				}
 				$array[$key] = $arr;
 			}
+
 			return $array;
 		}
+
 		return [];
 	}
 
@@ -184,6 +183,7 @@ class ArrayHelper extends Arr
 				$return[] = $arr;
 			}
 		}
+
 		return $return;
 	}
 }

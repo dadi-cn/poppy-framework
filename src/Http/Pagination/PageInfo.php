@@ -2,7 +2,6 @@
 
 class PageInfo
 {
-
 	private $page = 1;
 
 	private $size = 15;
@@ -15,7 +14,6 @@ class PageInfo
 		$this->page = $page ?: 1;
 		$this->size = $size ?: $sizeConfig;
 	}
-
 
 	public function size()
 	{

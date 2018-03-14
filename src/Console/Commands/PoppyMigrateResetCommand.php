@@ -1,10 +1,10 @@
 <?php namespace Poppy\Framework\Console\Commands;
 
-use Poppy\Framework\Poppy\Poppy;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Filesystem\Filesystem;
+use Poppy\Framework\Poppy\Poppy;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -84,7 +84,7 @@ class PoppyMigrateResetCommand extends Command
 		$migrations = array_reverse($this->migrator->getRepository()->getRan());
 
 		if (count($migrations) == 0) {
-			$this->output->writeln("Nothing to rollback.");
+			$this->output->writeln('Nothing to rollback.');
 		}
 		else {
 			$this->migrator->requireFiles($files);
@@ -94,7 +94,7 @@ class PoppyMigrateResetCommand extends Command
 					continue;
 				}
 
-				$this->runDown($files[$migration], (object) ["migration" => $migration]);
+				$this->runDown($files[$migration], (object) ['migration' => $migration]);
 			}
 		}
 
@@ -118,7 +118,7 @@ class PoppyMigrateResetCommand extends Command
 
 		$this->migrator->getRepository()->delete($migration);
 
-		$this->info("Rolledback: " . $file);
+		$this->info('Rolledback: ' . $file);
 	}
 
 	/**
@@ -145,14 +145,14 @@ class PoppyMigrateResetCommand extends Command
 	protected function getSlugsToReset()
 	{
 		if ($this->validSlugProvided()) {
-			return [$this->argument("slug")];
+			return [$this->argument('slug')];
 		}
 
-		if ($this->option("force")) {
-			return $this->poppy->all()->pluck("slug");
+		if ($this->option('force')) {
+			return $this->poppy->all()->pluck('slug');
 		}
 
-		return $this->poppy->enabled()->pluck("slug");
+		return $this->poppy->enabled()->pluck('slug');
 	}
 
 	/**
@@ -162,15 +162,15 @@ class PoppyMigrateResetCommand extends Command
 	 */
 	protected function validSlugProvided()
 	{
-		if (empty($this->argument("slug"))) {
+		if (empty($this->argument('slug'))) {
 			return false;
 		}
 
-		if ($this->poppy->isEnabled($this->argument("slug"))) {
+		if ($this->poppy->isEnabled($this->argument('slug'))) {
 			return true;
 		}
 
-		if ($this->option("force")) {
+		if ($this->option('force')) {
 			return true;
 		}
 

@@ -1,10 +1,10 @@
 <?php namespace Poppy\Framework\Poppy\Abstracts;
 
 use Exception;
-use Poppy\Framework\Poppy\Contracts\Repository as RepositoryContract;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Poppy\Framework\Poppy\Contracts\Repository as RepositoryContract;
 
 abstract class Repository implements RepositoryContract
 {
@@ -34,7 +34,6 @@ abstract class Repository implements RepositoryContract
 		$this->files  = $files;
 	}
 
-
 	/**
 	 * Get a module's manifest contents.
 	 * @param string $slug
@@ -49,6 +48,7 @@ abstract class Repository implements RepositoryContract
 			@json_decode($contents, true);
 			if (json_last_error() === JSON_ERROR_NONE) {
 				$collection = collect(json_decode($contents, true));
+
 				return $collection;
 			}
 			throw new Exception(
@@ -135,5 +135,4 @@ abstract class Repository implements RepositoryContract
 			return collect([]);
 		}
 	}
-
 }

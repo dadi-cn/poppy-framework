@@ -7,7 +7,6 @@ use Throwable;
 
 class Application extends ApplicationBase
 {
-
 	/**
 	 * 请求执行上下文
 	 * @var string
@@ -19,7 +18,6 @@ class Application extends ApplicationBase
 	protected $modulesPath;
 
 	protected $namespace = 'app';
-
 
 	/**
 	 * 绑定路径到 container
@@ -34,7 +32,6 @@ class Application extends ApplicationBase
 		$this->instance('path.extension', $this->extensionPath());
 		$this->instance('path.addon', $this->addonPath());
 	}
-
 
 	/**
 	 * register "matched" event
@@ -61,7 +58,7 @@ class Application extends ApplicationBase
 	 */
 	public function fatal(Closure $callback)
 	{
-		$this->error(function(FatalErrorException $e) use ($callback) {
+		$this->error(function (FatalErrorException $e) use ($callback) {
 			return call_user_func($callback, $e);
 		});
 	}
@@ -74,7 +71,6 @@ class Application extends ApplicationBase
 	{
 		return $this->executionContext == 'backend';
 	}
-
 
 	/**
 	 * 检测运行环境
@@ -98,7 +94,7 @@ class Application extends ApplicationBase
 
 	/**
 	 * 检测数据库是否链接
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasDatabase()
 	{
@@ -107,9 +103,9 @@ class Application extends ApplicationBase
 		} catch (Throwable $ex) {
 			return false;
 		}
+
 		return true;
 	}
-
 
 	/**
 	 * Get application installation status.
@@ -119,13 +115,13 @@ class Application extends ApplicationBase
 	{
 		if ($this->bound('installed')) {
 			return true;
-		} else {
+		}
 			if (!file_exists($this->storagePath() . DIRECTORY_SEPARATOR . 'installed')) {
 				return false;
 			}
 			$this->instance('installed', true);
+
 			return true;
-		}
 	}
 
 	/*
@@ -213,6 +209,7 @@ class Application extends ApplicationBase
 	{
 		$this->addonPath = $path;
 		$this->instance('path.addon', $path);
+
 		return $this;
 	}
 
@@ -224,7 +221,6 @@ class Application extends ApplicationBase
 		return $this->basePath . DIRECTORY_SEPARATOR . 'addons';
 	}
 
-
 	/**
 	 * 设置插件路径
 	 * @param  string $path
@@ -234,6 +230,7 @@ class Application extends ApplicationBase
 	{
 		$this->addonPath = $path;
 		$this->instance('path.extension', $path);
+
 		return $this;
 	}
 
@@ -244,6 +241,4 @@ class Application extends ApplicationBase
 	{
 		return $this->basePath . DIRECTORY_SEPARATOR . 'extensions';
 	}
-
-
 }

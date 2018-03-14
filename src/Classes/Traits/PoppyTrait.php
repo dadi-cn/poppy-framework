@@ -26,8 +26,6 @@ use Psr\Log\LoggerInterface;
 
 trait PoppyTrait
 {
-
-
 	/**
 	 * @return AuthManager
 	 */
@@ -35,7 +33,6 @@ trait PoppyTrait
 	{
 		return $this->getContainer()->make('auth');
 	}
-
 
 	/**
 	 * @return Translator
@@ -91,7 +88,6 @@ trait PoppyTrait
 	{
 		return $this->getContainer()->make('mailer');
 	}
-
 
 	/**
 	 * Get session instance.
@@ -150,7 +146,6 @@ trait PoppyTrait
 		return $this->getContainer()->make(ResponseFactory::class);
 	}
 
-
 	/**
 	 * @return \Illuminate\Filesystem\Filesystem
 	 */
@@ -166,7 +161,6 @@ trait PoppyTrait
 	{
 		return $this->getContainer()->make('url');
 	}
-
 
 	/**
 	 * @return mixed|\Poppy\Framework\GraphQL\GraphQL
@@ -186,6 +180,7 @@ trait PoppyTrait
 		if ($cache instanceof TaggableStore && $tag) {
 			$cache->tags($tag);
 		}
+
 		return $cache;
 	}
 
@@ -253,5 +248,4 @@ trait PoppyTrait
 		}
 	}
 }
-
 

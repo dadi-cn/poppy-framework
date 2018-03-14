@@ -1,9 +1,9 @@
 <?php namespace Poppy\Framework\Config;
 
-use Closure;
 use ArrayAccess;
-use Poppy\Framework\Classes\Traits\KeyParserTrait;
+use Closure;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
+use Poppy\Framework\Classes\Traits\KeyParserTrait;
 
 /**
  * 配置库类, 来源自 October Cms
@@ -244,8 +244,9 @@ class Repository implements ArrayAccess, RepositoryContract
 			return $this->keyParserCache[$key];
 		}
 
-		$segments = explode('.', $key);
-		$parsed   = $this->parseNamespacedSegments($key);
+		$segments                          = explode('.', $key);
+		$parsed                            = $this->parseNamespacedSegments($key);
+
 		return $this->keyParserCache[$key] = $parsed;
 	}
 

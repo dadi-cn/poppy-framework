@@ -1,14 +1,13 @@
 <?php namespace Poppy\Framework\Application;
 
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 use Poppy\Framework\Agamotto\Agamotto;
 use Poppy\Framework\Helper\EnvHelper;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
 
 abstract class Controller extends BaseController
 {
-
 	use DispatchesJobs, ValidatesRequests;
 
 	/**
@@ -91,6 +90,5 @@ abstract class Controller extends BaseController
 			'_description' => $description,
 		]);
 	}
-
 }
 

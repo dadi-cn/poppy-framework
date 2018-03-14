@@ -3,7 +3,6 @@
 /**
  * Copyright (C) Update For IDE
  */
-
 use DummyNamespace\Request\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
@@ -11,7 +10,7 @@ use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
 class ServiceProvider extends ModuleServiceProviderBase
 {
 	/**
-	 * @var string The poppy name slug.
+	 * @var string the poppy name slug
 	 */
 	private $name = 'DummySlug';
 

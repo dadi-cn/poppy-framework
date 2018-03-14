@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider as L5ServiceProvider;
  */
 class AgamottoServiceProvider extends L5ServiceProvider
 {
-
 	/**
 	 * Bootstrap the application events.
 	 *
@@ -25,7 +24,6 @@ class AgamottoServiceProvider extends L5ServiceProvider
 		});
 	}
 
-
 	/**
 	 * Register the service provider.
 	 *
@@ -34,7 +32,6 @@ class AgamottoServiceProvider extends L5ServiceProvider
 	public function register()
 	{
 	}
-
 
 	/**
 	 * Sets the locale using the correct load order.

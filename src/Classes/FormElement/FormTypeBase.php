@@ -1,9 +1,7 @@
 <?php namespace Poppy\Framework\Classes\FormElement;
 
-
 class FormTypeBase
 {
-
 	protected $defaultValue;
 	protected $placeholder;
 	protected $value;
@@ -30,7 +28,6 @@ class FormTypeBase
 		$this->initLabelOption();
 		$this->initFormOption();
 	}
-
 
 	public function value()
 	{
@@ -59,8 +56,8 @@ class FormTypeBase
 					case 'required':
 						$validator['required'] = true;
 						break;
-					case (strpos($rule, 'digits_between') !== false):
-						list($min, $max) = explode(',', str_replace('digits_between:', '', $rule));
+					case strpos($rule, 'digits_between') !== false:
+						list($min, $max)             = explode(',', str_replace('digits_between:', '', $rule));
 						$validator['digits_between'] = [
 							'min' => intval($min),
 							'max' => intval($max),
@@ -74,6 +71,7 @@ class FormTypeBase
 				}
 			}
 		}
+
 		return $validator;
 	}
 
@@ -114,8 +112,8 @@ class FormTypeBase
 	{
 		if (isset($this->setting['desc'])) {
 			return \Form::tip($this->setting['desc']);
-		} else {
-			return '';
 		}
+
+			return '';
 	}
 }

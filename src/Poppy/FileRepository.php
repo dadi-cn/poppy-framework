@@ -5,7 +5,6 @@ use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Poppy\Abstracts\Repository;
 use Poppy\Framework\Poppy\Events\PoppyOptimized;
 
-
 class FileRepository extends Repository
 {
 	use PoppyTrait;
@@ -276,6 +275,7 @@ class FileRepository extends Repository
 			if (!$module->has('order')) {
 				$module->put('order', 9001);
 			}
+
 			return $module;
 		});
 

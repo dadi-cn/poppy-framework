@@ -1,12 +1,10 @@
 <?php namespace Poppy\Framework\Helper;
 
-
 /**
  * 内容处理函数
  */
 class ContentHelper
 {
-
 	/**
 	 * 获取 markdown 索引
 	 * @param $file
@@ -45,7 +43,7 @@ class ContentHelper
 				$item_text        = trim($item_text);
 				$item_level       = $found_mark == '=' ? 1 : 2;
 			}
-			if (!trim($item_text) OR strpos($item_text, '|') !== false) {
+			if (!trim($item_text) or strpos($item_text, '|') !== false) {
 				// item is an horizontal separator or a table header, don't mind
 				continue;
 			}

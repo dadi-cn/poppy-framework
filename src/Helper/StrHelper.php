@@ -1,6 +1,5 @@
 <?php namespace Poppy\Framework\Helper;
 
-
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 
@@ -59,7 +58,6 @@ class StrHelper extends Str
 		return is_array($input) ? array_map([__CLASS__, __FUNCTION__], $input) : addslashes($input);
 	}
 
-
 	/**
 	 * 转义特殊字符
 	 * @param      $input
@@ -72,16 +70,17 @@ class StrHelper extends Str
 			if ($preserveAmpersand) {
 				return str_replace('&amp;', '&', htmlspecialchars($input, ENT_QUOTES));
 			}
-			else {
+			 
 				return htmlspecialchars($input, ENT_QUOTES);
-			}
 		}
 		if (is_array($input)) {
 			foreach ($input as $key => $val) {
 				$input[$key] = self::htmlSpecialChars($val, $preserveAmpersand);
 			}
+
 			return $input;
 		}
+
 		return $input;
 	}
 
@@ -95,20 +94,20 @@ class StrHelper extends Str
 		if (is_array($input)) {
 			return array_map([__CLASS__, __FUNCTION__], $input);
 		}
-		else {
+		 
 			if (strlen($input) < 20) return $input;
 			$match   = [
-				"/&#([a-z0-9]+)([;]*)/i",
+				'/&#([a-z0-9]+)([;]*)/i',
 				"/(j[\s\r\n\t]*a[\s\r\n\t]*v[\s\r\n\t]*a[\s\r\n\t]*s[\s\r\n\t]*c[\s\r\n\t]*r[\s\r\n\t]*i[\s\r\n\t]*p[\s\r\n\t]*t|jscript|js|vbscript|vbs|about|expression|script|frame|link|import)/i",
-				"/on(mouse|exit|error|click|dblclick|key|load|unload|change|move|submit|reset|cut|copy|select|start|stop)/i",
+				'/on(mouse|exit|error|click|dblclick|key|load|unload|change|move|submit|reset|cut|copy|select|start|stop)/i',
 			];
 			$replace = [
-				"",
-				"<d>\\1</d>",
+				'',
+				'<d>\\1</d>',
 				"on\n\\1",
 			];
+
 			return preg_replace($match, $replace, $input);
-		}
 	}
 
 	/**
@@ -120,6 +119,7 @@ class StrHelper extends Str
 	public static function trimEOL($string, $js = false)
 	{
 		$string = str_replace([chr(10), chr(13)], ['', ''], $string);
+
 		return $js ? str_replace("'", "\'", $string) : $string;
 	}
 
@@ -131,6 +131,7 @@ class StrHelper extends Str
 	public static function trimSpace($string)
 	{
 		$string = str_replace([chr(13), chr(10), "\n", "\r", "\t", '  '], ['', '', '', '', '', ''], $string);
+
 		return $string;
 	}
 
@@ -156,7 +157,7 @@ class StrHelper extends Str
 		if (strtolower($strCode) == 'utf-8') {
 			$n = $tn = $noc = 0;
 			while ($n < $strlen) {
-				$t = ord($string{$n});
+				$t = ord($string[$n]);
 				if ($t == 9 || $t == 10 || (32 <= $t && $t <= 126)) {
 					$tn = 1;
 					$n++;
@@ -164,27 +165,27 @@ class StrHelper extends Str
 				}
 				elseif (194 <= $t && $t <= 223) {
 					$tn  = 2;
-					$n   += 2;
+					$n += 2;
 					$noc += 2;
 				}
 				elseif (224 <= $t && $t <= 239) {
 					$tn  = 3;
-					$n   += 3;
+					$n += 3;
 					$noc += 2;
 				}
 				elseif (240 <= $t && $t <= 247) {
 					$tn  = 4;
-					$n   += 4;
+					$n += 4;
 					$noc += 2;
 				}
 				elseif (248 <= $t && $t <= 251) {
 					$tn  = 5;
-					$n   += 5;
+					$n += 5;
 					$noc += 2;
 				}
 				elseif ($t == 252 || $t == 253) {
 					$tn  = 6;
-					$n   += 6;
+					$n += 6;
 					$noc += 2;
 				}
 				else {
@@ -197,10 +198,11 @@ class StrHelper extends Str
 		}
 		else {
 			for ($i = 0; $i < $length; $i++) {
-				$str .= ord($string{$i}) > 127 ? $string{$i} . $string{++$i} : $string{$i};
+				$str .= ord($string[$i]) > 127 ? $string[$i] . $string[++$i] : $string[$i];
 			}
 		}
 		$str = str_replace(['"', '<', '>'], ['&quot;', '&lt;', '&gt;'], $str);
+
 		return $str == $string ? $str : $str . $suffix;
 	}
 
@@ -227,6 +229,7 @@ class StrHelper extends Str
 		for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
 			$str .= chr(hexdec($hex[$i] . $hex[$i + 1]));
 		}
+
 		return $str;
 	}
 
@@ -243,6 +246,7 @@ class StrHelper extends Str
 		for ($i = 0; $i < $length; $i++) {
 			$hash .= $chars[mt_rand(0, $max)];
 		}
+
 		return $hash;
 	}
 
@@ -257,19 +261,19 @@ class StrHelper extends Str
 		for ($i = 0; $i < $length; $i++) {
 			$str .= chr(mt_rand(33, 126));
 		}
+
 		return $str;
 	}
 
-
 	/**
 	 * 获取一定范围内的随机数字 位数不足补零
-	 * @param integer $min 最小值
-	 * @param integer $max 最大值
+	 * @param int $min 最小值
+	 * @param int $max 最大值
 	 * @return string
 	 */
-	static public function randomNumber($min, $max)
+	public static function randomNumber($min, $max)
 	{
-		return sprintf("%0" . strlen($max) . "d", mt_rand($min, $max));
+		return sprintf('%0' . strlen($max) . 'd', mt_rand($min, $max));
 	}
 
 	/**
@@ -290,10 +294,10 @@ class StrHelper extends Str
 		$fromCharset = str_replace('utf8', 'utf-8', $fromCharset);
 		$toCharset   = str_replace('utf8', 'utf-8', $toCharset);
 
-		if ($toCharset == 'utf-8' && StrHelper::isUtf8($str)) {
+		if ($toCharset == 'utf-8' && self::isUtf8($str)) {
 			return $str;
 		}
-		if ($toCharset == 'gbk' && !StrHelper::isUtf8($str)) {
+		if ($toCharset == 'gbk' && !self::isUtf8($str)) {
 			return $str;
 		}
 		if ($toCharset == $fromCharset) return $str;
@@ -301,28 +305,27 @@ class StrHelper extends Str
 		if (function_exists('iconv')) {
 			if (is_array($str)) {
 				foreach ($str as $key => $val) {
-					$tmp[$key] = iconv($fromCharset, $toCharset . "//IGNORE", $val);
+					$tmp[$key] = iconv($fromCharset, $toCharset . '//IGNORE', $val);
 				}
+
 				return $tmp;
 			}
-			else {
-				return iconv($fromCharset, $toCharset . "//IGNORE", $str);
-			}
+			 
+				return iconv($fromCharset, $toCharset . '//IGNORE', $str);
 		}
 		elseif (function_exists('mb_convert_encoding')) {
 			if (is_array($str)) {
 				foreach ($str as $key => $val) {
 					$tmp[$key] = mb_convert_encoding($val, $toCharset, $fromCharset);
 				}
+
 				return $tmp;
 			}
-			else {
+			 
 				return mb_convert_encoding($str, $toCharset, $fromCharset);
-			}
 		}
-		else {
+		 
 			return self::_convert($str, $toCharset, $fromCharset);
-		}
 	}
 
 	/**
@@ -344,9 +347,9 @@ class StrHelper extends Str
 				}
 			}
 		}
+
 		return $str;
 	}
-
 
 	/**
 	 * 中文->Utf8
@@ -374,6 +377,7 @@ class StrHelper extends Str
 			$str .= (0x80 | $char >> 6 & 0x3F);
 			$str .= (0x80 | $char & 0x3F);
 		}
+
 		return $str;
 	}
 
@@ -391,9 +395,8 @@ class StrHelper extends Str
 		if (!$length) {
 			return implode('', $pinyin);
 		}
-		else {
+		 
 			return substr(implode('', $pinyin), 0, $length);
-		}
 	}
 
 	/**
@@ -413,6 +416,7 @@ class StrHelper extends Str
 			}
 			$pinyin[] = $firstLetter ? substr($py, 0, 1) : $py;
 		}
+
 		return $pinyin;
 	}
 
@@ -443,6 +447,7 @@ class StrHelper extends Str
 			array_push($array, substr($str, 0, $byteNum));
 			$str = substr($str, $byteNum);
 		}
+
 		return $array;
 	}
 
@@ -471,6 +476,7 @@ class StrHelper extends Str
 			if ($t > 127) $i++;
 			$count++;
 		}
+
 		return $count;
 	}
 
@@ -501,18 +507,18 @@ class StrHelper extends Str
 	public static function chrysanthemum($str)
 	{
 		if (function_exists('mb_substr')) {
-			mb_internal_encoding("UTF-8");
+			mb_internal_encoding('UTF-8');
 			$len = mb_strlen($str);
 			$mb  = [];
 			for ($i = 0; $i < $len; $i++) {
 				$mb[] = mb_substr($str, $i, 1);
 			}
-			$mb[] = "";
-			return implode("&#1161;", $mb);
+			$mb[] = '';
+
+			return implode('&#1161;', $mb);
 		}
-		else {
+		 
 			return $str;
-		}
 	}
 
 	/**
@@ -533,7 +539,7 @@ class StrHelper extends Str
 	 */
 	public static function separate($separator, $str)
 	{
-		$str = trim($str);
+		$str    = trim($str);
 		$return = [];
 		if ($str) {
 			if (strpos($str, $separator) !== false) {
@@ -544,9 +550,9 @@ class StrHelper extends Str
 				$return = [$str];
 			}
 		}
+
 		return $return;
 	}
-
 
 	/**
 	 * 唯一的 表单ID值
@@ -565,15 +571,15 @@ class StrHelper extends Str
 	 */
 	private static function _setting($key)
 	{
-		defined('LEMON_LIB_ATTACHMENT_PATH') or define('LEMON_LIB_ATTACHMENT_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'attachment' . DIRECTORY_SEPARATOR);
+		defined('LEMON_LIB_ATTACHMENT_PATH') or define('LEMON_LIB_ATTACHMENT_PATH', __DIR__ . DIRECTORY_SEPARATOR . 'attachment' . DIRECTORY_SEPARATOR);
 		$paths = [
 			'gb-pinyin'  => __DIR__ . '/attachment/str_gb-pinyin.table',
 			'gb-unicode' => __DIR__ . '/attachment/str_gb-unicode.table',
 			'pinyin'     => __DIR__ . '/attachment/str_pinyin.table',
 		];
+
 		return isset($paths[$key]) ? $paths[$key] : '';
 	}
-
 
 	/**
 	 * gbk编码字符转换到拼音, 快速匹配模式
@@ -615,9 +621,9 @@ class StrHelper extends Str
 			}
 			$k++;
 		}
+
 		return implode('', $r);
 	}
-
 
 	/**
 	 * 支持单字符拼音->文字
@@ -630,9 +636,8 @@ class StrHelper extends Str
 		if (preg_match("/{$char}([a-z ]{1,15})/is", $str, $match)) {
 			return $match[1];
 		}
-		else {
+		 
 			return false;
-		}
 	}
 
 	/**
@@ -679,13 +684,13 @@ class StrHelper extends Str
 					case 13:
 						$char2 = ord(substr($str, $i++, 1));
 						$char3 = $table[(($c & 0x1F) << 6) | ($char2 & 0x3F)];
-						$cStr  .= self::fromHex(dechex($char3 + 0x8080));
+						$cStr .= self::fromHex(dechex($char3 + 0x8080));
 						break;
 					case 14:
 						$char2 = ord(substr($str, $i++, 1));
 						$char3 = ord(substr($str, $i++, 1));
 						$char4 = $table[(($c & 0x0F) << 12) | (($char2 & 0x3F) << 6) | (($char3 & 0x3F) << 0)];
-						$cStr  .= self::fromHex(dechex($char4 + 0x8080));
+						$cStr .= self::fromHex(dechex($char4 + 0x8080));
 						break;
 				}
 			}
@@ -707,6 +712,7 @@ class StrHelper extends Str
 			}
 		}
 		unset($table);
+
 		return $cStr;
 	}
 
@@ -732,17 +738,16 @@ class StrHelper extends Str
 			foreach ($arr as $v) {
 				if ($v && strpos($v, '|') !== false) {
 					list($key, $value) = explode('|', $v);
-					$key          = trim($key);
-					$return[$key] = trim($value);
+					$key               = trim($key);
+					$return[$key]      = trim($value);
 				}
 			}
+
 			return $return;
 		}
-		else {
+		 
 			return $arr;
-		}
 	}
-
 
 	/**
 	 * sql against encode
@@ -754,6 +759,7 @@ class StrHelper extends Str
 		if (!is_array($ids)) {
 			$ids = explode(',', $ids);
 		}
+
 		return ',_' . implode('_,_', $ids) . '_,';
 	}
 
@@ -771,14 +777,11 @@ class StrHelper extends Str
 			if (strpos($ids, '_,_') !== false) {
 				return explode('_,_', $ids);
 			}
-			else {
+			 
 				return [];
-			}
-
 		}
-		else {
+		 
 			return str_replace('_,_', ',', $ids);
-		}
 	}
 
 	/**
@@ -791,9 +794,8 @@ class StrHelper extends Str
 		if ($input) {
 			return substr_replace($input, '****', 3, -4);
 		}
-		else {
+		 
 			return '';
-		}
 	}
 
 	/**
@@ -806,19 +808,17 @@ class StrHelper extends Str
 		if ($input) {
 			return substr_replace($input, '****', 3, strpos($input, '@') - 3);
 		}
-		else {
+		 
 			return '';
-		}
 	}
-
 
 	/**
 	 * Converts number to its ordinal English form.
 	 *
 	 * This method converts 13 to 13th, 2 to 2nd ...
 	 *
-	 * @param integer $number Number to get its ordinal value
-	 * @return string Ordinal representation of given string.
+	 * @param int $number Number to get its ordinal value
+	 * @return string ordinal representation of given string
 	 */
 	public static function ordinal($number)
 	{
@@ -860,6 +860,7 @@ class StrHelper extends Str
 		}
 
 		$name = '\\' . ltrim($name, '\\');
+
 		return $name;
 	}
 
@@ -887,7 +888,8 @@ class StrHelper extends Str
 	public static function getClassNamespace($name)
 	{
 		$name = static::normalizeClassName($name);
-		return substr($name, 0, strrpos($name, "\\"));
+
+		return substr($name, 0, strrpos($name, '\\'));
 	}
 
 	/**
@@ -897,8 +899,9 @@ class StrHelper extends Str
 	 */
 	public static function clearLink($content)
 	{
-		$content = preg_replace("/<a[^>]*>/i", "", $content);
-		return preg_replace("/<\/a>/i", "", $content);
+		$content = preg_replace('/<a[^>]*>/i', '', $content);
+
+		return preg_replace("/<\/a>/i", '', $content);
 	}
 
 	/**
@@ -909,9 +912,9 @@ class StrHelper extends Str
 	public static function fixLink($url)
 	{
 		if (strlen($url) < 10) return '';
+
 		return strpos($url, '://') === false ? 'http://' . $url : $url;
 	}
-
 
 	/**
 	 * 将内容截取到介绍中
@@ -923,13 +926,13 @@ class StrHelper extends Str
 	{
 		if ($length) {
 			$content = str_replace([' ', '[pagebreak]'], ['', ''], $content);
-			$intro   = trim(StrHelper::trimEOL(strip_tags($content)));
+			$intro   = trim(self::trimEOL(strip_tags($content)));
 			// 删除实体
-			$intro = preg_replace("/&([a-z]{1,});/", '', $intro);
-			return nl2br(StrHelper::cut($intro, $length, '...'));
+			$intro = preg_replace('/&([a-z]{1,});/', '', $intro);
+
+			return nl2br(self::cut($intro, $length, '...'));
 		}
-		else {
+		 
 			return '';
-		}
 	}
 }

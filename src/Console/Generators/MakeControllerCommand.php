@@ -1,7 +1,6 @@
 <?php namespace Poppy\Framework\Console\Generators;
 
 use Poppy\Framework\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputArgument;
 
 class MakeControllerCommand extends GeneratorCommand
 {

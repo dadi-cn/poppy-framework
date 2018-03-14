@@ -5,7 +5,6 @@
  */
 class UtilHelper
 {
-
 	/**
 	 * 检测是否email
 	 * @param $email
@@ -15,7 +14,6 @@ class UtilHelper
 	{
 		return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
 	}
-
 
 	/**
 	 * 是不是url地址
@@ -33,15 +31,14 @@ class UtilHelper
 	 */
 	public static function isRobot()
 	{
-		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], '://') === false && preg_match("/(MSIE|Netscape|Opera|Konqueror|Mozilla)/i", $_SERVER['HTTP_USER_AGENT'])) {
+		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], '://') === false && preg_match('/(MSIE|Netscape|Opera|Konqueror|Mozilla)/i', $_SERVER['HTTP_USER_AGENT'])) {
 			return false;
 		}
-		elseif (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("/(Spider|Bot|Crawl|Slurp|lycos|robozilla)/i", $_SERVER['HTTP_USER_AGENT'])) {
+		elseif (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/(Spider|Bot|Crawl|Slurp|lycos|robozilla)/i', $_SERVER['HTTP_USER_AGENT'])) {
 			return true;
 		}
-		else {
+		 
 			return false;
-		}
 	}
 
 	/**
@@ -61,7 +58,7 @@ class UtilHelper
 	 */
 	public static function isMd5($str)
 	{
-		return preg_match("/^[a-z0-9]{32}$/", $str);
+		return preg_match('/^[a-z0-9]{32}$/', $str);
 	}
 
 	/**
@@ -71,7 +68,7 @@ class UtilHelper
 	 */
 	public static function isImage($filename)
 	{
-		return preg_match("/^(jpg|jpeg|gif|png|bmp)$/i", FileHelper::ext($filename));
+		return preg_match('/^(jpg|jpeg|gif|png|bmp)$/i', FileHelper::ext($filename));
 	}
 
 	/**
@@ -97,7 +94,6 @@ class UtilHelper
 		return preg_match("/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/", $telephone);
 	}
 
-
 	/**
 	 * 是否全部为中文, 并且验证长度
 	 * @param string $str
@@ -106,10 +102,10 @@ class UtilHelper
 	 */
 	public static function isChinese($str, $max_length = '')
 	{
-		$re = "/^[\\x{4e00}-\\x{9fa5}]{1,}$/u";
+		$re = '/^[\\x{4e00}-\\x{9fa5}]{1,}$/u';
+
 		return preg_match($re, $str, $matches);
 	}
-
 
 	/**
 	 * 验证身份证号 , 身份证有效性检测
@@ -123,11 +119,11 @@ class UtilHelper
 		}
 		elseif ((strlen($id_card) == 15)) {
 			$id_card = self::idcard15to18($id_card);
+
 			return self::idcardChecksum18($id_card);
 		}
-		else {
+		 
 			return false;
-		}
 	}
 
 	/**
@@ -139,6 +135,7 @@ class UtilHelper
 	public static function isBankNumber($bank_account)
 	{
 		$bank = str_replace(' ', '', $bank_account);
+
 		return preg_match('/^[0-9]{16,19}$/', $bank);
 	}
 
@@ -163,6 +160,7 @@ class UtilHelper
 		if (empty($letter_match) || strlen($letter) > 1) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -176,7 +174,6 @@ class UtilHelper
 		return preg_match('/<[^>]+>/', $content, $matches);
 	}
 
-
 	/**
 	 * 格式化小数, 也可以用于货币的格式化
 	 * @param      $input
@@ -186,8 +183,9 @@ class UtilHelper
 	 */
 	public static function formatDecimal($input, $sprinft = true, $precision = 2)
 	{
-		$var = round(floatval($input), $precision);
+		$var               = round(floatval($input), $precision);
 		if ($sprinft) $var = sprintf('%.' . $precision . 'f', $var);
+
 		return $var;
 	}
 
@@ -199,9 +197,9 @@ class UtilHelper
 	public static function fixLink($url)
 	{
 		if (strlen($url) < 10) return '';
+
 		return strpos($url, '://') === false ? 'http://' . $url : $url;
 	}
-
 
 	/**
 	 * 计算身份证校验码，根据国家标准GB 11643-1999
@@ -223,6 +221,7 @@ class UtilHelper
 		}
 		$mod           = $checksum % 11;
 		$verify_number = $verify_number_list[$mod];
+
 		return $verify_number;
 	}
 
@@ -236,7 +235,7 @@ class UtilHelper
 		if (strlen($idcard) != 15) {
 			return false;
 		}
-		else {
+		 
 			// 如果身份证顺序码是996 997 998 999，这些是为百岁以上老人的特殊编码
 			if (array_search(substr($idcard, 12, 3), ['996', '997', '998', '999']) !== false) {
 				$idcard = substr($idcard, 0, 6) . '18' . substr($idcard, 6, 9);
@@ -244,8 +243,9 @@ class UtilHelper
 			else {
 				$idcard = substr($idcard, 0, 6) . '19' . substr($idcard, 6, 9);
 			}
-		}
+		
 		$idcard = $idcard . self::idcardVerify($idcard);
+
 		return $idcard;
 	}
 
@@ -263,9 +263,8 @@ class UtilHelper
 		if (self::idcardVerify($idcard_base) != strtoupper(substr($idcard, 17, 1))) {
 			return false;
 		}
-		else {
+		 
 			return true;
-		}
 	}
 
 	/**
@@ -279,6 +278,7 @@ class UtilHelper
 		foreach (func_get_args() as $v) {
 			$key .= is_array($v) ? serialize($v) : $v;
 		}
+
 		return md5($key);
 	}
 
@@ -316,6 +316,7 @@ class UtilHelper
 			}
 		}
 		unset($tmpMap);
+
 		return $tree;
 	}
 
@@ -332,6 +333,7 @@ class UtilHelper
 				$arr[$k] = self::objToArray($v);
 			}
 		}
+
 		return $arr;
 	}
 
@@ -377,9 +379,9 @@ class UtilHelper
 				$data = array_merge($data, $arr_append);
 			}
 		}
+
 		return $data;
 	}
-
 
 	/**
 	 * 返回 sql 中存储的时间信息.
@@ -391,9 +393,9 @@ class UtilHelper
 		if (!$time) {
 			$time = EnvHelper::time();
 		}
+
 		return date('Y-m-d H:i:s', $time);
 	}
-
 
 	/**
 	 * @param            $basedir
@@ -408,16 +410,16 @@ class UtilHelper
 		if ($dh = opendir($basedir)) {
 			while (($file = readdir($dh)) !== false) {
 				if ($file != '.' && $file != '..' && $file != '.git' && $file != 'cache' && $file != '.htaccess' && $file != '.idea') {
-					if (!is_dir($basedir . "/" . $file)) {
+					if (!is_dir($basedir . '/' . $file)) {
 						$ext = FileHelper::ext($file);
 						if (!in_array($ext, ['jpg', 'gif', 'png'])) {
-							echo "filename: {$basedir}/{$file} &nbsp; " . self::_checkFileBom("$basedir/$file", $remove) . " <br>";
+							echo "filename: {$basedir}/{$file} &nbsp; " . self::_checkFileBom("$basedir/$file", $remove) . ' <br>';
 							ob_flush();
 							flush();
 						}
 					}
 					else {
-						$dirname = $basedir . "/" . $file;
+						$dirname = $basedir . '/' . $file;
 						self::checkBom($dirname, $remove);
 					}
 				}
@@ -435,16 +437,16 @@ class UtilHelper
 		if ($dh = opendir($basedir)) {
 			while (($file = readdir($dh)) !== false) {
 				if ($file != '.' && $file != '..' && $file != '.git' && $file != 'cache' && $file != '.htaccess' && $file != '.idea') {
-					if (!is_dir($basedir . "/" . $file)) {
+					if (!is_dir($basedir . '/' . $file)) {
 						$ext = FileHelper::ext($file);
 						if (!in_array($ext, ['jpg', 'gif', 'png', 'psd', 'ttf', 'ico', 'swf', 'csv', 'xdb', 'dat', 'fla', 'db', 'cur', 'phar', 'bat'])) {
-							echo "filename: {$basedir}/{$file} &nbsp; " . self::_isUtf8("$basedir/$file") . " <br>";
+							echo "filename: {$basedir}/{$file} &nbsp; " . self::_isUtf8("$basedir/$file") . ' <br>';
 							ob_flush();
 							flush();
 						}
 					}
 					else {
-						$dirname = $basedir . "/" . $file;
+						$dirname = $basedir . '/' . $file;
 						self::checkUtf8($dirname);
 					}
 				}
@@ -499,9 +501,10 @@ class UtilHelper
 	{
 		$info     = '<span style="color:red;">NOT UTF8 file</span>';
 		$contents = file_get_contents($filename);
-		if ($contents === mb_convert_encoding(mb_convert_encoding($contents, "UTF-32", "UTF-8"), "UTF-8", "UTF-32")) {
+		if ($contents === mb_convert_encoding(mb_convert_encoding($contents, 'UTF-32', 'UTF-8'), 'UTF-8', 'UTF-32')) {
 			$info = '<span>IS UTF8 file</span>';
 		}
+
 		return $info;
 	}
 
@@ -527,9 +530,9 @@ class UtilHelper
 				$info = '<span style="color:red;">BOM found.</span>';
 			}
 		}
+
 		return $info;
 	}
-
 
 	/**
 	 *计算某个经纬度的周围某段距离的正方形的四个点
@@ -538,7 +541,7 @@ class UtilHelper
 	 * @param float $distance 该点所在圆的半径，该圆与此正方形内切，默认值为0.5千米
 	 * @return array 正方形的四个点的经纬度坐标
 	 */
-	function squarePoint($lng, $lat, $distance = 0.5)
+	public function squarePoint($lng, $lat, $distance = 0.5)
 	{
 		//地球半径，平均半径为6371km
 		$EARTH_RADIUS = 6371;
@@ -558,7 +561,7 @@ class UtilHelper
 		];
 	}
 
-	function gainNearby($longitude = '', $latitude = '')
+	public function gainNearby($longitude = '', $latitude = '')
 	{
 		$EARTH_RADIUS = 6378.138;
 		$sql          = "SELECT *,ROUND($EARTH_RADIUS*2*ASIN(SQRT(POW(SIN(( ? * PI()/180-latitude*PI()/180)/2),2)+COS( ? *PI()/180)*COS(latitude*PI()/180)*POW(SIN(( ? * PI()/180-longitude*PI()/180)/2),2)))*1000) AS juli FROM map WHERE longitude between ? - 0.5 and ? + 0.5  AND latitude between ? - 0.5 and ? + 0.5";
@@ -568,7 +571,6 @@ class UtilHelper
 		$result = $query->result_array();
 
 		return $result;
-
 	}
 
 	/**
@@ -589,6 +591,7 @@ class UtilHelper
 		$a       = $radLat1 - $radLat2;
 		$b       = $radLng1 - $radLng2;
 		$s       = 2 * asin(sqrt(pow(sin($a / 2), 2) + cos($radLat1) * cos($radLat2) * pow(sin($b / 2), 2))) * 6378.137;
+
 		return round(floatval($s), 2) . 'km';
 	}
 
@@ -601,8 +604,8 @@ class UtilHelper
 		if (function_exists('com_create_guid')) {
 			return com_create_guid();
 		}
-		else {
-			mt_srand((double) microtime() * 10000); //optional for php 4.2.0 and up.
+		 
+			mt_srand((float) microtime() * 10000); //optional for php 4.2.0 and up.
 			$charid = strtoupper(md5(uniqid(rand(), true)));
 			$hyphen = chr(45); // "-"
 			$uuid   = chr(123) // "{"
@@ -613,7 +616,6 @@ class UtilHelper
 				. substr($charid, 20, 12)
 				. chr(125); // "}"
 			return $uuid;
-		}
 	}
 
 	/**
@@ -624,7 +626,8 @@ class UtilHelper
 	public static function isJson($string)
 	{
 		json_decode($string);
-		return (json_last_error() == JSON_ERROR_NONE);
+
+		return json_last_error() == JSON_ERROR_NONE;
 	}
 
 	/**
@@ -635,6 +638,7 @@ class UtilHelper
 	public static function isDate($string)
 	{
 		list($year, $month, $day) = explode('-', $string);
+
 		return checkdate($month, $day, $year);
 	}
 
@@ -648,6 +652,7 @@ class UtilHelper
 		if (preg_match('/([0-9a-zA-Z_\*\.\[\]\-!@#\$%\^&\(\)\~]+)/i', $pwd, $match)) {
 			return $match[0] == $pwd;
 		}
+
 		return false;
 	}
 
@@ -661,6 +666,7 @@ class UtilHelper
 		if (preg_match('/^(\d+\,)+\d+$|^\d+$/i', $str)) {
 			return true;
 		}
+
 		return false;
 	}
 }

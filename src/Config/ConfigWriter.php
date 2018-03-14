@@ -25,196 +25,197 @@ use Exception;
  */
 class ConfigWriter
 {
-    public function toFile($filePath, $newValues, $useValidation = true)
-    {
-        $contents = file_get_contents($filePath);
-        $contents = $this->toContent($contents, $newValues, $useValidation);
-        file_put_contents($filePath, $contents);
-        return $contents;
-    }
+	public function toFile($filePath, $newValues, $useValidation = true)
+	{
+		$contents = file_get_contents($filePath);
+		$contents = $this->toContent($contents, $newValues, $useValidation);
+		file_put_contents($filePath, $contents);
 
-    public function toContent($contents, $newValues, $useValidation = true)
-    {
-        $contents = $this->parseContent($contents, $newValues);
+		return $contents;
+	}
 
-        if (!$useValidation) {
-            return $contents;
-        }
+	public function toContent($contents, $newValues, $useValidation = true)
+	{
+		$contents = $this->parseContent($contents, $newValues);
 
-        $result = eval('?>'.$contents);
+		if (!$useValidation) {
+			return $contents;
+		}
 
-        foreach ($newValues as $key => $expectedValue) {
-            $parts = explode('.', $key);
+		$result = eval('?>' . $contents);
 
-            $array = $result;
-            foreach ($parts as $part) {
-                if (!is_array($array) || !array_key_exists($part, $array)) {
-                    throw new Exception(sprintf('Unable to rewrite key "%s" in config, does it exist?', $key));
-                }
+		foreach ($newValues as $key => $expectedValue) {
+			$parts = explode('.', $key);
 
-                $array = $array[$part];
-            }
-            $actualValue = $array;
+			$array = $result;
+			foreach ($parts as $part) {
+				if (!is_array($array) || !array_key_exists($part, $array)) {
+					throw new Exception(sprintf('Unable to rewrite key "%s" in config, does it exist?', $key));
+				}
 
-            if ($actualValue != $expectedValue) {
-                throw new Exception(sprintf('Unable to rewrite key "%s" in config, rewrite failed', $key));
-            }
-        }
+				$array = $array[$part];
+			}
+			$actualValue = $array;
 
-        return $contents;
-    }
+			if ($actualValue != $expectedValue) {
+				throw new Exception(sprintf('Unable to rewrite key "%s" in config, rewrite failed', $key));
+			}
+		}
 
-    protected function parseContent($contents, $newValues)
-    {
-        $result = $contents;
+		return $contents;
+	}
 
-        foreach ($newValues as $path => $value) {
-            $result = $this->parseContentValue($result, $path, $value);
-        }
+	protected function parseContent($contents, $newValues)
+	{
+		$result = $contents;
 
-        return $result;
-    }
+		foreach ($newValues as $path => $value) {
+			$result = $this->parseContentValue($result, $path, $value);
+		}
 
-    protected function parseContentValue($contents, $path, $value)
-    {
-        $result = $contents;
-        $items = explode('.', $path);
-        $key = array_pop($items);
-        $replaceValue = $this->writeValueToPhp($value);
+		return $result;
+	}
 
-        $count = 0;
-        $patterns = array();
-        $patterns[] = $this->buildStringExpression($key, $items);
-        $patterns[] = $this->buildStringExpression($key, $items, '"');
-        $patterns[] = $this->buildConstantExpression($key, $items);
-        $patterns[] = $this->buildArrayExpression($key, $items);
+	protected function parseContentValue($contents, $path, $value)
+	{
+		$result       = $contents;
+		$items        = explode('.', $path);
+		$key          = array_pop($items);
+		$replaceValue = $this->writeValueToPhp($value);
 
-        foreach ($patterns as $pattern) {
-            $result = preg_replace($pattern, '${1}${2}'.$replaceValue, $result, 1, $count);
+		$count      = 0;
+		$patterns   = [];
+		$patterns[] = $this->buildStringExpression($key, $items);
+		$patterns[] = $this->buildStringExpression($key, $items, '"');
+		$patterns[] = $this->buildConstantExpression($key, $items);
+		$patterns[] = $this->buildArrayExpression($key, $items);
 
-            if ($count > 0) {
-                break;
-            }
-        }
+		foreach ($patterns as $pattern) {
+			$result = preg_replace($pattern, '${1}${2}' . $replaceValue, $result, 1, $count);
 
-        return $result;
-    }
+			if ($count > 0) {
+				break;
+			}
+		}
 
-    protected function writeValueToPhp($value)
-    {
-        if (is_string($value) && strpos($value, "'") === false) {
-            $replaceValue = "'".$value."'";
-        }
-        elseif (is_string($value) && strpos($value, '"') === false) {
-            $replaceValue = '"'.$value.'"';
-        }
-        elseif (is_bool($value)) {
-            $replaceValue = ($value ? 'true' : 'false');
-        }
-        elseif (is_null($value)) {
-            $replaceValue = 'null';
-        }
-        elseif (is_array($value) && count($value) === count($value, COUNT_RECURSIVE)) {
-            $replaceValue = $this->writeArrayToPhp($value);
-        }
-        else {
-            $replaceValue = $value;
-        }
+		return $result;
+	}
 
-        $replaceValue = str_replace('$', '\$', $replaceValue);
+	protected function writeValueToPhp($value)
+	{
+		if (is_string($value) && strpos($value, "'") === false) {
+			$replaceValue = "'" . $value . "'";
+		}
+		elseif (is_string($value) && strpos($value, '"') === false) {
+			$replaceValue = '"' . $value . '"';
+		}
+		elseif (is_bool($value)) {
+			$replaceValue = ($value ? 'true' : 'false');
+		}
+		elseif (is_null($value)) {
+			$replaceValue = 'null';
+		}
+		elseif (is_array($value) && count($value) === count($value, COUNT_RECURSIVE)) {
+			$replaceValue = $this->writeArrayToPhp($value);
+		}
+		else {
+			$replaceValue = $value;
+		}
 
-        return $replaceValue;
-    }
+		$replaceValue = str_replace('$', '\$', $replaceValue);
 
-    protected function writeArrayToPhp($array)
-    {
-        $result = [];
+		return $replaceValue;
+	}
 
-        foreach ($array as $value) {
-            if (!is_array($value)) {
-                $result[] = $this->writeValueToPhp($value);
-            }
-        }
+	protected function writeArrayToPhp($array)
+	{
+		$result = [];
 
-        return '['.implode(', ', $result).']';
+		foreach ($array as $value) {
+			if (!is_array($value)) {
+				$result[] = $this->writeValueToPhp($value);
+			}
+		}
 
-        return $result;
-    }
+		return '[' . implode(', ', $result) . ']';
 
-    protected function buildStringExpression($targetKey, $arrayItems = array(), $quoteChar = "'")
-    {
-        $expression = array();
+		return $result;
+	}
 
-        // Opening expression for array items ($1)
-        $expression[] = $this->buildArrayOpeningExpression($arrayItems);
+	protected function buildStringExpression($targetKey, $arrayItems = [], $quoteChar = "'")
+	{
+		$expression = [];
 
-        // The target key opening
-        $expression[] = '([\'|"]'.$targetKey.'[\'|"]\s*=>\s*)['.$quoteChar.']';
+		// Opening expression for array items ($1)
+		$expression[] = $this->buildArrayOpeningExpression($arrayItems);
 
-        // The target value to be replaced ($2)
-        $expression[] = '([^'.$quoteChar.']*)';
+		// The target key opening
+		$expression[] = '([\'|"]' . $targetKey . '[\'|"]\s*=>\s*)[' . $quoteChar . ']';
 
-        // The target key closure
-        $expression[] = '['.$quoteChar.']';
+		// The target value to be replaced ($2)
+		$expression[] = '([^' . $quoteChar . ']*)';
 
-        return '/' . implode('', $expression) . '/';
-    }
+		// The target key closure
+		$expression[] = '[' . $quoteChar . ']';
 
-    /**
-     * Common constants only (true, false, null, integers)
-     */
-    protected function buildConstantExpression($targetKey, $arrayItems = array())
-    {
-        $expression = array();
+		return '/' . implode('', $expression) . '/';
+	}
 
-        // Opening expression for array items ($1)
-        $expression[] = $this->buildArrayOpeningExpression($arrayItems);
+	/**
+	 * Common constants only (true, false, null, integers)
+	 */
+	protected function buildConstantExpression($targetKey, $arrayItems = [])
+	{
+		$expression = [];
 
-        // The target key opening ($2)
-        $expression[] = '([\'|"]'.$targetKey.'[\'|"]\s*=>\s*)';
+		// Opening expression for array items ($1)
+		$expression[] = $this->buildArrayOpeningExpression($arrayItems);
 
-        // The target value to be replaced ($3)
-        $expression[] = '([tT][rR][uU][eE]|[fF][aA][lL][sS][eE]|[nN][uU][lL]{2}|[\d]+)';
+		// The target key opening ($2)
+		$expression[] = '([\'|"]' . $targetKey . '[\'|"]\s*=>\s*)';
 
-        return '/' . implode('', $expression) . '/';
-    }
+		// The target value to be replaced ($3)
+		$expression[] = '([tT][rR][uU][eE]|[fF][aA][lL][sS][eE]|[nN][uU][lL]{2}|[\d]+)';
 
-    /**
-     * Single level arrays only
-     */
-    protected function buildArrayExpression($targetKey, $arrayItems = array())
-    {
-        $expression = array();
+		return '/' . implode('', $expression) . '/';
+	}
 
-        // Opening expression for array items ($1)
-        $expression[] = $this->buildArrayOpeningExpression($arrayItems);
+	/**
+	 * Single level arrays only
+	 */
+	protected function buildArrayExpression($targetKey, $arrayItems = [])
+	{
+		$expression = [];
 
-        // The target key opening ($2)
-        $expression[] = '([\'|"]'.$targetKey.'[\'|"]\s*=>\s*)';
+		// Opening expression for array items ($1)
+		$expression[] = $this->buildArrayOpeningExpression($arrayItems);
 
-        // The target value to be replaced ($3)
-        $expression[] = '(?:[aA][rR]{2}[aA][yY]\(|[\[])([^\]|)]*)[\]|)]';
+		// The target key opening ($2)
+		$expression[] = '([\'|"]' . $targetKey . '[\'|"]\s*=>\s*)';
 
-        return '/' . implode('', $expression) . '/';
-    }
+		// The target value to be replaced ($3)
+		$expression[] = '(?:[aA][rR]{2}[aA][yY]\(|[\[])([^\]|)]*)[\]|)]';
 
-    protected function buildArrayOpeningExpression($arrayItems)
-    {
-        if (count($arrayItems)) {
-            $itemOpen = array();
-            foreach ($arrayItems as $item) {
-                // The left hand array assignment
-                $itemOpen[] = '[\'|"]'.$item.'[\'|"]\s*=>\s*(?:[aA][rR]{2}[aA][yY]\(|[\[])';
-            }
+		return '/' . implode('', $expression) . '/';
+	}
 
-            // Capture all opening array (non greedy)
-            $result = '(' . implode('[\s\S]*', $itemOpen) . '[\s\S]*?)';
-        }
-        else {
-            // Gotta capture something for $1
-            $result = '()';
-        }
+	protected function buildArrayOpeningExpression($arrayItems)
+	{
+		if (count($arrayItems)) {
+			$itemOpen = [];
+			foreach ($arrayItems as $item) {
+				// The left hand array assignment
+				$itemOpen[] = '[\'|"]' . $item . '[\'|"]\s*=>\s*(?:[aA][rR]{2}[aA][yY]\(|[\[])';
+			}
 
-        return $result;
-    }
+			// Capture all opening array (non greedy)
+			$result = '(' . implode('[\s\S]*', $itemOpen) . '[\s\S]*?)';
+		}
+		else {
+			// Gotta capture something for $1
+			$result = '()';
+		}
+
+		return $result;
+	}
 }

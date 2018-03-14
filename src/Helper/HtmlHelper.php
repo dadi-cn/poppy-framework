@@ -7,7 +7,6 @@
  */
 class HtmlHelper
 {
-
 	/**
 	 * Converts a HTML array string to an identifier string.
 	 * HTML: user[location][city]
@@ -48,5 +47,4 @@ class HtmlHelper
 
 		return $result;
 	}
-
 }

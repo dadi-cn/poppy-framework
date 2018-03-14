@@ -72,7 +72,7 @@ trait HasAttributesTrait
 	 * Specify data which should be serialized to JSON.
 	 * @return array
 	 */
-	function jsonSerialize()
+	public function jsonSerialize()
 	{
 		return $this->attributes;
 	}

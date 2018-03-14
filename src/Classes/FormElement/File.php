@@ -1,11 +1,9 @@
 <?php namespace Poppy\Framework\Classes\FormElement;
 
-
 use Poppy\Framework\Contracts\FormElement as FormElementContract;
 
 class File extends FormTypeBase implements FormElementContract
 {
-
 	private $viewPrefix = '';
 	private $viewFile   = '';
 

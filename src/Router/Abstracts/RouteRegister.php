@@ -3,8 +3,8 @@
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
-use Poppy\Framework\Router\Events\RouteRegister as RouteRegisterEvent;
 use Poppy\Framework\Events\Abstracts\EventSubscriber;
+use Poppy\Framework\Router\Events\RouteRegister as RouteRegisterEvent;
 
 /**
  * Class AbstractRouteRegister.

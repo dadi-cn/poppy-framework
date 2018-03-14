@@ -153,7 +153,6 @@ class Rule extends IlluminateRule
 		return 'required';
 	}
 
-
 	public static function confirmed()
 	{
 		return 'confirmed';

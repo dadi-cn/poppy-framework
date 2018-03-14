@@ -12,15 +12,14 @@
  */
 class EnvHelper
 {
-
 	/**
 	 * @return string 返回IP
 	 */
 	public static function ip()
 	{
 		isset($_SERVER['HTTP_X_FORWARDED_FOR']) or $_SERVER['HTTP_X_FORWARDED_FOR'] = '';
-		isset($_SERVER['REMOTE_ADDR']) or $_SERVER['REMOTE_ADDR'] = '';
-		isset($_SERVER['HTTP_CLIENT_IP']) or $_SERVER['HTTP_CLIENT_IP'] = '';
+		isset($_SERVER['REMOTE_ADDR']) or $_SERVER['REMOTE_ADDR']                   = '';
+		isset($_SERVER['HTTP_CLIENT_IP']) or $_SERVER['HTTP_CLIENT_IP']             = '';
 		if ($_SERVER['HTTP_X_FORWARDED_FOR'] && $_SERVER['REMOTE_ADDR']) {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 			if (strpos($ip, ',') !== false) {
@@ -31,6 +30,7 @@ class EnvHelper
 		}
 		if (UtilHelper::isIp($_SERVER['HTTP_CLIENT_IP'])) return $_SERVER['HTTP_CLIENT_IP'];
 		if (UtilHelper::isIp($_SERVER['REMOTE_ADDR'])) return $_SERVER['REMOTE_ADDR'];
+
 		return 'unknown';
 	}
 
@@ -68,6 +68,7 @@ class EnvHelper
 		if (!isset($_SERVER['SERVER_PORT'])) {
 			return 'http://';
 		}
+
 		return $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
 	}
 
@@ -79,6 +80,7 @@ class EnvHelper
 		if (!isset($_SERVER['SERVER_PORT'])) {
 			return '';
 		}
+
 		return $_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT'];
 	}
 
@@ -100,6 +102,7 @@ class EnvHelper
 			}
 		}
 		$uri = StrHelper::htmlSpecialChars($uri);
+
 		return self::scheme() . self::host() . (strpos(self::host(), ':') === false ? self::port() : '') . $uri;
 	}
 
@@ -128,7 +131,6 @@ class EnvHelper
 	{
 		return $_SERVER['REQUEST_TIME'];
 	}
-
 
 	/**
 	 * 浏览器头部
@@ -162,6 +164,7 @@ class EnvHelper
 		if (strtoupper(PHP_OS) == 'DARWIN') {
 			return false;
 		}
+
 		return strpos(strtoupper(PHP_OS), 'WIN') !== false ? true : false;
 	}
 
@@ -187,7 +190,7 @@ class EnvHelper
 		else {
 			$os = 'other';
 		}
+
 		return $os;
 	}
-
 }

@@ -5,7 +5,6 @@ use Illuminate\Routing\Controller;
 
 class GraphQLController extends Controller
 {
-
 	public function __construct(Request $request)
 	{
 		$route = $request->route();
@@ -34,7 +33,6 @@ class GraphQLController extends Controller
 		}
 	}
 
-
 	public function query(Request $request, $schema = null)
 	{
 		$isBatch = !$request->has('query');
@@ -59,7 +57,7 @@ class GraphQLController extends Controller
 
 		$errors = !$isBatch ? array_get($data, 'errors', []) : [];
 
-		$authorized = array_reduce($errors, function($authorized, $error) {
+		$authorized = array_reduce($errors, function ($authorized, $error) {
 			return !$authorized || array_get($error, 'message') === 'Unauthorized' ? false : true;
 		}, true);
 		if (!$authorized) {
@@ -68,31 +66,30 @@ class GraphQLController extends Controller
 
 		// do exception
 		$doErrorMessage = '';
-		$doError        = array_reduce($errors, function($authorized, $error) use (&$doErrorMessage) {
+		$doError        = array_reduce($errors, function ($authorized, $error) use (&$doErrorMessage) {
 			if ($authorized) {
 				$message = array_get($error, 'message');
 				if (substr($message, 0, 13) === 'Do Exception:') {
 					$doErrorMessage = substr($message, 13);
+
 					return false;
 				}
-				else {
+				 
 					return true;
-				}
 			}
-			else {
+			 
 				return false;
-			}
 		}, true);
 		if (!$doError) {
 			$data['errors'] = [
-				['message' => $doErrorMessage,],
+				['message' => $doErrorMessage],
 			];
+
 			return response()->json($data, 403, $headers, $options);
 		}
 
 		return response()->json($data, 200, $headers, $options);
 	}
-
 
 	protected function executeQuery($schema, $input)
 	{
@@ -104,6 +101,7 @@ class GraphQLController extends Controller
 		}
 		$operationName = array_get($input, 'operationName');
 		$context       = $this->queryContext($query, $variables, $schema);
+
 		return app('graphql')->query($query, $variables, [
 			'context'       => $context,
 			'schema'        => $schema,

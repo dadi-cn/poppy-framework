@@ -9,7 +9,6 @@ class GeneratorServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		//
 	}
 
 	/**

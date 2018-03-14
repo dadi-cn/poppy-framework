@@ -1,13 +1,10 @@
 <?php namespace Poppy\Framework\Classes\Traits;
 
-
 use Illuminate\Support\MessageBag;
 use Poppy\Framework\Classes\Resp;
 
-
 trait AppTrait
 {
-
 	/** @var Resp */
 	protected $error;
 
@@ -27,6 +24,7 @@ trait AppTrait
 		else {
 			$this->error = new Resp(Resp::ERROR, $error);
 		}
+
 		return false;
 	}
 
@@ -46,6 +44,6 @@ trait AppTrait
 	 */
 	public function getSuccess($message = '')
 	{
-		return (new Resp(Resp::SUCCESS, $message));
+		return new Resp(Resp::SUCCESS, $message);
 	}
 }

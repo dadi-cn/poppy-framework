@@ -1,5 +1,6 @@
 <?php namespace Poppy\Framework\Console;
 
+use Illuminate\Support\ServiceProvider;
 use Poppy\Framework\Console\Commands\PoppyDisableCommand;
 use Poppy\Framework\Console\Commands\PoppyEnableCommand;
 use Poppy\Framework\Console\Commands\PoppyListCommand;
@@ -10,7 +11,6 @@ use Poppy\Framework\Console\Commands\PoppyMigrateRollbackCommand;
 use Poppy\Framework\Console\Commands\PoppyOptimizeCommand;
 use Poppy\Framework\Console\Commands\PoppySeedCommand;
 use Poppy\Framework\Database\Migrations\Migrator;
-use Illuminate\Support\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
@@ -19,7 +19,6 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		//
 	}
 
 	/**

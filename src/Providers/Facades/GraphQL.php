@@ -1,6 +1,5 @@
 <?php namespace Poppy\Framework\Providers\Facades;
 
-
 use Illuminate\Support\Facades\Facade;
 
 /**

@@ -33,6 +33,7 @@ class WebHelper
 	{
 		$go = \Session::get(self::GO);
 		\Session::remove(self::GO);
+
 		return $go;
 	}
 }

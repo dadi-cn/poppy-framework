@@ -20,9 +20,7 @@
  * @copyright 2013 Moontoast, Inc.
  * @license   http://alphabase.moontoast.com/licenses/apache-2.0.txt Apache 2.0
  */
-
 use Poppy\Framework\Exceptions\ArithmeticException;
-
 
 /**
  * Represents a number for use with Binary Calculator computations
@@ -262,7 +260,7 @@ class Number
 	 */
 	public function isEqualTo($number)
 	{
-		return ($this->compareTo($number) == 0);
+		return $this->compareTo($number) == 0;
 	}
 
 	/**
@@ -274,7 +272,7 @@ class Number
 	 */
 	public function isGreaterThan($number)
 	{
-		return ($this->compareTo($number) == 1);
+		return $this->compareTo($number) == 1;
 	}
 
 	/**
@@ -286,7 +284,7 @@ class Number
 	 */
 	public function isGreaterThanOrEqualTo($number)
 	{
-		return ($this->compareTo($number) >= 0);
+		return $this->compareTo($number) >= 0;
 	}
 
 	/**
@@ -298,7 +296,7 @@ class Number
 	 */
 	public function isLessThan($number)
 	{
-		return ($this->compareTo($number) == -1);
+		return $this->compareTo($number) == -1;
 	}
 
 	/**
@@ -310,7 +308,7 @@ class Number
 	 */
 	public function isLessThanOrEqualTo($number)
 	{
-		return ($this->compareTo($number) <= 0);
+		return $this->compareTo($number) <= 0;
 	}
 
 	/**
@@ -320,7 +318,7 @@ class Number
 	 */
 	public function isNegative()
 	{
-		return ($this->signum() == -1);
+		return $this->signum() == -1;
 	}
 
 	/**
@@ -330,7 +328,7 @@ class Number
 	 */
 	public function isPositive()
 	{
-		return ($this->signum() == 1);
+		return $this->signum() == 1;
 	}
 
 	/**
@@ -670,7 +668,6 @@ class Number
 		$base10Num = '0';
 
 		for ($i = $len; $i > 0; $i--) {
-
 			$c = ord($number[$len - $i]);
 
 			if ($c >= ord('0') && $c <= ord('9')) {
@@ -688,7 +685,6 @@ class Number
 			}
 
 			$base10Num = bcadd(bcmul($base10Num, $fromBase), (string) $c);
-
 		}
 
 		return $base10Num;

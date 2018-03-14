@@ -1,8 +1,6 @@
 <?php namespace Poppy\Framework\Classes;
 
-
-use \Poppy\Framework\Contracts\FormElement as FormElementContract;
-
+use Poppy\Framework\Contracts\FormElement as FormElementContract;
 
 class FormElement
 {

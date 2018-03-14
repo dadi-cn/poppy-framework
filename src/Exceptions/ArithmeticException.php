@@ -2,5 +2,4 @@
 
 class ArithmeticException extends \Exception
 {
-
 }

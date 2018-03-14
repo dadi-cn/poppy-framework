@@ -4,7 +4,6 @@ use Poppy\Framework\Classes\ClassLoader;
 use Poppy\Framework\Filesystem\Filesystem;
 use Poppy\Framework\Foundation\Application;
 
-
 /**
  * 注册加载器
  */
@@ -17,11 +16,10 @@ class RegisterClassLoader
 	public function bootstrap(Application $app)
 	{
 		$loader = new ClassLoader(
-			new Filesystem,
+			new Filesystem(),
 			$app->basePath(),
 			$app->getCachedClassesPath()
 		);
-
 
 		$app->instance(ClassLoader::class, $loader);
 
@@ -34,6 +32,5 @@ class RegisterClassLoader
 		$app->routeMatched(function () use ($loader) {
 			$loader->build();
 		});
-
 	}
 }

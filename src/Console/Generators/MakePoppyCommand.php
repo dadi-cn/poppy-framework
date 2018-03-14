@@ -1,10 +1,10 @@
 <?php namespace Poppy\Framework\Console\Generators;
 
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Filesystem\Filesystem;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Poppy\Poppy;
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class MakePoppyCommand extends Command
@@ -69,6 +69,7 @@ class MakePoppyCommand extends Command
 		if ($this->option('quick')) {
 			$this->container['basename']  = snake_case($this->container['slug']);
 			$this->container['namespace'] = studly_case($this->container['basename']);
+
 			return $this->generate();
 		}
 
@@ -156,7 +157,6 @@ class MakePoppyCommand extends Command
 		$this->files->makeDirectory($directory);
 
 		$sourceFiles = $this->files->allFiles($source, true);
-
 
 		foreach ($sourceFiles as $file) {
 			$contents = $this->replacePlaceholders($file->getContents());

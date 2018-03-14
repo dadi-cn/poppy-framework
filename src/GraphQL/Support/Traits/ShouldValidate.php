@@ -1,9 +1,9 @@
 <?php namespace Poppy\Framework\GraphQL\Support\Traits;
 
-use Poppy\Framework\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\WrappingType;
+use Poppy\Framework\GraphQL\Error\ValidationError;
 
 trait ShouldValidate
 {
@@ -101,7 +101,7 @@ trait ShouldValidate
 			$arguments = func_get_args();
 
 			$rules = call_user_func_array([$this, 'getRules'], $arguments);
-			if (sizeof($rules)) {
+			if (count($rules)) {
 				$args      = array_get($arguments, 1, []);
 				$validator = $this->getValidator($args, $rules);
 				if ($validator->fails()) {

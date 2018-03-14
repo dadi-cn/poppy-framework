@@ -1,12 +1,10 @@
 <?php namespace Poppy\Framework\Config;
 
-use Poppy\Framework\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
-
+use Poppy\Framework\Filesystem\Filesystem;
 
 class ConfigServiceProvider extends ServiceProvider
 {
-
 	/**
 	 * Indicates if loading of the provider is deferred.
 	 * @var bool
@@ -42,5 +40,4 @@ class ConfigServiceProvider extends ServiceProvider
 	{
 		return new FileLoader(new Filesystem(), $this->app['path'] . '/config');
 	}
-
 }

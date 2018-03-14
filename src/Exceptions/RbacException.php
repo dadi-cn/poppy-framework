@@ -2,5 +2,4 @@
 
 class RbacException extends \Exception
 {
-
 }

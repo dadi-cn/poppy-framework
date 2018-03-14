@@ -1,6 +1,5 @@
 <?php namespace Poppy\Framework\Application;
 
-
 use Illuminate\Container\Container;
 
 class ApiController extends Controller

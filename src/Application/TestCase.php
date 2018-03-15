@@ -1,17 +1,27 @@
 <?php namespace Poppy\Framework\Application;
 
+/**
+ * Main Test Case
+ */
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
 	/**
 	 * Creates the application.
-	 * @return \Illuminate\Foundation\Application
 	 */
 	public function createApplication()
 	{
-		$app = require __DIR__ . '/../../../storage/bootstrap/app.php';
+		$file         = __DIR__ . '/../../../storage/bootstrap/app.php';
+		$fileInVendor = __DIR__ . '/../../../../../storage/bootstrap/app.php';
+		if (file_exists($file)) {
+			$app = require_once $file;
+		}
+		elseif (file_exists($fileInVendor)) {
+			$app = require_once $fileInVendor;
+		}
 
-		$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-
-		return $app;
+		if (isset($app)) {
+			$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+			return $app;
+		}
 	}
 }

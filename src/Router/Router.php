@@ -258,7 +258,7 @@ class Router
 			elseif ($lengthA < $lengthB) {
 				return 1;
 			}
-			else {
+			 
 				$lengthA = $a->dynamicSegmentCount;
 				$lengthB = $b->dynamicSegmentCount;
 
@@ -268,10 +268,8 @@ class Router
 				elseif ($lengthA < $lengthB) {
 					return -1;
 				}
-				else {
+				 
 					return 0;
-				}
-			}
 		});
 	}
 }

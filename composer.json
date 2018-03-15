@@ -1,6 +1,6 @@
 {
-	"name": "duoli/poppy",
-	"description": "",
+	"name": "poppy/framework",
+	"description": "A framework for laravel module development.",
 	"authors": [
 		{
 			"name": "Mark Zhao",
@@ -9,7 +9,7 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"jenssegers/date": "^3.2",
+		"jenssegers/date": "^3.3",
 		"laravelcollective/html": "~5.5",
 		"webonyx/graphql-php": "0.11.*"
 	},

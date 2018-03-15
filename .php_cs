@@ -1,7 +1,6 @@
 <?php
 $baseDir = dirname(dirname(__DIR__));
 
-
 // 参考 Symfony\Component\Finder\Finder
 $finder = PhpCsFixer\Finder::create()
     ->exclude('database')

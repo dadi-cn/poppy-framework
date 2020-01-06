@@ -55,7 +55,7 @@ trait AppTrait
 			$this->success = $success;
 		}
 		else {
-			$this->success = new Resp(Resp::ERROR, $success);
+			$this->success = new Resp(Resp::SUCCESS, $success);
 		}
 
 		return true;

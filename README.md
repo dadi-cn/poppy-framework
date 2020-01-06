@@ -1,6 +1,11 @@
 
 [![Join the chat at https://gitter.im/poppy-framework/Lobby](https://badges.gitter.im/poppy-framework/Lobby.svg)](https://gitter.im/poppy-framework/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+## 版本说明
+
+1.x 版本服务于 5.5
+2.x 版本服务于 6.0
+
 中文文档查看[这里](./docs/README_Zh-cn.md);
 Build Document [Click Here](./docs/build.md);
 

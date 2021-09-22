@@ -62,11 +62,11 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            AddQueuedCookiesToResponse::class,
             StartSession::class,
             ShareErrorsFromSession::class,
             SubstituteBindings::class,
             EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
         ],
         'api' => [
             'throttle:60,1',

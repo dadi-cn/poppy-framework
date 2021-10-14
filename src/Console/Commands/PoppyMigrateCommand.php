@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Poppy\Framework\Classes\Traits\MigrationTrait;
 use Poppy\Framework\Events\PoppyMigrated;
 use Poppy\Framework\Poppy\Poppy;
@@ -63,7 +64,13 @@ class PoppyMigrateCommand extends Command
         $this->prepareDatabase();
 
         if (!empty($this->argument('slug'))) {
+            /** @var Collection $module */
             $module = $this->poppy->where('slug', $this->argument('slug'));
+
+            if (!$module->count()) {
+                $this->error('Module `' . $this->argument('slug') . '` not found, module need add `module.` prefix');
+                return null;
+            }
 
             if ($this->poppy->isEnabled($module['slug'])) {
                 $this->migrate($module['slug']);

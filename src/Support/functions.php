@@ -376,7 +376,9 @@ if (!function_exists('x_app')) {
      * 获取 Header 中的 APP 信息
      * @param string $type version,id,os
      * @return string
-     * @since 3.1
+     * @since      3.1
+     * @deprecated 3.2 建议使用 x_header 替代 x_header('app-sign')
+     * @see        x_header()
      */
     function x_app(string $type): string
     {
@@ -394,6 +396,24 @@ if (!function_exists('x_app')) {
         }
 
         $fullKey = strtoupper('x-app-' . $type);
+        return $request->header($fullKey, '');
+    }
+}
+
+if (!function_exists('x_header')) {
+    /**
+     * 获取 Header 中的 x-{ph} 信息, 不支持获取 x-app 里存储的 json 信息
+     * 完整列表参考以下地址
+     * @url https://wulicode.com/note/develop/standard/client.html
+     * @param string $type ver,id,os
+     * @return string
+     * @since 3.2
+     */
+    function x_header(string $type): string
+    {
+        /** @var \Illuminate\Http\Request $request */
+        $request = app('request');
+        $fullKey = strtoupper('x-' . $type);
         return $request->header($fullKey, '');
     }
 }

@@ -3,6 +3,7 @@
 namespace Poppy\Framework\Helper;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Str;
 
 /**
  * 字串处理
@@ -70,6 +71,16 @@ class StrHelper
     public static function suffix(string $string, $split = '.')
     {
         return strtolower(trim(substr(strrchr($string, $split), 1)));
+    }
+
+    /**
+     * 获取中杠线分割的单词
+     * @param string $string
+     * @return array|string|string[]
+     */
+    public static function slug(string $string)
+    {
+        return str_replace(['_'], ['-'], Str::snake($string));
     }
 
     /**

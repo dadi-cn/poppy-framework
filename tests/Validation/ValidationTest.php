@@ -20,7 +20,7 @@ class ValidationTest extends TestCase
             'mobile' => '手机号',
         ]);
         if ($validator->fails()) {
-            $this->assertTrue(false);
+            $this->fail();
         }
         else {
             $this->assertTrue(true);
@@ -38,7 +38,7 @@ class ValidationTest extends TestCase
             'password' => '密码',
         ]);
         if ($validator->fails()) {
-            $this->assertTrue(false);
+            $this->fail();
         }
         else {
             $this->assertTrue(true);
@@ -57,7 +57,7 @@ class ValidationTest extends TestCase
             'json' => 'Json',
         ]);
         if ($validator->fails()) {
-            $this->assertTrue(false);
+            $this->fail();
         }
         else {
             $this->assertTrue(true);
@@ -76,7 +76,7 @@ class ValidationTest extends TestCase
             'date' => 'Date',
         ]);
         if ($validator->fails()) {
-            $this->assertTrue(false);
+            $this->fail();
         }
         else {
             $this->assertTrue(true);
@@ -95,7 +95,7 @@ class ValidationTest extends TestCase
             'chid' => 'Chid',
         ]);
         if ($validator->fails()) {
-            $this->assertTrue(false);
+            $this->fail();
         }
         else {
             $this->assertTrue(true);
@@ -113,7 +113,7 @@ class ValidationTest extends TestCase
             $this->assertTrue(true);
         }
         else {
-            $this->assertTrue(false);
+            $this->fail();
         }
     }
 

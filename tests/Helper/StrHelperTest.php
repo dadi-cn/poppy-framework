@@ -26,6 +26,11 @@ class StrHelperTest extends TestCase
         $this->assertEquals(true, StrHelper::hasSpace('this '));
     }
 
+    public function testSlug(): void
+    {
+        $this->assertEquals('my-text', StrHelper::slug('MyText'));
+    }
+
     public function testStripSlashes(): void
     {
         $this->assertEquals('this', StrHelper::stripSlashes('\\this\\'));

@@ -145,6 +145,7 @@ class StrHelperTest extends TestCase
 
     public function testHideContact(): void
     {
+        $this->assertEquals('微信:****mark', StrHelper::hideContact('微信:imvkmark'));
         $this->assertEquals('155****2279', StrHelper::hideContact('15533012279'));
     }
 

@@ -610,28 +610,26 @@ class StrHelper
     /**
      * 隐藏联系方式
      * @param string $input input
-     * @return mixed|string
+     * @return string
      */
-    public static function hideContact(string $input)
+    public static function hideContact(string $input): string
     {
         if ($input) {
-            return substr_replace($input, '****', 3, -4);
+            return str_replace(mb_substr($input, 3, -4), '****', $input);
         }
-
         return '';
     }
 
     /**
      * 隐藏邮箱
      * @param string $input input
-     * @return mixed|string
+     * @return string
      */
-    public static function hideEmail(string $input)
+    public static function hideEmail(string $input): string
     {
         if ($input) {
             return substr_replace($input, '****', 3, strpos($input, '@') - 3);
         }
-
         return '';
     }
 

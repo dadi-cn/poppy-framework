@@ -1,6 +1,6 @@
 @extends('poppy::template.default')
 @section('head-css')
-    <style type="text/css">
+    <style>
         a {
             color           : #0d95e8;
             text-decoration : none;

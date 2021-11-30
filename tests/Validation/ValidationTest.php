@@ -27,6 +27,23 @@ class ValidationTest extends TestCase
         }
     }
 
+
+    public function testIn(): void
+    {
+        $v    = 'a';
+        $validator = Validator::make([
+            'v' => $v,
+        ], [
+            'v' => Rule::in(['a', 'b']),
+        ]);
+        if ($validator->fails()) {
+            $this->fail();
+        }
+        else {
+            $this->assertTrue(true);
+        }
+    }
+
     public function testPwd(): void
     {
         $password  = '123';
@@ -149,6 +166,24 @@ class ValidationTest extends TestCase
         ]);
         if ($validator->fails()) {
             $this->assertTrue(false, $validator->messages()->toJson(JSON_UNESCAPED_UNICODE));
+        }
+        else {
+            $this->assertTrue(true);
+        }
+    }
+
+    public function testDigit(): void
+    {
+        $str       = '1234';
+        $validator = Validator::make([
+            'v' => $str,
+        ], [
+            'v' => [
+                Rule::digits(4),
+            ],
+        ]);
+        if ($validator->fails()) {
+            $this->fail($validator->messages()->toJson(JSON_UNESCAPED_UNICODE));
         }
         else {
             $this->assertTrue(true);

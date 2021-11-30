@@ -194,7 +194,7 @@ if (!function_exists('get')) {
      * @param null $default
      * @return mixed
      * @deprecated
-     * @see     input
+     * @see     Text
      * @removed 4.0
      */
     function get($name = null, $default = null)

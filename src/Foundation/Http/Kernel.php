@@ -39,7 +39,6 @@ class Kernel extends HttpKernel
         'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
         'Illuminate\Foundation\Http\Middleware\ValidatePostSize',
         'Illuminate\Foundation\Http\Middleware\TrimStrings',
-        'Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull',
     ];
 
     /**

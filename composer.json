@@ -12,7 +12,7 @@
         "php": ">=7.4",
         "ext-bcmath": "*",
         "ext-xml": "*",
-        "symfony/yaml": "^4.3.4"
+        "symfony/yaml": "^5"
     },
     "autoload": {
         "psr-4": {

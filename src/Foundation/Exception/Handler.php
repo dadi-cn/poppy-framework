@@ -9,9 +9,11 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Poppy\Framework\Exceptions\AjaxException;
+use ReflectionException;
 use ReflectionFunction;
 use Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Throwable;
 
 /**
  * poppy handler
@@ -38,9 +40,9 @@ class Handler extends ExceptionHandler
      * @param Request   $request   request
      * @param Exception $exception exception
      * @return \Illuminate\Http\Response
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         if (!class_exists('Event')) {
             return parent::render($request, $exception);
@@ -113,7 +115,7 @@ class Handler extends ExceptionHandler
      * @param Exception $exception   exception
      * @param bool      $fromConsole from console
      * @return void
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function callCustomHandlers($exception, $fromConsole = false)
     {
@@ -149,7 +151,7 @@ class Handler extends ExceptionHandler
      * @param Closure   $handler   handler
      * @param Exception $exception exception
      * @return bool
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function handlesException(Closure $handler, $exception)
     {

@@ -2,10 +2,6 @@
 
 namespace Poppy\Framework\Application;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 abstract class RouteServiceProvider extends ServiceProvider

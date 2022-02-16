@@ -7,10 +7,10 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use Poppy\Framework\Helper\StrHelper;
+use Poppy\Framework\Helper\UtilHelper;
 use Redirect;
 use Request;
 use Response;
@@ -38,7 +38,7 @@ class Resp
      * code
      * @var int $code
      */
-    private $code;
+    private int $code;
 
     /**
      * message
@@ -51,14 +51,14 @@ class Resp
      * @param int    $code    code
      * @param string $message message
      */
-    public function __construct(int $code, $message = '')
+    public function __construct(int $code, string $message = '')
     {
         // init
         if (!$code) {
             $code = self::SUCCESS;
         }
 
-        $this->code = (int) $code;
+        $this->code = $code;
 
         if (is_string($message) && !empty($message)) {
             $this->message = $message;
@@ -160,7 +160,7 @@ class Resp
      * @param null|string $key Key
      * @return array|string
      */
-    public static function desc($key = null)
+    public static function desc(string $key = null)
     {
         $desc = [
             self::SUCCESS       => (string) trans('poppy::resp.success'),
@@ -180,37 +180,31 @@ class Resp
      * 错误输出
      * @param int                     $type   错误码
      * @param string|array|MessageBag $msg    类型
-     * @param string|null|array       $append append
-     *                                        json: 强制以 json 数据返回
-     *                                        forget : 不将错误信息返回到session 中
-     *                                        location : 重定向
-     *                                        reload : 刷新页面
-     *                                        time   : 刷新或者重定向的时间(毫秒), 如果不填写, 默认为立即刷新或者重定向
-     *                                        reload_opener : 刷新母窗口
+     * @param string|null|array       $append
+     *                                        _json: 强制以 json 数据返回
+     *                                        _location : 重定向
+     *                                        _reload : 刷新页面, 需要提前设定 Session::previousUrl()
+     *                                        _time   : 刷新或者重定向的时间(毫秒), 如果为null, 则显示页面信息, false 为立即刷新或者重定向, true 默认为 3S, 指定时间则为 xx ms
      * @param array|null              $input  表单提交的数据, 是否连带返回
-     * @return JsonResponse|RedirectResponse|Response|Redirector
+     * @return JsonResponse|RedirectResponse
      */
-    public static function web(int $type, $msg, $append = null, $input = null)
+    public static function web(int $type, $msg, $append = null, array $input = null)
     {
         if ($msg instanceof Exception || $msg instanceof TypeError) {
             $code    = $msg->getCode() ?: self::ERROR;
             $message = config('app.debug') ? $msg->getMessage() : '操作出错, 请联系管理员';
             $resp    = new self($code, $message);
-        }
-        elseif (!($msg instanceof self)) {
+        } elseif (!($msg instanceof self)) {
             $resp = new self($type, $msg);
-        }
-        else {
+        } else {
             $resp = $msg;
         }
 
-        $isJson   = false;
-        $isForget = false;
-
         $arrAppend = StrHelper::parseKey($append);
 
+        $isJson = false;
         // is json
-        if (isset($arrAppend['_json']) ||
+        if (($arrAppend['_json'] ?? false) ||
             Request::ajax() ||
             Request::bearerToken() ||
             py_container()->isRunningIn('api')
@@ -219,29 +213,20 @@ class Resp
             unset($arrAppend['_json']);
         }
 
-        // is forget
-        if (isset($arrAppend['_forget'])) {
-            $isForget = true;
-            unset($arrAppend['_forget']);
-        }
-
-        $location = $arrAppend['_location'] ?? '';
-        $time     = $arrAppend['_time'] ?? 0;
-
-        if (!$isForget || Request::ajax()) {
-            Session::flash('end.message', $resp->getMessage());
-            Session::flash('end.level', $resp->getCode());
-        }
-
         if ($isJson) {
-            return self::webSplash($resp, is_null($append) ? $append : $arrAppend, $input);
+            return self::webSplash($resp, count($arrAppend) ? $arrAppend : null);
         }
+
+
+        // is forgotten, 不写入 session 数据
+        $location = $arrAppend['_location'] ?? '';
+        $time     = $arrAppend['_time'] ?? null;
 
         if (isset($arrAppend['_reload'])) {
             $location = Session::previousUrl();
         }
 
-        return self::webView($time, $location, $input);
+        return self::webView($resp->getCode(), $resp->getMessage(), $time, $location, $input);
     }
 
     /**
@@ -256,8 +241,7 @@ class Resp
     {
         if (!($message instanceof self)) {
             $resp = new self($code, $message);
-        }
-        else {
+        } else {
             $resp = $message;
         }
 
@@ -267,11 +251,11 @@ class Resp
     /**
      * 返回成功输入
      * @param string|array|MessageBag $msg    提示消息
-     * @param string|null             $append 追加的信息
-     * @param string|null             $input  保留输入的数据
-     * @return array|JsonResponse|RedirectResponse|Response|Redirector
+     * @param string|null|array       $append 追加的信息
+     * @param array|null              $input  保留输入的数据
+     * @return JsonResponse|RedirectResponse
      */
-    public static function success($msg, $append = null, $input = null)
+    public static function success($msg, $append = null, array $input = null)
     {
         return self::web(self::SUCCESS, $msg, $append, $input);
     }
@@ -279,11 +263,11 @@ class Resp
     /**
      * 返回错误数组
      * @param string|array|MessageBag $msg    提示消息
-     * @param string|null             $append 追加的信息
-     * @param string|null             $input  保留输入的数据
-     * @return array|JsonResponse|RedirectResponse|Response|Redirector
+     * @param string|null|array       $append 追加的信息
+     * @param array|null              $input  保留输入的数据
+     * @return JsonResponse|RedirectResponse
      */
-    public static function error($msg, $append = null, $input = null)
+    public static function error($msg, $append = null, array $input = null)
     {
         return self::web(self::ERROR, $msg, $append, $input);
     }
@@ -294,44 +278,63 @@ class Resp
      * @param string $message message
      * @return array
      */
-    public static function custom(int $code, $message = ''): array
+    public static function custom(int $code, string $message = ''): array
     {
         return (new self($code, $message))->toArray();
     }
 
     /**
      * 显示界面
-     * @param mixed       $time     time
-     * @param string|null $location location
-     * @param array|null  $input    input
+     * @param int|bool|null $time     时间
+     * @param string|null   $location location
+     * @param array|null    $input    input
      * @return RedirectResponse|\Illuminate\Http\Response|Resp
      */
-    private static function webView($time, $location = null, $input = null)
+    private static function webView($code, $message, $time = null, string $location = null, array $input = null)
     {
-        if ($time || $location === 'back' || $location === 'message' || !$location) {
-            $re         = $location ?: 'back';
-            $messageTpl = config('poppy.framework.message_template');
-
-            // default message template
-            $view = 'poppy::template.message';
-            if ($messageTpl) {
-                foreach ($messageTpl as $context => $tplView) {
-                    if (py_container()->isRunningIn($context)) {
-                        $view = $tplView;
-                    }
+        $messageTpl = config('poppy.framework.message_template');
+        // default message template
+        $view = 'poppy::template.message';
+        if ($messageTpl) {
+            foreach ($messageTpl as $context => $tplView) {
+                if (py_container()->isRunningIn($context)) {
+                    $view = $tplView;
                 }
             }
-
-            return response()->view($view, [
-                'location' => $re,
-                'input'    => $input,
-                'time'     => $time ?? 0,
-            ]);
         }
 
-        $re = ($location !== 'back') ? Redirect::to($location) : Redirect::back();
+        // 立即
+        if ($time === false) {
+            $re = ($location !== 'back') ? Redirect::to($location) : Redirect::back();
+            return $input ? $re->withInput($input) : $re;
+        }
 
-        return $input ? $re->withInput($input) : $re;
+        // 采用页面
+        $to = '';
+        if (UtilHelper::isUrl($location)) {
+            $to = $location;
+        } elseif ($location === 'back') {
+            $to = app('url')->previous();
+        }
+
+        // 默认 3s
+        if ($time === true) {
+            $time = 3000;
+        } elseif ($time !== null) {
+            $time = (int) $time;
+        }
+
+        if ($input) {
+            Session::flashInput($input);
+        }
+
+        return response()->view($view, [
+            'code'    => $code,
+            'message' => $message,
+            'to'      => $to,
+            'input'   => $input,
+            'time'    => $time,
+        ]);
     }
 
     /**
@@ -339,10 +342,9 @@ class Resp
      * splash 不支持 location | back (Mark Zhao)
      * @param Resp         $resp   resp
      * @param string|array $append append
-     * @param array        $input  input
      * @return JsonResponse
      */
-    private static function webSplash(Resp $resp, $append = '', $input = []): JsonResponse
+    private static function webSplash(Resp $resp, $append = ''): JsonResponse
     {
         $return = [
             'status'  => $resp->getCode(),
@@ -353,23 +355,24 @@ class Resp
         if (!is_null($append)) {
             if ($append instanceof Arrayable) {
                 $data = $append->toArray();
-            }
-            elseif (is_string($append)) {
+            } elseif (is_string($append)) {
                 $data = StrHelper::parseKey($append);
-            }
-            elseif (is_array($append)) {
+            } elseif (is_array($append)) {
                 $data = $append;
             }
-            if (isset($data['_location']) && $data['_location'] === 'back') {
-                unset($data['_location']);
+            $returnData = [];
+            if (count($data)) {
+                foreach ($data as $key => $current) {
+                    if (Str::startsWith($key, '_')) {
+                        continue;
+                    }
+                    $returnData[$key] = $current;
+                }
             }
+            $data = $returnData;
         }
         if (!is_null($data)) {
-            $return['data'] = (array) $data;
-        }
-
-        if (is_array($input) && $input) {
-            Session::flashInput($input);
+            $return['data'] = $data;
         }
 
         $format = config('poppy.framework.json_format', 0);

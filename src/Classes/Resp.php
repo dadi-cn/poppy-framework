@@ -217,10 +217,9 @@ class Resp
             return self::webSplash($resp, count($arrAppend) ? $arrAppend : null);
         }
 
-
         // is forgotten, 不写入 session 数据
         $location = $arrAppend['_location'] ?? '';
-        $time     = $arrAppend['_time'] ?? null;
+        $time     = $arrAppend['_time'] ?? true;
 
         if (isset($arrAppend['_reload'])) {
             $location = Session::previousUrl();
@@ -319,8 +318,8 @@ class Resp
 
         // 默认 3s
         if ($time === true) {
-            $time = 3000;
-        } elseif ($time !== null) {
+            $time = 0;
+        } else {
             $time = (int) $time;
         }
 
@@ -363,9 +362,6 @@ class Resp
             $returnData = [];
             if (count($data)) {
                 foreach ($data as $key => $current) {
-                    if (Str::startsWith($key, '_')) {
-                        continue;
-                    }
                     $returnData[$key] = $current;
                 }
             }

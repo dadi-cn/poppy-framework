@@ -66,7 +66,7 @@ class UtilHelper
      */
     public static function isUsername(string $username, $is_sub = false): bool
     {
-        if (preg_match('/(?<username>[a-zA-Z\x{4e00}-\x{9fa5}][' . ($is_sub ? ':' : '') . 'a-zA-Z0-9_\x{4e00}-\x{9fa5}]+)/u', $username, $match)) {
+        if (preg_match('/(?<username>[a-zA-Z\x{4e00}-\x{9fa5}][' . ($is_sub ? ':' : '') . 'a-zA-Z0-9_\x{4e00}-\x{9fa5}]{5,15})/u', $username, $match)) {
             return $match['username'] === $username;
         }
         return false;

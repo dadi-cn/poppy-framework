@@ -229,7 +229,7 @@ class Rule extends IlluminateRule
      * @param bool $sub 是否是子用户
      * @return string
      */
-    public static function username($sub = false): string
+    public static function username(bool $sub = false): string
     {
         if ($sub) {
             return 'username:sub';

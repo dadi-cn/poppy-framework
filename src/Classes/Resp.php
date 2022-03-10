@@ -192,7 +192,7 @@ class Resp
     {
         if ($msg instanceof Exception || $msg instanceof TypeError) {
             $code    = $msg->getCode() ?: self::ERROR;
-            $message = config('app.debug') ? $msg->getMessage() : '操作出错, 请联系管理员';
+            $message = $msg->getMessage();
             $resp    = new self($code, $message);
         } elseif (!($msg instanceof self)) {
             $resp = new self($type, $msg);

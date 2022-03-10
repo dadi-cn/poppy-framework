@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\AjaxException;
 use ReflectionFunction;
 use Response;
@@ -58,7 +59,21 @@ class Handler extends ExceptionHandler
             return Response::make($event, $statusCode);
         }
 
+        if (!config('app.debug')) {
+            return Resp::error($exception);
+        }
+
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Register an application error handler.
+     * @param Closure $callback callback
+     * @return void
+     */
+    public function error(Closure $callback)
+    {
+        array_unshift($this->handlers, $callback);
     }
 
     /**
@@ -71,19 +86,20 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof HttpExceptionInterface) {
             $code = $exception->getStatusCode();
-        }
-        elseif ($exception instanceof AjaxException) {
+        } elseif ($exception instanceof AjaxException) {
             $code = 406;
-        }
-        elseif ($exception instanceof ValidationException) {
+        } elseif ($exception instanceof ValidationException) {
             $code = 403;
-        }
-        else {
+        } else {
             $code = 500;
         }
 
         return $code;
     }
+
+    //
+    // Custom handlers
+    //
 
     /**
      * Get the default context variables for logging.
@@ -92,20 +108,6 @@ class Handler extends ExceptionHandler
     protected function context()
     {
         return [];
-    }
-
-    //
-    // Custom handlers
-    //
-
-    /**
-     * Register an application error handler.
-     * @param Closure $callback callback
-     * @return void
-     */
-    public function error(Closure $callback)
-    {
-        array_unshift($this->handlers, $callback);
     }
 
     /**

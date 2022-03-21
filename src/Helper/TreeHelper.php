@@ -332,69 +332,6 @@ class TreeHelper
     }
 
     /**
-     * 同上一类方法，jquery treeview 风格，可伸缩样式（需要treeview插件支持）
-     * @param int    $myid         表示获得这个ID下的所有子级
-     * @param string $effected_id  需要生成treeview目录数的id
-     * @param string $str          末级样式
-     * @param string $str2         目录级别样式
-     * @param int    $showlevel    直接显示层级数，其余为异步显示，0为全部限制
-     * @param string $style        目录样式 默认 filetree 可增加其他样式如'filetree treeview-famfamfam'
-     * @param int    $currentlevel 计算当前层级，递归使用 适用改函数时不需要用该参数
-     * @param bool   $recursion    递归使用 外部调用时为FALSE
-     * @return string
-     */
-    public function getTreeView(
-        $myid,
-        $effected_id = 'example',
-        $str = '<span class="file">$name</span>',
-        $str2 = '<span class="folder">$name</span>',
-        $showlevel = 0,
-        $style = 'filetree ',
-        $currentlevel = 1,
-        $recursion = false
-    )
-    {
-        $child = $this->getChild($myid);
-        if (!defined('EFFECTED_INIT')) {
-            $effected = ' id="' . $effected_id . '"';
-            define('EFFECTED_INIT', 1);
-        }
-        else {
-            $effected = '';
-        }
-        $placeholder = '<ul><li><span class="placeholder"></span></li></ul>';
-        if (!$recursion) $this->str .= '<ul' . $effected . '  class="' . $style . '">';
-        foreach ($child as $id => $a) {
-            @extract($a);
-            if ($showlevel > 0 && $showlevel == $currentlevel && $this->getChild($id)) $folder = 'hasChildren'; //如设置显示层级模式@2011.07.01
-            $floder_status = isset($folder) ? ' class="' . $folder . '"' : '';
-            $this->ret     .= $recursion ? '<ul><li' . $floder_status . ' id=\'' . $id . '\'>' : '<li' . $floder_status . ' id=\'' . $id . '\'>';
-            $recursion     = false;
-            $nstr          = '';
-            if ($this->getChild($id)) {
-                eval("\$nstr = \"$str2\";");
-                $this->ret .= $nstr;
-                if ($showlevel == 0 || ($showlevel > 0 && $showlevel > $currentlevel)) {
-                    $this->getTreeView($id, $effected_id, $str, $str2, $showlevel, $style, $currentlevel + 1, true);
-                }
-                elseif ($showlevel > 0 && $showlevel == $currentlevel) {
-                    $this->ret .= $placeholder;
-                }
-            }
-            else {
-                eval("\$nstr = \"$str\";");
-                $this->ret .= $nstr;
-            }
-            $this->ret .= $recursion ? '</li></ul>' : '</li>';
-        }
-        if (!$recursion) {
-            $this->ret .= '</ul>';
-        }
-
-        return $this->ret;
-    }
-
-    /**
      * 是否存在
      * @param string $list 位置
      * @param string $item 条目

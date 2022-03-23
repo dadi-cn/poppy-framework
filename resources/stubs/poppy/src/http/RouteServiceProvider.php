@@ -2,10 +2,6 @@
 
 namespace DummyNamespace\Http;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Illuminate\Routing\Router;
 use Poppy\Framework\Application\RouteServiceProvider as PoppyFrameworkRouteServiceProvider;
 use Route;

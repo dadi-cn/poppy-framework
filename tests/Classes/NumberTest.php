@@ -2,10 +2,6 @@
 
 namespace Poppy\Framework\Tests\Classes;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Poppy\Framework\Application\TestCase;
 use Poppy\Framework\Classes\Number;
 use Throwable;
